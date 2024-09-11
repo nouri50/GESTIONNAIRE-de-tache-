@@ -1,12 +1,17 @@
 {
-  "name": "gestionnaire-de-tache-",
+  "name": "gestionnaire-de-tache",
   "version": "1.0.0",
   "description": "avec les backend et le frontend",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm start", 
+    "client": "cd frontend && npm start" 
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
 }
