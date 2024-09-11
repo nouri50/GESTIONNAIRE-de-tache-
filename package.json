@@ -1,0 +1,12 @@
+{
+  "name": "gestionnaire-de-tache-",
+  "version": "1.0.0",
+  "description": "avec les backend et le frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
