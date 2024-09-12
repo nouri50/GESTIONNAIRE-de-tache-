@@ -1,0 +1,66 @@
+.profil-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    padding: 20px;
+  }
+  
+  .profil-container h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .profil-details {
+    background-color: #e3f2fd; /* Couleur de fond bleue légère */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .profil-details label {
+    font-size: 1rem;
+    color: #007AFF;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .profil-details input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .profil-details input[readonly] {
+    background-color: #e0e0e0; /* Couleur plus claire pour indiquer que le champ est en lecture seule */
+  }
+  
+  .edit-button {
+    background-color: #007AFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  .edit-button:disabled {
+    background-color: #aaa; /* Couleur grise pour bouton désactivé */
+  }
+  
+  .edit-button:hover:not(:disabled) {
+    background-color: #005bb5;
+  }
+  
