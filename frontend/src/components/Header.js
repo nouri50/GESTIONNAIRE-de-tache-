@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../image/taches.png';
-import 
+import '../styles/Header.css';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
