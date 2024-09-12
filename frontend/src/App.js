@@ -8,7 +8,7 @@ import UserManagementPage from './pages/UserManagementPage';
 import ProfilPage from './pages/ProfilPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Header />
@@ -24,8 +24,9 @@ function App() {
       <Footer />
     </BrowserRouter>
   );
-}
+};
 
-export default App;  // Correction ici
+export default App;
+
 
 

@@ -1,0 +1,61 @@
+.task-page-container {
+    background-color: #e0f0ff; /* Couleur de fond */
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 1200px; /* Augmenter la largeur maximale */
+    width: 95%; /* Le conteneur prend maintenant 95% de la largeur de l'écran */
+    height: 80vh; /* Hauteur de 80% de la vue du navigateur */
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Légère ombre pour donner de la profondeur */
+  }
+  
+  .task-page-container h1 {
+    font-size: 2.5rem; /* Taille du titre */
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .task-list {
+    display: grid;
+    grid-template-columns: 1fr 0.3fr 0.3fr; /* Plus de place pour les input */
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+  }
+  
+  .task-list input[type="text"] {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+  
+  button {
+    padding: 8px 16px; /* Ajustement du padding pour des boutons légèrement plus grands */
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  button:disabled {
+    background-color: #888;
+    cursor: not-allowed;
+  }
+  
+  .add-task-button {
+    margin-top: 20px;
+    font-size: 1.1rem;
+    padding: 10px 20px;
+  }
+  
