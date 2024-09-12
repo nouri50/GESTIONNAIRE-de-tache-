@@ -1,0 +1,15 @@
+# Exclure le dossier node_modules
+node_modules/
+
+# Exclure le fichier .env
+.env
+
+# Exclure les fichiers de log
+*.log
+
+# Exclure les dossiers de cache
+.cache/
+dist/
+
+# Exclure les fichiers de configurations d'IDE comme VSCode
+.vscode/

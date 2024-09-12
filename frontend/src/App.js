@@ -8,7 +8,6 @@ import UserManagementPage from './pages/UserManagementPage';
 import ProfilPage from './pages/ProfilPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -20,7 +19,6 @@ function App() {
           <Route path="/gestion-utilisateurs" element={<UserManagementPage />} />
           <Route path="/profil" element={<ProfilPage />} />
           <Route path="/changer-mot-de-passe" element={<ChangePasswordPage />} />
-    
         </Routes>
       </main>
       <Footer />
@@ -28,5 +26,6 @@ function App() {
   );
 }
 
-export default App;
+export default App;  // Correction ici
+
 
