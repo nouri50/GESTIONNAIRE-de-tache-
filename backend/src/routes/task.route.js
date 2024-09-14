@@ -1,11 +1,12 @@
-import { Router } from 'express';
-import { getTasks, createTask, updateTask, deleteTask } from '../controllers/taskController';
-import authMiddleware from '../middleware/authMiddleware';
-const router = Router();
+import express from 'express';
+import { getTasks, createTask, updateTask, deleteTask } from '../controller/task.controller.js';
 
-router.get('/', authMiddleware, getTasks);
-router.post('/', authMiddleware, createTask);
-router.put('/:id', authMiddleware, updateTask);
-router.delete('/:id', authMiddleware, deleteTask);
+const router = express.Router();
+
+// Routes pour la gestion des tâches
+router.get('/', getTasks);
+router.post('/', createTask);
+router.put('/:id', updateTask);
+router.delete('/:id', deleteTask);
 
 export default router;

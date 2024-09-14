@@ -1,22 +1,16 @@
-const mysql = require('mysql2');
-const { database } = require('../config/config');
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/db.config.js';
 
-const pool = mysql.createPool(database);
-const promisePool = pool.promise();
+const User = sequelize.define('User', {
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+});
 
-const User = {
-  findAll: async () => {
-    const [rows] = await promisePool.query('SELECT * FROM users');
-    return rows;
-  },
-  findById: async (id) => {
-    const [rows] = await promisePool.query('SELECT * FROM users WHERE id = ?', [id]);
-    return rows[0];
-  },
-  create: async (username, password) => {
-    const [result] = await promisePool.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, password]);
-    return result.insertId;
-  },
-};
-
-module.exports = User;
+export default User;
