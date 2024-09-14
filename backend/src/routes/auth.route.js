@@ -1,15 +1,11 @@
-const express = require('express');
-const authController = require('../controllers/authController');
-const authValidator = require('../middleware/authValidator');
+import express from 'express';
+import { getTasks, createTask, updateTask, deleteTask } from '../controller/task.controller.js';
 
 const router = express.Router();
 
-// Route d'inscription avec validation
-router.post('/register', authValidator.validateRegister, authController.register);
+router.get('/', getTasks);
+router.post('/', createTask);
+router.put('/:id', updateTask);
+router.delete('/:id', deleteTask);
 
-// Route de connexion (vous pouvez ajouter une validation ici aussi)
-router.post('/login', authController.login);
-
-module.exports = router;
-
-
+export default router;
