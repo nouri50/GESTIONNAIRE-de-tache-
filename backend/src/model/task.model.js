@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db.config'); // Remplacez par le bon chemin de la configuration de votre base de données
 
@@ -22,7 +21,7 @@ const Task = sequelize.define('Task', {
 });
 
 module.exports = Task;
-=======
+
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.config.js'; // Assurez-vous que le chemin est correct
 
