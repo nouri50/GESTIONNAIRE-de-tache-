@@ -1,5 +1,4 @@
 import { DataTypes } from 'sequelize';
-<<<<<<< HEAD
 import sequelize from '../config/db.config.js';  // Assurez-vous que le fichier db.config.js existe
 
 const User = sequelize.define('User', {
