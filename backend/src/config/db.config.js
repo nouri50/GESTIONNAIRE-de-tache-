@@ -1,24 +1,19 @@
 import { Sequelize } from 'sequelize';
 import 'dotenv/config';
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+const connection = createConnection({
   host: process.env.DB_HOST,
-  dialect: 'mysql',
-  logging: false,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
-sequelize.authenticate()
-  .then(() => {
-    console.log('Connexion à la base de données réussie.');
-  })
-  .catch(err => {
-    console.error('Impossible de se connecter à la base de données:', err);
-  });
+connection.connect(err => {
+  if (err) throw err;
+  console.log('Database connected!');
+});
 
-export default sequelize;
+export default connection;
+
+
+  
