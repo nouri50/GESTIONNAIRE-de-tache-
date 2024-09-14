@@ -1,15 +1,13 @@
-const express = require('express');
-const authController = require('../controllers/authController');
-const authValidator = require('../middleware/authValidator');
+import express from 'express';
+import { register, login } from '../controller/auth.controller.js'; // Assurez-vous du bon chemin vers le contrôleur
+import { validateRegister } from '../middleware/authValidator.js';
 
 const router = express.Router();
 
-// Route d'inscription avec validation
-router.post('/register', authValidator.validateRegister, authController.register);
+// Route d'inscription
+router.post('/register', validateRegister, register);
 
-// Route de connexion (vous pouvez ajouter une validation ici aussi)
-router.post('/login', authController.login);
+// Route de connexion
+router.post('/login', login);
 
-module.exports = router;
-
-
+export default router;

@@ -1,6 +1,6 @@
-const Task = require('../models/taskModel');
+import Task from '../models/task.model.js';
 
-exports.getTasks = async (req, res) => {
+export const getTasks = async (req, res) => {
     try {
         const tasks = await Task.findAll({ where: { userId: req.user.id } });
         res.json(tasks);
@@ -9,7 +9,7 @@ exports.getTasks = async (req, res) => {
     }
 };
 
-exports.createTask = async (req, res) => {
+export const createTask = async (req, res) => {
     const { title, description } = req.body;
     try {
         const newTask = await Task.create({ title, description, userId: req.user.id });
@@ -19,7 +19,7 @@ exports.createTask = async (req, res) => {
     }
 };
 
-exports.updateTask = async (req, res) => {
+export const updateTask = async (req, res) => {
     const { id } = req.params;
     const { title, description, status } = req.body;
     try {
@@ -37,7 +37,7 @@ exports.updateTask = async (req, res) => {
     }
 };
 
-exports.deleteTask = async (req, res) => {
+export const deleteTask = async (req, res) => {
     const { id } = req.params;
     try {
         const task = await Task.findByPk(id);
