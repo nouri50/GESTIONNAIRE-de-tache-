@@ -119,4 +119,15 @@ export const signup = async (userData) => {
   }
 };
 
-// D'autres fonctions d'API peuvent être ajoutées ici
+// ==================== Profil Utilisateur ====================
+
+// Fonction pour obtenir le profil utilisateur
+export const getUserProfile = async () => {
+  try {
+    const response = await api.get('/user/profile');
+    return response.data; // Retourne les données du profil utilisateur
+  } catch (error) {
+    console.error('Erreur lors de la récupération du profil utilisateur', error);
+    throw error;
+  }
+};
