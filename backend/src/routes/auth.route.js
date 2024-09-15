@@ -1,11 +1,9 @@
 import express from 'express';
-import { getTasks, createTask, updateTask, deleteTask } from '../controller/task.controller.js';
+import { register, login } from '../controller/auth.controller.js';
 
 const router = express.Router();
 
-router.get('/', getTasks);
-router.post('/', createTask);
-router.put('/:id', updateTask);
-router.delete('/:id', deleteTask);
+router.post('/register', register);
+router.post('/login', login);
 
 export default router;
