@@ -8,10 +8,16 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login({ email, password });
-    // Rediriger vers les tâches après la connexion
+    try {
+      await login({ email, password });
+      // Rediriger vers la page des tâches après la connexion
+      console.log("Connexion réussie");
+    } catch (error) {
+      console.error("Erreur lors de la connexion :", error);
+      alert("Une erreur est survenue lors de la connexion.");
+    }
   };
-
+  
   return (
     <div>
       <h1>Connexion</h1>

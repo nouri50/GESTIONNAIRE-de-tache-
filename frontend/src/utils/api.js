@@ -5,6 +5,34 @@ const api = axios.create({
   baseURL: 'http://localhost:5000/api', // Remplacez par l'URL de votre backend
 });
 
+// ==================== Configuration du Token JWT ====================
+// Ajouter le token JWT à toutes les requêtes
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token'); // Supposons que le token soit stocké dans localStorage
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// ==================== Gestion des Erreurs ====================
+// Interceptor pour gérer les réponses d'erreurs
+api.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // Gérer les erreurs ici (par exemple, affichage d'une notification ou redirection)
+    console.error('Erreur Axios:', error.response || error.message);
+    return Promise.reject(error);
+  }
+);
+
 // ==================== Gestion des Tâches ====================
 
 // Fonction pour obtenir la liste des tâches
