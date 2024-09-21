@@ -12,12 +12,13 @@ import TaskManagementPage from './pages/TaskManagementPage';
 import TaskPage from './pages/TaskPage';
 import UserManagementPage from './pages/UserManagementPage';
 import Header from './components/Header';
-import NotFoundPage from './pages/NotFoundPage'; // Page pour gérer les erreurs 404
+import Footer from './components/Footer';
 
 const App = () => {
   return (
     <Router>
       <Header />
+      <Footer />
       <Routes>
         <Route path="/" element={<Navigate to="/landing" />} /> {/* Redirige vers la landing page */}
         <Route path="/landing" element={<LandingPage />} />
@@ -31,7 +32,7 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} /> {/* Page d'inscription */}
         <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* Page de mot de passe oublié */}
         <Route path="/change-password" element={<ChangePasswordPage />} /> {/* Page pour changer le mot de passe */}
-        <Route path="*" element={<NotFoundPage />} /> {/* Route 404 */}
+        
       </Routes>
     </Router>
   );

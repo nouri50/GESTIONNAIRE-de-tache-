@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getTasks, deleteTask } from './api'; // Assure-toi que les fonctions API sont bien définies
-
+import { getTasks, deleteTask } from '../utils/api'; // Import correct depuis utils
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css'; // Assure-t
 const TaskManagementPage = () => {
   const [tasks, setTasks] = useState([]);
   const navigate = useNavigate(); // Pour naviguer vers la page de modification

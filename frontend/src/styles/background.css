@@ -1,0 +1,26 @@
+/* background.css */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  .page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #e6f0ff; /* Bleu clair */
+  }
+  
+  .main-content {
+    background-color: #e6f0ff;
+    margin: 0 auto;
+    width: 90%;
+    max-width: 1200px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: inset 0px 0px 15px rgba(0, 0, 0, 0.2);
+  }
+  

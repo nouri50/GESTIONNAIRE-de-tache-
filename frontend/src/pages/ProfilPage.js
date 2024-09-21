@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getUserProfile } from '../utils/api';  // Assurez-vous que cette fonction existe et est bien importée
-
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css'; // Assure-t
 const ProfilPage = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/background.css'; // Import du style pour le background
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -6,8 +7,6 @@ const ForgotPasswordPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Appel API pour envoyer l'email de réinitialisation
     try {
       const response = await fetch('/api/auth/forgot-password', {
         method: 'POST',
@@ -29,19 +28,21 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div>
-      <h2>Mot de passe oublié</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Votre adresse email"
-          required
-        />
-        <button type="submit">Envoyer un lien de réinitialisation</button>
-      </form>
-      {message && <p>{message}</p>}
+    <div className="page-container"> {/* Application du background */}
+      <div className="main-content">
+        <h2>Mot de passe oublié</h2>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Votre adresse email"
+            required
+          />
+          <button type="submit">Envoyer un lien de réinitialisation</button>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };

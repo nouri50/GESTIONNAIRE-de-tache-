@@ -1,7 +1,8 @@
 import React from 'react';
 import '../styles/LandingPage.css';
-import '../components/Header';
-import '../components/Footer';
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css';
 
 const LandingPage = () => {
   const handleStart = () => {
