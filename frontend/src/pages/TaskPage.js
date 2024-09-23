@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../styles/background.css'; // Import du style pour le background
+import '../styles/background.css';
 import '../styles/Header.css';
 import '../styles/Footer.css';
+
 const TaskPage = () => {
   const [task, setTask] = useState({ title: '', description: '' });
   const [message, setMessage] = useState('');
 
   const addTask = async (task) => {
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.post('http://localhost:5000/api/tasks', task, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Si un token est requis
+          'Authorization': `Bearer ${token}`
         }
       });
       console.log('Tâche ajoutée avec succès', response.data);
@@ -32,7 +34,7 @@ const TaskPage = () => {
   };
 
   return (
-    <div className="page-container"> {/* Application du background */}
+    <div className="page-container">
       <div className="main-content">
         <h1>Ajouter une tâche</h1>
         <form onSubmit={handleSubmit}>

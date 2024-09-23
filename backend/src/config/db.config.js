@@ -19,7 +19,3 @@ sequelize.authenticate()
   });
 
 export default sequelize;
-
-
-  
-
