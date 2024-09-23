@@ -11,7 +11,8 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  timestamps: false,  // Désactiver les colonnes createdAt et updatedAt
 });
 
 export default User;
-

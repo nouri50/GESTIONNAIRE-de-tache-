@@ -1,0 +1,67 @@
+page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer le contenu verticalement */
+    align-items: center; /* Centrer le contenu horizontalement */
+    background-color: #e6f0ff;
+  }
+  
+  /* Section principale avec un espacement ajusté */
+  .main-content {
+    text-align: center;
+    padding: 40px 20px; /* Ajoute plus d'espace autour du contenu */
+    max-width: 800px; /* Limite la largeur maximale pour ne pas s'étendre trop */
+    width: 100%;
+  }
+  
+  /* Conteneur du dashboard */
+  .dashboard {
+    display: flex;
+    justify-content: space-between; /* Sépare les colonnes */
+    margin-top: 40px; /* Décalage supplémentaire vers le bas */
+    gap: 20px; /* Espacement entre les colonnes */
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Colonne des boutons */
+  .dashboard-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+  }
+  
+  /* Style des boutons */
+  .dashboard-btn {
+    width: 100%;
+    max-width: 250px;
+    padding: 15px;
+    background-color: #007AFF;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .dashboard-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsiveness pour petits écrans */
+  @media (max-width: 600px) {
+    .dashboard {
+      flex-direction: column; /* Passe en colonne verticale sur petits écrans */
+      align-items: center;
+    }
+  
+    .dashboard-btn {
+      max-width: none;
+      width: 100%;
+    }
+  }
