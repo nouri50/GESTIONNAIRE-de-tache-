@@ -1,22 +1,27 @@
 import express from 'express';
 import cors from 'cors';
-import morgan from 'morgan';  // Importer Morgan pour les logs des requêtes HTTP
-import authRoutes from './routes/auth.route.js';  // Importer les routes d'authentification
+import authRoutes from './routes/auth.route.js';
+import { sequelize } from './config/database.js';
 
 const app = express();
-
-// Utiliser Morgan pour logguer les requêtes HTTP
-app.use(morgan('dev'));
+const PORT = process.env.PORT || 5001;
 
 // Middleware
-app.use(cors());
 app.use(express.json());
+app.use(cors()); // Autoriser CORS
 
 // Routes
-app.use('/api/auth', authRoutes); // Routes d'authentification
+app.use('/api/auth', authRoutes);
+
+// Test de la base de données
+sequelize.sync().then(() => {
+    console.log('Base de données synchronisée');
+}).catch((error) => {
+    console.error('Erreur lors de la synchronisation de la base de données :', error);
+});
 
 // Démarrage du serveur
-const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Le serveur tourne sur le port ${PORT}`);
+    console.log(`Le serveur fonctionne sur le port ${PORT}`);
 });
+

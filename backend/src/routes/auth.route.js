@@ -1,6 +1,5 @@
 import express from 'express';
-import { login, register} from '../controller/auth.controller.js'; // Importer les contrôleurs d'authentification
-import authMiddleware from '../middleware/authMiddleware.js'; // Importer le middleware d'authentification
+import { login, register } from '../controllers/auth.controller.js';
 
 const router = express.Router();
 
@@ -9,6 +8,5 @@ router.post('/register', register);
 
 // Route de connexion
 router.post('/login', login);
-
 
 export default router;
