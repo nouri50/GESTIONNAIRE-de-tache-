@@ -1,27 +1,22 @@
-import 'dotenv/config'; // Charger les variables d'environnement
 import express from 'express';
 import cors from 'cors';
-import bodyParser from 'body-parser';
-import authRoutes from './routes/auth.route.js'; // Corriger ici pour 'routes'
-import taskRoutes from './routes/task.route.js'; // Corriger ici pour 'routes'
+import morgan from 'morgan';  // Importer Morgan pour les logs des requêtes HTTP
+import authRoutes from './routes/auth.route.js';  // Importer les routes d'authentification
 
 const app = express();
+
+// Utiliser Morgan pour logguer les requêtes HTTP
+app.use(morgan('dev'));
+
+// Middleware
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Exemple de route d'accueil
-app.get('/', (req, res) => {
-  res.send('API Gestionnaire de Tâches');
-});
+// Routes
+app.use('/api/auth', authRoutes); // Routes d'authentification
 
-// Utiliser les routes
-app.use('/api/auth', authRoutes);
-app.use('/api/tasks', taskRoutes);
-
-// Démarrage du serveur backend
-const PORT = process.env.PORT || 5001;
+// Démarrage du serveur
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Le serveur backend tourne sur le port ${PORT}`);
+  console.log(`Le serveur tourne sur le port ${PORT}`);
 });
-
-export default app;

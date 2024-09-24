@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Importation de useNavigate pour rediriger
 import logo from '../image/taches.png';
 import '../styles/Header.css';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // État de connexion
+  const navigate = useNavigate(); // Utilisé pour rediriger
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);  // L'utilisateur est déconnecté
+    setIsLoggedIn(false);  // Déconnexion de l'utilisateur
+    navigate('/home'); // Redirection vers la page d'accueil après déconnexion
     console.log('Déconnexion réussie');
   };
 
   const handleLogin = () => {
-    setIsLoggedIn(true);  // L'utilisateur est connecté
-    console.log('Connexion réussie');
+    navigate('/login'); // Redirection vers la page de connexion
   };
 
   return (
@@ -29,7 +30,7 @@ const Header = () => {
       </div>
       <nav className={`nav ${menuOpen ? 'open' : ''}`}>
         <ul className="nav-list">
-          <li><Link to="/" onClick={() => setMenuOpen(false)}>Accueil</Link></li>
+          <li><Link to="/home" onClick={() => setMenuOpen(false)}>Accueil</Link></li>
           <li><Link to="/tache" onClick={() => setMenuOpen(false)}>Tâches</Link></li>
           <li><Link to="/gestion-utilisateur" onClick={() => setMenuOpen(false)}>Gestion des utilisateurs</Link></li>
           <li><Link to="/profil" onClick={() => setMenuOpen(false)}>Profil</Link></li>
@@ -46,6 +47,5 @@ const Header = () => {
 };
 
 export default Header;
-
 
 

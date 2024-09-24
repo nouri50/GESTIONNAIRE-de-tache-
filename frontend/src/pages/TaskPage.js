@@ -1,43 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { getTasks, addTask, updateTask, deleteTask } from '../utils/api';  // Import correct
-import '../styles/TaskPage.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import '../styles/background.css';
+import '../styles/Header.css';
+import '../styles/Footer.css';
 
 const TaskPage = () => {
-  const [tasks, setTasks] = useState([]);
-  const [taskTitle, setTaskTitle] = useState('');
+  const [task, setTask] = useState({ title: '', description: '' });
+  const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const data = await getTasks();
-      setTasks(data);
-    };
-    fetchTasks();
-  }, []);
+  const addTask = async (task) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post('http://localhost:5000/api/tasks', task, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log('Tâche ajoutée avec succès', response.data);
+      setMessage('Tâche ajoutée avec succès');
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout de la tâche', error);
+      setMessage('Erreur lors de l\'ajout de la tâche');
+    }
+  };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const newTask = await addTask({ title: taskTitle });
-    setTasks([...tasks, newTask]);
-    setTaskTitle('');
+    addTask(task);
+  };
+
+  const handleChange = (e) => {
+    setTask({ ...task, [e.target.name]: e.target.value });
   };
 
   return (
-    <div>
-      <h1>Tâches</h1>
-      <form onSubmit={handleSubmit}>
-        <input 
-          type="text" 
-          value={taskTitle} 
-          onChange={(e) => setTaskTitle(e.target.value)} 
-          placeholder="Nouvelle tâche" 
-        />
-        <button type="submit">Ajouter</button>
-      </form>
-      <ul>
-        {tasks.map(task => (
-          <li key={task.id}>{task.title}</li>
-        ))}
-      </ul>
+    <div className="page-container">
+      <div className="main-content">
+        <h1>Ajouter une tâche</h1>
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="title"
+            placeholder="Titre"
+            value={task.title}
+            onChange={handleChange}
+            required
+          />
+          <textarea
+            name="description"
+            placeholder="Description"
+            value={task.description}
+            onChange={handleChange}
+          />
+          <button type="submit">Ajouter Tâche</button>
+        </form>
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };

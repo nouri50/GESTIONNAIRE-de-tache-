@@ -1,17 +1,17 @@
-import axios from 'axios';
+import axios from 'axios';  // Importer axios une seule fois
 
-// Configurer l'instance axios avec l'URL de base
+// Configurer l'instance Axios avec l'URL de base de l'API
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // Remplacez par l'URL de votre backend
+  baseURL: 'http://localhost:5000/api',  // Assurez-vous que l'URL du backend est correcte
 });
 
 // ==================== Gestion des Tâches ====================
 
-// Fonction pour obtenir la liste des tâches
+// Fonction pour récupérer toutes les tâches
 export const getTasks = async () => {
   try {
     const response = await api.get('/tasks');
-    return response.data; // Retourne les données des tâches
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des tâches', error);
     throw error;
@@ -22,7 +22,7 @@ export const getTasks = async () => {
 export const addTask = async (taskData) => {
   try {
     const response = await api.post('/tasks', taskData);
-    return response.data; // Retourne la tâche ajoutée
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de l\'ajout de la tâche', error);
     throw error;
@@ -33,7 +33,7 @@ export const addTask = async (taskData) => {
 export const updateTask = async (taskId, taskData) => {
   try {
     const response = await api.put(`/tasks/${taskId}`, taskData);
-    return response.data; // Retourne la tâche mise à jour
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de la mise à jour de la tâche', error);
     throw error;
@@ -56,7 +56,7 @@ export const deleteTask = async (taskId) => {
 export const getUsers = async () => {
   try {
     const response = await api.get('/users');
-    return response.data; // Retourne les données des utilisateurs
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des utilisateurs', error);
     throw error;
@@ -67,7 +67,7 @@ export const getUsers = async () => {
 export const addUser = async (userData) => {
   try {
     const response = await api.post('/users', userData);
-    return response.data; // Retourne l'utilisateur ajouté
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de l\'ajout de l\'utilisateur', error);
     throw error;
@@ -78,7 +78,7 @@ export const addUser = async (userData) => {
 export const updateUser = async (userId, userData) => {
   try {
     const response = await api.put(`/users/${userId}`, userData);
-    return response.data; // Retourne l'utilisateur mis à jour
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de la mise à jour de l\'utilisateur', error);
     throw error;
@@ -101,7 +101,7 @@ export const deleteUser = async (userId) => {
 export const login = async (credentials) => {
   try {
     const response = await api.post('/auth/login', credentials);
-    return response.data; // Retourne les données de l'utilisateur connecté
+    return response.data;  // Retourne les données de l'utilisateur connecté
   } catch (error) {
     console.error('Erreur lors de la connexion', error);
     throw error;
@@ -111,21 +111,27 @@ export const login = async (credentials) => {
 // Fonction pour s'inscrire
 export const signup = async (userData) => {
   try {
-    const response = await api.post('/auth/signup', userData);
-    return response.data; // Retourne l'utilisateur inscrit
+    const response = await api.post('/auth/register', userData);  // Utiliser '/auth/register' si c'est la route du backend
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de l\'inscription', error);
     throw error;
   }
 };
 
+
 // ==================== Profil Utilisateur ====================
 
 // Fonction pour obtenir le profil utilisateur
 export const getUserProfile = async () => {
   try {
-    const response = await api.get('/user/profile');
-    return response.data; // Retourne les données du profil utilisateur
+    const token = localStorage.getItem('token');  // Récupérer le token JWT stocké dans localStorage
+    const response = await api.get('/user/profile', {
+      headers: {
+        Authorization: `Bearer ${token}`,  // Envoyer le token JWT dans l'en-tête Authorization
+      },
+    });
+    return response.data;  // Retourne les données du profil utilisateur
   } catch (error) {
     console.error('Erreur lors de la récupération du profil utilisateur', error);
     throw error;

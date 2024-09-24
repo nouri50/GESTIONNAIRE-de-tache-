@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/db.config.js';
+import sequelize from '../config/db.config.js';  // Assure-toi que la connexion à la DB est correcte
 
 const User = sequelize.define('User', {
   email: {
@@ -11,6 +11,8 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+}, {
+  timestamps: false,  // Désactiver les colonnes createdAt et updatedAt
 });
 
 export default User;
