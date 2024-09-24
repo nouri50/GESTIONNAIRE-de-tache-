@@ -111,13 +111,14 @@ export const login = async (credentials) => {
 // Fonction pour s'inscrire
 export const signup = async (userData) => {
   try {
-    const response = await api.post('/auth/signup', userData);
-    return response.data;  // Retourne l'utilisateur inscrit
+    const response = await api.post('/auth/register', userData);  // Utiliser '/auth/register' si c'est la route du backend
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de l\'inscription', error);
     throw error;
   }
 };
+
 
 // ==================== Profil Utilisateur ====================
 

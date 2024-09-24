@@ -1,18 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import du composant Link
 import '../styles/LandingPage.css';
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
 import '../styles/background.css';
-
+import '../styles/SignupPage.css';
 const LandingPage = () => {
-  const handleStart = () => {
-    // Logique pour le bouton Commencer
-  };
-
-  const handleLearnMore = () => {
-    // Logique pour le bouton En savoir plus
-  };
-
   return (
     <div className="landing-page">
       <h1>Gérez vos tâches facilement et efficacement</h1>
@@ -23,8 +16,11 @@ const LandingPage = () => {
         </p>
       </div>
       <div className="buttons-container">
-        <button className="start-button" onClick={handleStart}>Commencer</button>
-        <button className="learn-more-button" onClick={handleLearnMore}>En savoir plus</button>
+        {/* Bouton redirigeant vers la page d'inscription */}
+        <Link to="/signup">
+          <button className="start-button">Commencer</button>
+        </Link>
+        <button className="learn-more-button">En savoir plus</button>
       </div>
     </div>
   );
