@@ -1,50 +1,38 @@
-import React, { useState } from 'react';
-import { login } from '../utils/api';  // Import correct
-import { useNavigate } from 'react-router-dom'; // Import du hook useNavigate
-import '../styles/background.css'; // Import du style pour le background
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/LandingPage.css';
 import '../styles/Header.css';
-import '../styles/Footer.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css';
 
-const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Initialisation du hook useNavigate
+const LandingPage = () => {
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await login({ email, password });
-      console.log("Connexion réussie");
-      navigate('/'); // Redirection vers la page d'accueil après la connexion
-    } catch (error) {
-      console.error("Erreur lors de la connexion :", error);
-      alert("Une erreur est survenue lors de la connexion.");
-    }
+  const handleStart = () => {
+    console.log('Redirection vers la page d\'inscription');
+    navigate('/signup');
   };
-  
+
+  const handleLearnMore = () => {
+    console.log('En savoir plus cliqué');
+    // Ajoute une logique ici si nécessaire pour en savoir plus
+  };
+
   return (
-    <div className="page-container"> {/* Application du background */}
-      <div className="main-content">
-        <h1>Connexion</h1>
-        <form onSubmit={handleSubmit}>
-          <input 
-            type="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            placeholder="Email" 
-          />
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            placeholder="Mot de passe" 
-          />
-          <button type="submit">Se connecter</button>
-        </form>
+    <div className="landing-page">
+      <h1>Gérez vos tâches facilement et efficacement</h1>
+      <div className="paragraph-container">
+        <p>
+          Un outil simple pour vous aider à organiser et suivre vos tâches facilement. 
+          Gagnez du temps et restez productif !
+        </p>
+      </div>
+      <div className="buttons-container">
+        <button className="start-button" onClick={handleStart}>Commencer</button>
+        <button className="learn-more-button" onClick={handleLearnMore}>En savoir plus</button>
       </div>
     </div>
   );
 };
 
-export default LoginPage;
-
+export default LandingPage;

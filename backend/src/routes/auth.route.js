@@ -1,10 +1,14 @@
 import express from 'express';
-import { login, getUserProfile } from '../controller/auth.controller.js';
-import authMiddleware from '../middleware/auth.middleware.js';
+import { login, register} from '../controller/auth.controller.js'; // Importer les contrôleurs d'authentification
+import authMiddleware from '../middleware/authMiddleware.js'; // Importer le middleware d'authentification
 
 const router = express.Router();
 
-router.post('/login', login); // Route publique pour la connexion
-router.get('/profile', authMiddleware, getUserProfile); // Route protégée pour récupérer le profil utilisateur
+// Route d'inscription
+router.post('/register', register);
+
+// Route de connexion
+router.post('/login', login);
+
 
 export default router;
