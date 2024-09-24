@@ -1,29 +1,25 @@
 import React, { useState } from 'react';
-import { signup } from '../utils/api';  // Import correct
-import { useNavigate } from 'react-router-dom'; // Import du hook useNavigate
-import '../styles/background.css'; // Import du style pour le background
+import '../styles/SignupPage.css'; // Assure-toi que le chemin est correct
 import '../styles/Header.css';
-import '../styles/Footer.css';
-
+import '../styles/Footer.css'; 
+import '../styles/background.css';
 const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate(); // Initialisation du hook useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Logique pour envoyer les données d'inscription à l'API
     try {
-      await signup({ email, password });
+      // Appel à l'API ici
       console.log("Inscription réussie");
-      navigate('/'); // Redirection vers la page d'accueil après l'inscription
     } catch (error) {
       console.error("Erreur lors de l'inscription :", error);
-      alert("Une erreur est survenue lors de l'inscription.");
     }
   };
 
   return (
-    <div className="page-container"> {/* Application du background */}
+    <div className="page-container">
       <div className="main-content">
         <h1>Inscription</h1>
         <form onSubmit={handleSubmit}>

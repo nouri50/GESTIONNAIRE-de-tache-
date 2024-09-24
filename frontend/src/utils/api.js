@@ -2,7 +2,7 @@ import axios from 'axios';  // Importer axios une seule fois
 
 // Configurer l'instance Axios avec l'URL de base de l'API
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',  // Assurez-vous que l'URL du backend est correcte
+  baseURL: 'http://localhost:5001/api',  // Assurez-vous que l'URL du backend est correcte
 });
 
 // ==================== Gestion des Tâches ====================
@@ -98,24 +98,24 @@ export const deleteUser = async (userId) => {
 // ==================== Authentification ====================
 
 // Fonction pour se connecter
-export const login = async (credentials) => {
+export const signup = async (userData) => {
   try {
-    const response = await api.post('/auth/login', credentials);
-    return response.data;  // Retourne les données de l'utilisateur connecté
+      const response = await api.post('/auth/register', userData);
+      return response.data;
   } catch (error) {
-    console.error('Erreur lors de la connexion', error);
-    throw error;
+      console.error('Erreur lors de l\'inscription', error);
+      throw error;
   }
 };
 
-// Fonction pour s'inscrire
-export const signup = async (userData) => {
+// Fonction pour se connecter
+export const login = async (credentials) => {
   try {
-    const response = await api.post('/auth/register', userData);  // Remplace '/auth/signup' par '/auth/register'
-    return response.data;
+      const response = await api.post('/auth/login', credentials);
+      return response.data;
   } catch (error) {
-    console.error('Erreur lors de l\'inscription', error);
-    throw error;
+      console.error('Erreur lors de la connexion', error);
+      throw error;
   }
 };
 
