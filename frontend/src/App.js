@@ -1,34 +1,42 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer'; 
-import LandingPage from './pages/LandingPage';
-import TaskPage from './pages/TaskPage'; 
-import UserManagementPage from './pages/UserManagementPage';
-import ProfilPage from './pages/ProfilPage';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ChangePasswordPage from './pages/ChangePasswordPage';
-import ForgotPasswordPage from './pages/ForgotPasswordPage'; // Import de ForgotPasswordPage
+import EditTaskPage from './pages/EditTaskPage';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import HomePage from './pages/HomePage';
+import LandingPage from './pages/LandingPage';
+import LoginPage from './pages/LoginPage';
+import ProfilPage from './pages/ProfilPage';
+import SignupPage from './pages/SignupPage';
+import TaskManagementPage from './pages/TaskManagementPage';
+import TaskPage from './pages/TaskPage';
+import UserManagementPage from './pages/UserManagementPage';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
-function App() {
+const App = () => {
   return (
-    <BrowserRouter>
+    <Router>
       <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/tache" element={<TaskPage />} />
-          <Route path="/gestion-utilisateurs" element={<UserManagementPage />} />
-          <Route path="/profil" element={<ProfilPage />} />
-          <Route path="/changer-mot-de-passe" element={<ChangePasswordPage />} />
-          <Route path="/mot-de-passe-oublie" element={<ForgotPasswordPage />} /> {/* Route ajoutée */}
-        </Routes>
-      </main>
       <Footer />
-    </BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/landing" />} /> {/* Redirige vers la landing page */}
+        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/tache" element={<TaskPage />} /> {/* Page de création de tâches */}
+        <Route path="/gestion-taches" element={<TaskManagementPage />} /> {/* Page de gestion des tâches */}
+        <Route path="/modifier-tache/:taskId" element={<EditTaskPage />} /> {/* Page pour modifier une tâche */}
+        <Route path="/gestion-utilisateur" element={<UserManagementPage />} /> {/* Page de gestion des utilisateurs */}
+        <Route path="/profil" element={<ProfilPage />} /> {/* Page de profil */}
+        <Route path="/login" element={<LoginPage />} /> {/* Page de login */}
+        <Route path="/signup" element={<SignupPage />} /> {/* Page d'inscription */}
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* Page de mot de passe oublié */}
+        <Route path="/change-password" element={<ChangePasswordPage />} /> {/* Page pour changer le mot de passe */}
+        
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
-
-
 

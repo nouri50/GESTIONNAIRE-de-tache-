@@ -1,0 +1,102 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #e6f0ff; /* Arrière-plan général de la page */
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  background-color: white; /* Fond blanc pour le contenu principal */
+  margin: 20px auto;
+  width: 90%;
+  max-width: 1200px;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Ombre pour un effet doux */
+  flex-grow: 1; /* Permet au contenu de prendre l'espace disponible */
+}
+
+footer {
+  background-color: #007AFF;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  margin-top: auto; /* Positionne le footer en bas */
+}
+
+/* Media Queries */
+
+/* Petits écrans (smartphones en mode portrait) */
+@media (max-width: 600px) {
+  .main-content {
+      width: 95%; /* Augmente la largeur pour s'adapter aux petits écrans */
+      padding: 15px; /* Réduit le padding */
+      margin: 10px auto; /* Réduit l'espacement externe */
+      border-radius: 10px; /* Coins plus petits sur les petits écrans */
+  }
+
+  h1 {
+      font-size: 1.5rem; /* Réduction de la taille de la police pour les titres */
+  }
+
+  p, button {
+      font-size: 1rem; /* Ajuste la taille de la police pour le texte et les boutons */
+  }
+}
+
+/* Tablettes et écrans moyens (paysage) */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .main-content {
+      width: 90%; /* Largeur ajustée pour les tablettes */
+      padding: 20px;
+      margin: 20px auto;
+  }
+
+  h1 {
+      font-size: 2rem; /* Taille de la police adaptée pour les tablettes */
+  }
+
+  p, button {
+      font-size: 1.1rem; /* Ajustement de la taille du texte */
+  }
+}
+
+/* Grands écrans (ordinateurs de bureau) */
+@media (min-width: 1025px) {
+  .main-content {
+      max-width: 1200px;
+      padding: 25px;
+  }
+
+  h1 {
+      font-size: 2.5rem; /* Taille de la police pour les grands écrans */
+  }
+
+  p, button {
+      font-size: 1.2rem;
+  }
+}
+
+.error-section { /* Accolade ouvrante manquante ajoutée ici */
+  margin-top: 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 10px; /* Positionne le message en bas */
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 0, 0, 0.1); /* Fond rouge transparent */
+  padding: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  font-weight: bold;
+}
