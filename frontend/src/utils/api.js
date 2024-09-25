@@ -100,11 +100,10 @@ export const deleteUser = async (userId) => {
 // Fonction pour se connecter
 export const signup = async (userData) => {
   try {
-      const response = await api.post('/auth/register', userData);
-      return response.data;
+    const response = await axios.post('http://localhost:5001/api/auth/register', userData);
+    return response.data;  // Retourne les données du backend, y compris le message de succès
   } catch (error) {
-      console.error('Erreur lors de l\'inscription', error);
-      throw error;
+    throw error;  // Rejette l'erreur pour être gérée dans le frontend
   }
 };
 
