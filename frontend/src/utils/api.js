@@ -138,3 +138,18 @@ export const getUserProfile = async () => {
     throw error;
   }
 };
+// Fonction pour changer le mot de passe
+export const changePassword = async (passwordData) => {
+  try {
+    const token = localStorage.getItem('token');  // Récupérer le token JWT stocké dans localStorage
+    const response = await api.put('/auth/change-password', passwordData, {
+      headers: {
+        Authorization: `Bearer ${token}`,  // Envoyer le token JWT dans l'en-tête Authorization
+      },
+    });
+    return response.data;  // Retourner les données
+  } catch (error) {
+    console.error('Erreur lors du changement de mot de passe', error);
+    throw error;
+  }
+};
