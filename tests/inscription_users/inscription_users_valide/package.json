@@ -1,0 +1,23 @@
+{
+  "name": "inscription_users_valide",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "GESTIONNAIRE-de-tache-"
+  },
+  "keywords": [
+    "automatisation",
+    "tests",
+    "cypress"
+  ],
+  "author": "nesrine",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cypress": "^13.14.2"
+  }
+}
