@@ -9,52 +9,77 @@ import '../styles/background.css';
 const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState(''); // Pour stocker les messages de succès ou d'erreur
-  const navigate = useNavigate(); // Utilisé pour rediriger après inscription
+  const [errorMessage, setErrorMessage] = useState(''); // Ajout d'un état pour les erreurs
+  const [passwordError, setPasswordError] = useState(''); // Erreur spécifique pour le mot de passe
+  const [successMessage, setSuccessMessage] = useState(''); // Message de succès
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setErrorMessage('Tous les champs sont obligatoires.');
+      return false;
+    }
+    if (password.length < 6 || password.length > 15) {
+      setPasswordError('Le mot de passe doit contenir entre 6 et 15 caractères.');
+      return false;
+    }
+    setErrorMessage('');
+    setPasswordError('');
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Réinitialiser le message avant chaque tentative
-    setMessage('');
+    if (!validateForm()) return; // Valide le formulaire avant la soumission
 
     try {
-      const response = await signup({ email, password });
-      // Si l'inscription réussit, afficher un message et rediriger vers la page de connexion
-      setMessage('Inscription réussie. Redirection vers la page de connexion...');
-      setTimeout(() => {
-        navigate('/login'); // Redirection vers la page de connexion après 2 secondes
-      }, 2000);
+      await signup({ email, password });
+      setSuccessMessage("Inscription réussie !");  // Affiche un message de succès
+      setErrorMessage('');
     } catch (error) {
-      // En cas d'échec, afficher un message d'erreur
-      setMessage('Erreur lors de l\'inscription. Veuillez réessayer.');
-      console.error('Erreur lors de l\'inscription', error);
+      console.error("Erreur lors de l'inscription :", error);
+      setErrorMessage("Cette adresse email est déjà utilisée."); // Mettre à jour l'erreur en cas d'échec
+      setSuccessMessage('');
     }
   };
 
   return (
-    <div className="signup-page">
-      <div className="signup-container">
+    <div className="page-container">
+      <div className="main-content">
         <h1>Inscription</h1>
         <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            required
+          <input 
+            id="signup-email"  // Ajout de l'id pour le champ email
+            type="email" 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            placeholder="Email" 
           />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Mot de passe"
-            required
+          <input 
+            id="signup-password"  // Ajout de l'id pour le champ mot de passe
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            placeholder="Mot de passe" 
           />
-          <button type="submit">S'inscrire</button>
+          <button id="signup-button" type="submit">S'inscrire</button>
         </form>
-        {/* Affichage du message de succès ou d'erreur */}
-        {message && <p className="status-message">{message}</p>}
+
+        {/* Afficher les messages d'erreur en fonction des cas */}
+        {errorMessage && (
+          <div id="signup-error-message" className="error-message">  {/* Ajout d'un id pour le message d'erreur */}
+            {errorMessage}
+          </div>
+        )}
+        {passwordError && (
+          <div id="signup-password-error" className="error-message">  {/* Ajout d'un id pour le message d'erreur sur le mot de passe */}
+            {passwordError}
+          </div>
+        )}
+        {successMessage && (
+          <div id="signup-success-message" className="success-message">  {/* Ajout d'un id pour le message de succès */}
+            {successMessage}
+          </div>
+        )}
       </div>
     </div>
   );
