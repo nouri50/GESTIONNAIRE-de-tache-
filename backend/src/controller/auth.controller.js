@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.model.js';
+import User from '../model/user.model.js';
 
 export const register = async (req, res) => {
     const { email, password } = req.body;
@@ -25,22 +25,29 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        const user = await User.findOne({ where: { email } });
-        if (!user) {
-            return res.status(400).json({ message: 'Utilisateur non trouvé' });
-        }
+  const { email, password } = req.body;
 
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ message: 'Mot de passe incorrect' });
-        }
+  try {
+    // Trouver l'utilisateur dans la base de données
+    const user = await User.findOne({ where: { email } });
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
-    } catch (error) {
-        console.error('Erreur lors de la connexion :', error);
-        res.status(500).json({ message: 'Erreur serveur' });
+    if (!user) {
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
     }
+
+    // Comparer les mots de passe
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+    }
+
+    // Générer un token JWT
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    return res.json({ token });
+  } catch (error) {
+    console.error('Erreur lors de la connexion', error);
+    return res.status(500).json({ message: 'Erreur serveur' });
+  }
 };

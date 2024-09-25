@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import authRoutes from './routes/auth.route.js';
-import { sequelize } from './config/database.js';
+import sequelize from './config/db.config.js'; // Chemin correct selon votre structure de projet
+
 
 const app = express();
 const PORT = process.env.PORT || 5001;
