@@ -19,7 +19,8 @@ const Header = () => {
   };
 
   const handleLogin = () => {
-    navigate('/login'); // Redirection vers la page de connexion
+    console.log("Redirection vers la page de connexion"); // Vérification du déclenchement
+    navigate('/login'); // Redirige vers la page de connexion
   };
 
   return (
@@ -47,5 +48,3 @@ const Header = () => {
 };
 
 export default Header;
-
-

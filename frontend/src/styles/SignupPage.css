@@ -4,11 +4,11 @@ body, html {
     padding: 0;
     height: 100%;
     font-family: Arial, sans-serif;
-    background-color: #e6f0ff; /* Arrière-plan bleu clair */
+    background-color: #e6f0ff; /* Bleu clair */
   }
   
-  /* Conteneur principal de la page */
-  .page-container {
+  /* Conteneur principal */
+  .signup-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,37 +16,26 @@ body, html {
     background-color: #e6f0ff;
   }
   
-  /* Contenu principal avec fond blanc et bordures arrondies */
-  .main-content {
+  /* Conteneur de l'inscription */
+  .signup-container {
     background-color: white;
     padding: 40px;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
     width: 400px;
     text-align: center;
   }
   
-  /* Style pour les titres */
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-    text-transform: uppercase;
-  }
-  
-  /* Style pour les champs de saisie */
-  input[type="email"],
-  input[type="password"] {
+  /* Style des champs de formulaire */
+  input {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-sizing: border-box;
     font-size: 16px;
   }
   
-  /* Style pour le bouton d'inscription */
   button {
     width: 100%;
     padding: 12px;
@@ -62,3 +51,17 @@ body, html {
   button:hover {
     background-color: #333;
   }
+  
+  /* Message de succès ou d'erreur */
+  .status-message {
+    margin-top: 20px;
+    font-size: 14px;
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Changer la couleur en vert pour le succès */
+  .status-message.success {
+    color: green;
+  }
+  
