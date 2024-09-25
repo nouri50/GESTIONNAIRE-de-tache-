@@ -17,6 +17,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "cypress": "^13.14.2"
+    "@badeball/cypress-cucumber-preprocessor": "^20.1.2",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.3",
+    "cypress": "^13.14.2",
+    "cypress-xpath": "^2.0.1"
   }
 }
