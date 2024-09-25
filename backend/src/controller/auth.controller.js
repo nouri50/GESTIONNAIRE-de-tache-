@@ -3,25 +3,31 @@ import jwt from 'jsonwebtoken';
 import User from '../model/user.model.js';
 
 export const register = async (req, res) => {
-    const { email, password } = req.body;
-    try {
-        // Vérifier si l'utilisateur existe
-        const existingUser = await User.findOne({ where: { email } });
-        if (existingUser) {
-            return res.status(400).json({ message: 'Utilisateur déjà existant' });
-        }
+  const { email, password } = req.body;
 
-        // Hacher le mot de passe
-        const hashedPassword = await bcrypt.hash(password, 10);
+  // Vérification du mot de passe
+  if (password.length < 6 || password.length > 15) {
+    return res.status(400).json({ message: "Le mot de passe doit contenir entre 6 et 15 caractères." });
+  }
 
-        // Créer un nouvel utilisateur
-        const newUser = await User.create({ email, password: hashedPassword });
-
-        res.status(201).json({ message: 'Utilisateur créé avec succès', user: newUser });
-    } catch (error) {
-        console.error('Erreur lors de la création de l\'utilisateur :', error);
-        res.status(500).json({ message: 'Erreur serveur' });
+  try {
+    // Vérifier si l'utilisateur existe déjà
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: "Cet email est déjà utilisé." });
     }
+
+    // Hash du mot de passe avant de l'enregistrer dans la base de données
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Création de l'utilisateur
+    const newUser = await User.create({ email, password: hashedPassword });
+    
+    res.status(201).json({ message: "Inscription réussie", user: newUser });
+  } catch (error) {
+    console.error("Erreur lors de l'inscription :", error);
+    res.status(500).json({ message: "Erreur lors de l'inscription. Veuillez réessayer plus tard." });
+  }
 };
 
 export const login = async (req, res) => {
