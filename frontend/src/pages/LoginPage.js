@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Pour la redirection après connexion réussie
-import { login } from '../utils/api'; // Import de la fonction de connexion
-import '../styles/LoginPage.css'; // Le fichier CSS pour le style de la page
+import { login } from '../utils/api';  // Import correct
+import '../styles/background.css'; 
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
 import '../styles/background.css';
@@ -9,34 +8,33 @@ import '../styles/SignupPage.css';
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');  // Stocker les messages d'erreur
-  const [successMessage, setSuccessMessage] = useState('');  // Stocker le message de succès
+  const [errorMessage, setErrorMessage] = useState(''); // Ajout d'un état pour les erreurs
+  const [passwordError, setPasswordError] = useState(''); // Erreur spécifique pour le mot de passe
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setErrorMessage('Tous les champs sont obligatoires.');
+      return false;
+    }
+    if (password.length < 6 || password.length > 15) {
+      setPasswordError('Le mot de passe doit contenir entre 6 et 15 caractères.');
+      return false;
+    }
+    setErrorMessage('');
+    setPasswordError('');
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');  // Réinitialiser les messages avant la tentative de connexion
-    setSuccessMessage('');
+    if (!validateForm()) return; // Valide le formulaire avant la soumission
 
     try {
-      const response = await login({ email, password });
-      setSuccessMessage('Connexion réussie ! Redirection vers la page d\'accueil...');  // Message de succès
-      // Redirection vers la page d'accueil après un court délai
-      setTimeout(() => {
-        window.location.href = '/home';
-      }, 2000);  // Délai de 2 secondes avant la redirection
+      await login({ email, password });
+      console.log("Connexion réussie");
     } catch (error) {
-      // Vérifier si une réponse est reçue et afficher des messages spécifiques
-      if (error.response && error.response.status === 401) {
-        if (error.response.data.message === 'Email incorrect') {
-          setErrorMessage('L\'adresse e-mail est incorrecte. Veuillez réessayer.');
-        } else if (error.response.data.message === 'Mot de passe incorrect') {
-          setErrorMessage('Le mot de passe est incorrect. Veuillez réessayer.');
-        } else {
-          setErrorMessage('Email ou mot de passe incorrect. Veuillez vérifier vos informations.');
-        }
-      } else {
-        setErrorMessage('Une erreur est survenue. Veuillez réessayer plus tard.');
-      }
+      console.error("Erreur lors de la connexion :", error);
+      setErrorMessage("Le mot de passe ou l'email est incorrect."); // Mettre à jour l'erreur
     }
   };
 
@@ -46,24 +44,33 @@ const LoginPage = () => {
         <h1>Connexion</h1>
         <form onSubmit={handleSubmit}>
           <input 
+            id="login-email"  // Ajout de l'id pour le champ email
             type="email" 
             value={email} 
             onChange={(e) => setEmail(e.target.value)} 
             placeholder="Email" 
-            required
           />
           <input 
+            id="login-password"  // Ajout de l'id pour le champ mot de passe
             type="password" 
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             placeholder="Mot de passe" 
-            required
           />
-          <button type="submit">Se connecter</button>
+          <button id="login-button" type="submit">Se connecter</button>
         </form>
-        {/* Afficher le message de succès ou d'erreur sous le formulaire */}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-        {successMessage && <p className="success-message">{successMessage}</p>}
+
+        {/* Afficher les messages d'erreur en fonction des cas */}
+        {errorMessage && (
+          <div id="error-message" className="error-message">  {/* Ajout d'un id pour le message d'erreur */}
+            {errorMessage}
+          </div>
+        )}
+        {passwordError && (
+          <div id="password-error" className="error-message">  {/* Ajout d'un id pour le message d'erreur sur le mot de passe */}
+            {passwordError}
+          </div>
+        )}
       </div>
     </div>
   );
