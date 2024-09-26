@@ -30,27 +30,33 @@ export const register = async (req, res) => {
   }
 };
 
+
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Vérification si l'utilisateur existe
     const user = await User.findOne({ where: { email } });
-
     if (!user) {
-      return res.status(401).json({ message: "Email incorrect." });
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect.' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(401).json({ message: "Mot de passe incorrect." });
+    // Vérification du mot de passe (en supposant que vous avez haché le mot de passe)
+    const isPasswordValid = password === user.password;  // Remplacez par votre logique de vérification
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Email ou mot de passe incorrect.' });
     }
 
-    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Si tout est correct, générez le token
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    });
 
-    return res.status(200).json({ token });
+    // Envoyer le token au client
+    res.status(200).json({ token });
   } catch (error) {
-    console.error('Erreur lors de la connexion :', error);
-    return res.status(500).json({ message: 'Erreur serveur. Veuillez réessayer plus tard.' });
+    res.status(500).json({ message: 'Erreur lors de la connexion.' });
   }
 };
+

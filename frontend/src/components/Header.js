@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react'; // Assurez-vous d'importer useEffect et useState
 import { Link, useNavigate } from 'react-router-dom'; // Importation de useNavigate pour rediriger
 import logo from '../image/taches.png';
 import '../styles/Header.css';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // État de connexion
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // État de connexion
   const navigate = useNavigate(); // Utilisé pour rediriger
+
+  useEffect(() => {
+    // Logique pour vérifier si l'utilisateur est connecté et mettre à jour l'état
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true); // Si un token est présent, l'utilisateur est connecté
+    }
+  }, []); // Le tableau vide [] signifie que cet effet ne s'exécute qu'une seule fois, au montage du composant
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
 
   const handleLogout = () => {
+    localStorage.removeItem('token'); // Supprimer le token lors de la déconnexion
     setIsLoggedIn(false);  // Déconnexion de l'utilisateur
     navigate('/home'); // Redirection vers la page d'accueil après déconnexion
     console.log('Déconnexion réussie');
   };
 
   const handleLogin = () => {
-    console.log("Redirection vers la page de connexion"); // Vérification du déclenchement
-    navigate('/login'); // Redirige vers la page de connexion
+    navigate('/login'); // Redirection vers la page de connexion
   };
 
   return (
