@@ -6,4 +6,4 @@ Feature: Inscription user password long
     And I am in the registration page
     When I fill in the identifiers in the fields
     And I validate my new account
-    Then I get an error message
+    Then I get an error message 
