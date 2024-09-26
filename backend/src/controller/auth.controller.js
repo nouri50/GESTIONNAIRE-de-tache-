@@ -34,26 +34,23 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Trouver l'utilisateur dans la base de données
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+      return res.status(401).json({ message: "Email incorrect." });
     }
 
-    // Comparer les mots de passe
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+      return res.status(401).json({ message: "Mot de passe incorrect." });
     }
 
-    // Générer un token JWT
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    return res.json({ token });
+    return res.status(200).json({ token });
   } catch (error) {
-    console.error('Erreur lors de la connexion', error);
-    return res.status(500).json({ message: 'Erreur serveur' });
+    console.error('Erreur lors de la connexion :', error);
+    return res.status(500).json({ message: 'Erreur serveur. Veuillez réessayer plus tard.' });
   }
 };
