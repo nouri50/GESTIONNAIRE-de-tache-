@@ -1,77 +1,79 @@
 import React, { useState } from 'react';
-import { login } from '../utils/api';  // Import correct
+import { login } from '../utils/api';
+import { useNavigate } from 'react-router-dom';  // Import correct
 import '../styles/background.css'; 
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
 import '../styles/background.css';
-import '../styles/SignupPage.css';
+import '../styles/LoginPage.css';
+
+
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // Ajout d'un état pour les erreurs
-  const [passwordError, setPasswordError] = useState(''); // Erreur spécifique pour le mot de passe
-
-  const validateForm = () => {
-    if (!email || !password) {
-      setErrorMessage('Tous les champs sont obligatoires.');
-      return false;
-    }
-    if (password.length < 6 || password.length > 15) {
-      setPasswordError('Le mot de passe doit contenir entre 6 et 15 caractères.');
-      return false;
-    }
-    setErrorMessage('');
-    setPasswordError('');
-    return true;
-  };
+  const [loginError, setLoginError] = useState(''); // État pour le message d'erreur
+  const [loginSuccess, setLoginSuccess] = useState(''); // État pour le message de succès
+  const navigate = useNavigate(); // Utilisé pour la redirection
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return; // Valide le formulaire avant la soumission
+    setLoginError(''); // Réinitialiser les erreurs
+    setLoginSuccess('');
 
     try {
-      await login({ email, password });
-      console.log("Connexion réussie");
+      const response = await login({ email, password });
+      if (response.token) {
+        setLoginSuccess('Connexion réussie !'); // Afficher le message de succès
+        setTimeout(() => {
+          navigate('/home'); // Rediriger vers la page d'accueil après 2 secondes
+        }, 2000);
+      }
     } catch (error) {
-      console.error("Erreur lors de la connexion :", error);
-      setErrorMessage("Le mot de passe ou l'email est incorrect."); // Mettre à jour l'erreur
+      if (error.response && error.response.status === 401) {
+        setLoginError('Email ou mot de passe incorrect.');
+      } else {
+        setLoginError('Erreur lors de la connexion. Veuillez réessayer.');
+      }
     }
   };
 
   return (
-    <div className="page-container">
-      <div className="main-content">
-        <h1>Connexion</h1>
-        <form onSubmit={handleSubmit}>
-          <input 
-            id="login-email"  // Ajout de l'id pour le champ email
-            type="email" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            placeholder="Email" 
-          />
-          <input 
-            id="login-password"  // Ajout de l'id pour le champ mot de passe
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            placeholder="Mot de passe" 
-          />
-          <button id="login-button" type="submit">Se connecter</button>
-        </form>
+    <div className="login-page">
+      <h1>Connexion</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          data-testid="email-input"
+          required
+        />
+        <input
+          type="password"
+          name="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Mot de passe"
+          data-testid="password-input"
+          required
+        />
+        <button type="submit" data-testid="login-button">
+          Se connecter
+        </button>
+      </form>
 
-        {/* Afficher les messages d'erreur en fonction des cas */}
-        {errorMessage && (
-          <div id="error-message" className="error-message">  {/* Ajout d'un id pour le message d'erreur */}
-            {errorMessage}
-          </div>
-        )}
-        {passwordError && (
-          <div id="password-error" className="error-message">  {/* Ajout d'un id pour le message d'erreur sur le mot de passe */}
-            {passwordError}
-          </div>
-        )}
-      </div>
+      {loginError && (
+        <div className="error-message" data-testid="login-error">
+          {loginError}
+        </div>
+      )}
+      {loginSuccess && (
+        <div className="success-message" data-testid="login-success">
+          {loginSuccess}
+        </div>
+      )}
     </div>
   );
 };
