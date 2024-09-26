@@ -1,67 +1,60 @@
-/* Style général du body */
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background-color: #e6f0ff; /* Arrière-plan bleu clair */
-  }
-  
-  /* Conteneur principal */
+.login-page {
+  max-width: 400px;
+  margin: 50px auto; /* Ajoute un espace au-dessus */
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centre les éléments horizontalement */
+}
+
+input {
+  width: 100%; /* Prend 100% de la largeur de la boîte parent (max-width de .login-page) */
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Inclut le padding dans la taille totale */
+}
+
+button {
+  width: 100%; /* Même largeur que les champs de saisie */
+  padding: 12px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px; /* Ajoute un espace entre les champs et le bouton */
+}
+
+button:hover {
+  background-color: #333;
+}
+
+.error-message, .success-message {
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.error-message {
+  color: red;
+}
+
+.success-message {
+  color: green;
+}
+
+/* Media Queries pour une meilleure réactivité sur les petits écrans */
+@media (max-width: 600px) {
   .login-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #e6f0ff;
+    width: 90%; /* Réduit la taille sur les petits écrans */
+    padding: 15px;
   }
-  
-  /* Conteneur de la connexion */
-  .login-container {
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    text-align: center;
-  }
-  
-  /* Style des champs de formulaire */
-  input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 12px;
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
-  }
-  
-  button:hover {
-    background-color: #333;
-  }
-  
-  /* Message d'erreur ou de succès */
-  .status-message {
-    margin-top: 20px;
-    font-size: 14px;
-    color: red;
-    font-weight: bold;
-  }
-  
-  /* Changer la couleur en vert pour les messages de succès */
-  .status-message.success {
-    color: green;
-  }
-  
+}
