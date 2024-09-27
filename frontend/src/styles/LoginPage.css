@@ -1,60 +1,70 @@
+/* Style général du corps */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+}
+
+/* Centrer le conteneur principal */
 .login-page {
-  max-width: 400px;
-  margin: 50px auto; /* Ajoute un espace au-dessus */
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-form {
   display: flex;
-  flex-direction: column;
-  align-items: center; /* Centre les éléments horizontalement */
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #e6f0ff; /* Arrière-plan bleu clair */
 }
 
-input {
-  width: 100%; /* Prend 100% de la largeur de la boîte parent (max-width de .login-page) */
+/* Style pour le formulaire de connexion */
+.login-form {
+  background-color: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+}
+
+/* Style pour les titres */
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Style pour les champs de saisie */
+input[type="email"],
+input[type="password"] {
+  width: 100%;
   padding: 12px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box; /* Inclut le padding dans la taille totale */
+  box-sizing: border-box;
+  font-size: 16px;
 }
 
+/* Style pour le bouton de connexion */
 button {
-  width: 100%; /* Même largeur que les champs de saisie */
+  width: 100%;
   padding: 12px;
-  background-color: black;
+  background-color: #007aff;
   color: white;
   border: none;
   border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 15px; /* Ajoute un espace entre les champs et le bouton */
+  margin-top: 20px;
 }
 
 button:hover {
-  background-color: #333;
+  background-color: #005bb5;
 }
 
-.error-message, .success-message {
-  width: 100%;
-  text-align: center;
-  margin-top: 15px;
-}
-
+/* Style pour les messages d'erreur */
 .error-message {
   color: red;
-}
-
-.success-message {
-  color: green;
-}
-
-/* Media Queries pour une meilleure réactivité sur les petits écrans */
-@media (max-width: 600px) {
-  .login-page {
-    width: 90%; /* Réduit la taille sur les petits écrans */
-    padding: 15px;
-  }
+  font-size: 14px;
+  margin-top: 10px;
 }
