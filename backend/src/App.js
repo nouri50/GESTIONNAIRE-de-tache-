@@ -14,6 +14,7 @@ app.use(cors()); // Autoriser CORS
 // Routes
 app.use('/api/auth', authRoutes);
 
+
 // Test de la base de données
 sequelize.sync().then(() => {
     console.log('Base de données synchronisée');

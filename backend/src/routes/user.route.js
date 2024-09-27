@@ -5,6 +5,6 @@ import authenticateJWT from '../middleware/authenticateJWT.js';
 const router = express.Router();
 
 // Appliquer le middleware à cette route
-router.get('/profile', authenticateJWT, getUserProfile);
+router.get('/profile', authMiddleware, getUserProfile);
 
 export default router;

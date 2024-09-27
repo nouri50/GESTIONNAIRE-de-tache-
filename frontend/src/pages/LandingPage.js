@@ -4,7 +4,7 @@ import '../styles/LandingPage.css';
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
 import '../styles/background.css';
-import '../styles/SignupPage.css';
+
 const LandingPage = () => {
   return (
     <div className="landing-page">
