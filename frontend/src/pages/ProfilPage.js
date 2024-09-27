@@ -2,38 +2,47 @@ import React, { useEffect, useState } from 'react';
 import { getUserProfile } from '../utils/api';  // Assurez-vous que cette fonction existe et est bien importée
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
-import '../styles/background.css'; // Assure-t
+import '../styles/background.css'; 
+import '../styles/ProfilPage.css'; // Pour les styles spécifiques à cette page
+import { useNavigate } from 'react-router-dom';
+
 const ProfilPage = () => {
-  const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+  const [profile, setProfile] = useState({
+    email: 'Chargement...', // Valeurs par défaut en cas de problème de récupération
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate(); // Pour la redirection
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchProfile = async () => {
       try {
-        const userProfile = await getUserProfile();  // Supposons que c'est votre fonction d'API
-        setUser(userProfile);
+        const data = await getUserProfile();
+        setProfile(data);  // Mettre à jour le profil si la récupération est réussie
+        setErrorMessage('');  // Réinitialiser le message d'erreur
       } catch (error) {
-        setError(error);
-        console.error('Erreur lors de la récupération des informations utilisateur:', error);
+        setErrorMessage('Impossible de récupérer les informations du profil.');  // En cas d'erreur
       }
     };
-
-    fetchUserProfile();
+    fetchProfile();
   }, []);
 
-  if (error) {
-    return <div>Erreur: {error.message}</div>;
-  }
-
-  if (!user) {
-    return <div>Chargement...</div>;
-  }
+  const handlePasswordChange = () => {
+    navigate('/change-password'); // Rediriger vers la page de modification de mot de passe
+  };
 
   return (
-    <div>
-      <h1>Profil de l'utilisateur</h1>
-      <p>Nom : {user.name}</p>
-      <p>Email : {user.email}</p>
+    <div className="page-container">  {/* Ajout d'un conteneur de page */}
+      <div className="main-content">
+        <h1>Profil Utilisateur</h1>
+        {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Affiche le message d'erreur si présent */}
+        <div>
+          <label>Email: </label>
+          <p>{profile.email}</p> {/* Affiche l'email même en cas d'erreur */}
+        </div>
+        <button className="change-password-btn" onClick={handlePasswordChange}>
+          Modifier le mot de passe
+        </button>
+      </div>
     </div>
   );
 };

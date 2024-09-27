@@ -110,11 +110,12 @@ export const signup = async (userData) => {
 // Fonction pour se connecter
 export const login = async (credentials) => {
   try {
-      const response = await api.post('/auth/login', credentials);
-      return response.data;
+    const response = await api.post('/auth/login', credentials);
+    console.log('Réponse de la connexion:', response.data); // Log pour vérifier la réponse
+    return response.data;  // Assurez-vous que le token est bien renvoyé ici
   } catch (error) {
-      console.error('Erreur lors de la connexion', error);
-      throw error;
+    console.error('Erreur lors de la connexion:', error);
+    throw error;
   }
 };
 
@@ -137,18 +138,16 @@ export const getUserProfile = async () => {
     throw error;
   }
 };
-// Fonction pour changer le mot de passe
+
+
 export const changePassword = async (passwordData) => {
-  try {
-    const token = localStorage.getItem('token');  // Récupérer le token JWT stocké dans localStorage
-    const response = await api.put('/auth/change-password', passwordData, {
-      headers: {
-        Authorization: `Bearer ${token}`,  // Envoyer le token JWT dans l'en-tête Authorization
-      },
-    });
-    return response.data;  // Retourner les données
-  } catch (error) {
-    console.error('Erreur lors du changement de mot de passe', error);
-    throw error;
-  }
+  const token = localStorage.getItem('token');
+  console.log('Token envoyé pour changement de mot de passe:', token); // Log du token envoyé
+  const response = await api.put('/auth/change-password', passwordData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
 };
+

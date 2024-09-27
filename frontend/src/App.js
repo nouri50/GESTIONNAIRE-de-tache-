@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import EditTaskPage from './pages/EditTaskPage';
@@ -15,9 +15,19 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // État de la connexion
+
+  // Vérifier si le token est présent dans le localStorage lors du chargement initial
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
   return (
     <Router>
-      <Header />
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /> {/* Passer l'état de connexion au Header */}
       <Footer />
       <Routes>
         <Route path="/" element={<Navigate to="/landing" />} /> {/* Redirige vers la landing page */}
@@ -28,15 +38,13 @@ const App = () => {
         <Route path="/modifier-tache/:taskId" element={<EditTaskPage />} /> {/* Page pour modifier une tâche */}
         <Route path="/gestion-utilisateur" element={<UserManagementPage />} /> {/* Page de gestion des utilisateurs */}
         <Route path="/profil" element={<ProfilPage />} /> {/* Page de profil */}
-        <Route path="/login" element={<LoginPage />} /> {/* Page de login */}
+        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} /> {/* Page de login */}
         <Route path="/signup" element={<SignupPage />} /> {/* Page d'inscription */}
         <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* Page de mot de passe oublié */}
         <Route path="/change-password" element={<ChangePasswordPage />} /> {/* Page pour changer le mot de passe */}
-        
       </Routes>
     </Router>
   );
 };
 
 export default App;
-
