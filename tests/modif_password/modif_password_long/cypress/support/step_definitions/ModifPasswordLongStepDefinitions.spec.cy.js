@@ -17,7 +17,7 @@ When('I redirected on profil page', () => {
 })
 
 When('I click on button edit password', () => {
-    cy.xpath('//button[normalize-space()="Modifier le mot de passe"]', { timeout : 10000 }).click() 
+    cy.xpath('//button[@class="change-password-btn"]', { timeout: 10000 }).click()
 })
 
 When('I edit my password', () => {
