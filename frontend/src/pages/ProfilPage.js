@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
 import { getUserProfile } from '../utils/api';
-import '../styles/ProfilPage.css'; 
+import '../styles/ProfilPage.css'; // Assurez-vous que ce chemin est correct
+import { useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
 import '../styles/background.css';
 const ProfilPage = () => {
-  const [profile, setProfile] = useState({
-    email: 'Chargement...', 
-  });
+  const [profile, setProfile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
@@ -16,46 +14,33 @@ const ProfilPage = () => {
     const fetchProfile = async () => {
       try {
         const data = await getUserProfile();
-        setProfile(data); 
-        setErrorMessage('');
+        setProfile(data);
       } catch (error) {
-        setErrorMessage('Impossible de récupérer les informations du profil.');
+        setErrorMessage('Erreur lors de la récupération du profil utilisateur.');
       }
     };
     fetchProfile();
   }, []);
 
   const handlePasswordChange = () => {
-    navigate('/change-password'); 
+    navigate('/change-password');
   };
 
   return (
-    <div className="profile-container">
-      <h1 className="profile-header">Profil Utilisateur</h1>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      
-      <div className="profile-field">
-        <label className="profile-label">Email :</label>
-        <input
-          type="text"
-          value={profile.email}
-          className="profile-input"
-          readOnly
-        />
-      </div>
-
-      <div className="profile-field">
-        <label className="profile-label">Mot de passe :</label>
-      </div>
-
-      <div className="center-content">
-        <button
-          className="modify-password-button"
-          onClick={handlePasswordChange}
-        >
-          Modifier le mot de passe
-        </button>
-      </div>
+    <div className="profile-page">
+      <h1 data-cy="profile-title">Profil Utilisateur</h1>
+      {errorMessage && <p className="error-message" data-cy="profile-error">{errorMessage}</p>}
+      {profile ? (
+        <div className="profile-info">
+          <label>Email:</label>
+          <p data-cy="profile-email">{profile.email}</p>
+          <button onClick={handlePasswordChange} data-cy="profile-change-password-button">
+            Modifier le mot de passe
+          </button>
+        </div>
+      ) : (
+        <p data-cy="profile-loading">Chargement...</p>
+      )}
     </div>
   );
 };

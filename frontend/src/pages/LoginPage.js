@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { login } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Header.css';
-import '../styles/Footer.css';
-import '../styles/background.css';
+import { login } from '../utils/api'; // Assurez-vous que cette fonction est correctement définie dans votre API
 import '../styles/LoginPage.css';
-
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css';
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,42 +13,59 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(''); // Réinitialise les messages d'erreur
+
     try {
-      const token = await login({ email, password });
-      localStorage.setItem('token', token); // Stocker le token
-      setIsLoggedIn(true); // Mettre à jour l'état de connexion
-      navigate('/home'); // Redirection vers la page d'accueil
+      const response = await login({ email, password });
+
+      // Vérifie que la réponse contient un token
+      if (response && response.token) {
+        const token = response.token;
+        console.log("Token reçu:", token);
+
+        // Stocke le token dans localStorage
+        localStorage.setItem('token', token);
+
+        // Met à jour l'état de connexion
+        setIsLoggedIn(true);
+
+        // Redirection vers la page d'accueil
+        navigate('/home');
+      } else {
+        console.error("Token invalide :", response);
+        setErrorMessage("Token invalide. Impossible de se connecter.");
+      }
     } catch (error) {
-      setErrorMessage('Erreur lors de la connexion.');
+      setErrorMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
     }
   };
 
   return (
-    <div className="login-page">
+    <div>
       <h1>Connexion</h1>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Affiche les messages d'erreur */}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email</label>
           <input
             type="email"
+            placeholder="Entrez votre email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            data-testid="email-input"
           />
         </div>
         <div>
           <label>Mot de passe</label>
           <input
             type="password"
+            placeholder="Entrez votre mot de passe"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            data-testid="password-input"
           />
         </div>
-        <button type="submit" data-testid="login-button">Connexion</button>
+        <button type="submit">Connexion</button>
       </form>
     </div>
   );
