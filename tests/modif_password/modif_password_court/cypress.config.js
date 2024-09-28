@@ -15,8 +15,7 @@ module.exports = defineConfig({
 
       return config;
     },
-
-    defaultCommandTimeout: 90000,
+    
     specPattern: "cypress/e2e/features/*.feature"
   },
 });

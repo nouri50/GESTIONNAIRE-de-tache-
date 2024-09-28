@@ -11,9 +11,9 @@ describe('Modif password court', () => {
   })
 
   it('I edit my password', () => {
-    cy.get(':nth-child(4) > a').click() 
-    cy.xpath('//button[normalize-space()="Modifier le mot de passe"]', { timeout: 50000 }).click()
     cy.wait(9000)
+    cy.get(':nth-child(4) > a').click() 
+    cy.xpath('//button[normalize-space()="Modifier le mot de passe"]').click()
   })
 
   it('I fill the fields', () => {

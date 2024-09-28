@@ -13,9 +13,9 @@ Given('I connect on the website', () => {
 })
 
 When('I redirected on the edit password page', () => {
-    cy.get(':nth-child(4) > a').click() 
-    cy.xpath('//button[normalize-space()="Modifier le mot de passe"]', { timeout: 50000 }).click()  
     cy.wait(9000) 
+    cy.get(':nth-child(4) > a').click() 
+    cy.xpath('//button[normalize-space()="Modifier le mot de passe"]').click()  
 })
 
 When('I fill the fields', () => {
