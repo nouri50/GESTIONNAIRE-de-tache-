@@ -12,7 +12,7 @@ describe('Modif password long', () => {
 
   it('I redirected on the edit password page', () => {
     cy.xpath('//a[normalize-space()="Profil"]').click()
-    cy.get('.change-password-btn', { timeout: 10000 }).click()
+    cy.xpath('//button[@class="change-password-btn"]', { timeout: 10000 }).click()
   })
 
   it('I edit my password', () => {
