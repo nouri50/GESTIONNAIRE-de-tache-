@@ -7,8 +7,8 @@ Given('I m on the website', () => {
 
 Given('I connect on the website', () => {
     cy.xpath('//a[normalize-space()="Connexion"]').click()
-    cy.xpath('//input[@placeholder="Email"]').type('nzito055@icloud.com')
-    cy.xpath('//input[@placeholder="Mot de passe"]').type('nZit11031994@')
+    cy.xpath('//input[@data-testid="email-input"]').type('nzito055@icloud.com')
+    cy.xpath('//input[@data-testid="password-input"]').type('nZit11031994@')
     cy.xpath('//button[normalize-space()="Connexion"]').click()
 })
 
@@ -17,7 +17,7 @@ When('I redirected on profil page', () => {
 })
 
 When('I click on button edit password', () => {
-    cy.xpath('//button[@class="change-password-btn"]', { timeout: 10000 }).click()
+    cy.xpath('//button[@class="modify-password-button"]').click()
 })
 
 When('I edit my password', () => {
@@ -27,7 +27,7 @@ When('I edit my password', () => {
 })
 
 When('I confirm my new password', () => {
-    cy.xpath('//button[normalize-space()="Changer le mot de passe"]').click()
+    cy.xpath('//button[@data-testid="change-password-button"]').click()
 })
 
 Then('I receive an error message', () => {

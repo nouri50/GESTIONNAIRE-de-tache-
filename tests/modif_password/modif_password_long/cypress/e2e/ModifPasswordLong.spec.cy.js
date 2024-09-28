@@ -5,14 +5,14 @@ describe('Modif password long', () => {
 
   it('I connect on the plateform', () => {
     cy.xpath('//a[normalize-space()="Connexion"]').click()
-    cy.xpath('//input[@placeholder="Email"]').type('nzito055@icloud.com')
-    cy.xpath('//input[@placeholder="Mot de passe"]').type('nZit11031994@')
+    cy.xpath('//input[@data-testid="email-input"]').type('nzito055@icloud.com')
+    cy.xpath('//input[@data-testid="password-input"]').type('nZit11031994@')
     cy.xpath('//button[normalize-space()="Connexion"]').click()
   })
 
   it('I redirected on the edit password page', () => {
     cy.xpath('//a[normalize-space()="Profil"]').click()
-    cy.xpath('//button[@class="change-password-btn"]', { timeout: 10000 }).click()
+    cy.xpath('//button[@class="modify-password-button"]').click()
   })
 
   it('I edit my password', () => {
@@ -22,7 +22,7 @@ describe('Modif password long', () => {
   })
 
   it('I confirm the new password', () => {
-    cy.xpath('//button[normalize-space()="Changer le mot de passe"]').click()
+    cy.xpath('//button[@data-testid="change-password-button"]').click()
   })
 
   it('I receive an error message', () => {
