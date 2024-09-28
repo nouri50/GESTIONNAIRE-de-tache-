@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { changePassword } from '../utils/api';
+import { changePassword } from '../utils/api'; // Assurez-vous que cette fonction est bien définie
 import { useNavigate } from 'react-router-dom';
-import '../styles/Header.css';
-import '../styles/Footer.css';
-import '../styles/background.css';
 import '../styles/ChangePasswordPage.css';
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css';
+
 
 const ChangePasswordPage = () => {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -21,19 +22,24 @@ const ChangePasswordPage = () => {
       return;
     }
 
+    if (newPassword.length < 6 || newPassword.length > 15) {
+      setMessage('Le mot de passe doit contenir entre 6 et 15 caractères.');
+      return;
+    }
+
     try {
       await changePassword({ currentPassword, newPassword });
       setMessage('Mot de passe modifié avec succès.');
-      navigate('/profil'); // Redirection vers la page de profil après succès
+      navigate('/profil');
     } catch (error) {
-      setMessage('Erreur lors du changement de mot de passe.');
+      setMessage('Erreur lors du changement de mot de passe. Veuillez vérifier vos informations.');
     }
   };
 
   return (
     <div className="change-password-page">
-      <h1>Changer le mot de passe</h1>
-      <form onSubmit={handleSubmit}>
+      <h1 data-cy="change-password-title">Changer le mot de passe</h1>
+      <form onSubmit={handleSubmit} className="change-password-form">
         <div>
           <label>Mot de passe actuel</label>
           <input
@@ -41,7 +47,7 @@ const ChangePasswordPage = () => {
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
             required
-            data-testid="current-password-input"
+            data-cy="current-password"
           />
         </div>
         <div>
@@ -51,7 +57,7 @@ const ChangePasswordPage = () => {
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
-            data-testid="new-password-input"
+            data-cy="new-password"
           />
         </div>
         <div>
@@ -61,12 +67,12 @@ const ChangePasswordPage = () => {
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
-            data-testid="confirm-password-input"
+            data-cy="confirm-password"
           />
         </div>
-        <button type="submit" data-testid="change-password-button">Changer le mot de passe</button>
+        <button type="submit" data-cy="change-password-button">Changer le mot de passe</button>
       </form>
-      {message && <p data-testid="password-message">{message}</p>}
+      {message && <p className="message" data-cy="change-password-message">{message}</p>}
     </div>
   );
 };
