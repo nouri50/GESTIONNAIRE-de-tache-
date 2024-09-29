@@ -63,8 +63,6 @@ export const login = async (req, res) => {
 
 
 // Changement de mot de passe
-import bcrypt from 'bcryptjs';
-import User from '../model/user.model.js';
 
 export const changePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
