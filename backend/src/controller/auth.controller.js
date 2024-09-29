@@ -63,37 +63,38 @@ export const login = async (req, res) => {
 
 
 // Changement de mot de passe
+import bcrypt from 'bcryptjs';
+import User from '../model/user.model.js';
+
 export const changePassword = async (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
-  console.log('Changement de mot de passe pour :', req.user.email);
-
+  // Validation du nouveau mot de passe
   if (newPassword.length < 6 || newPassword.length > 15) {
-    console.log('Mot de passe non valide');
-    return res.status(400).json({ message: "Le mot de passe doit contenir entre 6 et 15 caractères." });
+    return res.status(400).json({ message: "Le nouveau mot de passe doit contenir entre 6 et 15 caractères." });
   }
 
   try {
-    const user = await User.findByPk(req.user.id);
+    const user = await User.findByPk(req.user.id); // Récupère l'utilisateur avec l'ID du token
+
     if (!user) {
-      console.log('Utilisateur non trouvé');
       return res.status(404).json({ message: "Utilisateur non trouvé." });
     }
 
+    // Vérifie si l'ancien mot de passe est correct
     const isMatch = await bcrypt.compare(currentPassword, user.password);
     if (!isMatch) {
-      console.log('Mot de passe actuel incorrect');
-      return res.status(400).json({ message: "Le mot de passe actuel est incorrect." });
+      return res.status(400).json({ message: "L'ancien mot de passe est incorrect." });
     }
 
+    // Hache le nouveau mot de passe et sauvegarde
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     await user.save();
 
-    console.log('Mot de passe changé pour :', req.user.email);
     res.status(200).json({ message: "Mot de passe modifié avec succès." });
   } catch (error) {
-    console.error("Erreur lors du changement de mot de passe :", error);
-    res.status(500).json({ message: "Erreur lors du changement de mot de passe." });
+    console.error('Erreur lors du changement de mot de passe :', error);
+    res.status(500).json({ message: 'Erreur lors du changement de mot de passe.' });
   }
 };
