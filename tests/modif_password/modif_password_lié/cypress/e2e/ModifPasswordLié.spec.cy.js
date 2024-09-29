@@ -24,7 +24,7 @@ describe('Modif password lié', () => {
 
   it('I validate my new password', () => {
     cy.wait(9000)
-    cy.get('[data-testid="submit-button"]').click()
+    cy.xpath('//button[@data-testid="submit-button"]').click({force: true})
   })
 
   it('I receive an error message', () => {
