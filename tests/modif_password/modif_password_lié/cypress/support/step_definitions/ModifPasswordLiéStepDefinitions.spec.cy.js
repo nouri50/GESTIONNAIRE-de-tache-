@@ -26,7 +26,7 @@ When('I fill the fields', () => {
 
 When('I validate my new password', () => {
     cy.wait(9000)
-    cy.get('[data-testid="submit-button"]').click()
+    cy.xpath('//button[@data-testid="submit-button"]').click({force: true})
 })
 
 Then('I receive an error message', () => {
