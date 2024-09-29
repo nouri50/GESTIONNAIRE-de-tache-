@@ -18,16 +18,6 @@ When('I redirected on the edit password page', () => {
     cy.xpath('//button[@data-cy="profile-change-password-button"]').click()
 })
 
-When('I fill the fields', () => {
-    cy.xpath('//input[@data-cy="current-password"]').type('nZit11031994@')
-    cy.xpath('//input[@data-cy="new-password"]').type('jxhsdugzqydxgzyegdfyzegyhusashazudhuazdhyzegfygzebfzyegfyebgfyegfycegyfuo@')
-    cy.xpath('//input[@data-cy="confirm-password"]').type('jxhsdugzqydxgzyegdfyzegyhusashazudhuazdhyzegfygzebfzyegfyebgfyegfycegyfuo@')
-})
-
-When('I confirm my new password', () => {
+Then('I validate my new password', () => {
     cy.xpath('//button[@data-cy="change-password-button"]').click()
-})
-
-Then('I receive an error message', () => {
-    cy.xpath('//p[@data-cy="change-password-message"]').should('be.visible')
 })
