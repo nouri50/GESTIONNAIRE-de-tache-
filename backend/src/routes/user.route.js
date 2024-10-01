@@ -1,17 +1,14 @@
-// backend/src/routes/user.route.js
 import express from 'express';
 import { getAllUsers, updateUser, deleteUser } from '../controller/user.controller.js';
-import authMiddleware from '../middleware/authMiddleware.js'; // Middleware d'authentification
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Récupérer tous les utilisateurs
-router.get('/users', authMiddleware, getUsers);
+// Route pour obtenir tous les utilisateurs
+router.get('/users', authMiddleware, getAllUsers);
 
-// Mettre à jour un utilisateur
+// Autres routes (pour la mise à jour et suppression des utilisateurs)
 router.put('/users/:id', authMiddleware, updateUser);
-
-// Supprimer un utilisateur
 router.delete('/users/:id', authMiddleware, deleteUser);
 
 export default router;
