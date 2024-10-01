@@ -56,13 +56,15 @@ export const deleteTask = async (taskId) => {
 // Récupérer la liste des utilisateurs
 export const getUsers = async () => {
   try {
+    const token = localStorage.getItem('token'); // Récupération du token
     const response = await axios.get('http://localhost:5001/api/users', {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
+        Authorization: `Bearer ${token}`, // Ajout du token dans l'en-tête
+      },
     });
     return response.data;
   } catch (error) {
+    console.error('Erreur lors de la récupération des utilisateurs:', error);
     throw new Error('Erreur lors de la récupération des utilisateurs.');
   }
 };

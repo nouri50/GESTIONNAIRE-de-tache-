@@ -3,15 +3,14 @@
 import User from '../model/user.model.js';
 
 // Fonction pour obtenir tous les utilisateurs
-export const getAllUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
   try {
-    const users = await User.findAll(); // Récupération de tous les utilisateurs depuis la base de données
+    const users = await User.findAll(); // Récupérer tous les utilisateurs depuis la base de données
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs.' });
   }
 };
-
 // Fonction pour obtenir le profil d'un utilisateur
 export const getUserProfile = async (req, res) => {
   try {
