@@ -52,48 +52,52 @@ export const deleteTask = async (taskId) => {
 
 // ==================== Gestion des Utilisateurs ====================
 
-// Fonction pour obtenir la liste des utilisateurs
+
+// Récupérer la liste des utilisateurs
 export const getUsers = async () => {
   try {
-    const response = await api.get('/users');
+    const response = await axios.get('http://localhost:5001/api/users', {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
     return response.data;
   } catch (error) {
-    console.error('Erreur lors de la récupération des utilisateurs', error);
-    throw error;
+    throw new Error('Erreur lors de la récupération des utilisateurs.');
   }
 };
 
-// Fonction pour ajouter un nouvel utilisateur
-export const addUser = async (userData) => {
-  try {
-    const response = await api.post('/users', userData);
-    return response.data;
-  } catch (error) {
-    console.error('Erreur lors de l\'ajout de l\'utilisateur', error);
-    throw error;
-  }
-};
-
-// Fonction pour mettre à jour un utilisateur
-export const updateUser = async (userId, userData) => {
-  try {
-    const response = await api.put(`/users/${userId}`, userData);
-    return response.data;
-  } catch (error) {
-    console.error('Erreur lors de la mise à jour de l\'utilisateur', error);
-    throw error;
-  }
-};
-
-// Fonction pour supprimer un utilisateur
+// Suppression d'un utilisateur
 export const deleteUser = async (userId) => {
   try {
-    await api.delete(`/users/${userId}`);
+    const response = await axios.delete(`http://localhost:5001/api/users/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+    return response.data;
   } catch (error) {
-    console.error('Erreur lors de la suppression de l\'utilisateur', error);
+    throw new Error('Erreur lors de la suppression de l\'utilisateur.');
+  }
+};
+
+// Mise à jour d'un utilisateur
+// utils/api.js
+export const updateUser = async (userId, updatedData) => {
+  try {
+    const response = await axios.put(`http://localhost:5001/api/users/${userId}`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la mise à jour de l\'utilisateur:', error);
     throw error;
   }
 };
+
+
 
 // ==================== Authentification ====================
 

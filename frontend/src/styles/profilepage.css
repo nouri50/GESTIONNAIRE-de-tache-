@@ -1,0 +1,77 @@
+/* Centrage de la page du profil */
+.profile-page {
+    background-color: #f0f0f0;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 600px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+  }
+  
+  /* Titre de la page */
+.profile-page h1 {
+    font-size: 2.5rem; /* Taille du titre */
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: -500px; /* Ajouter un margin-top négatif pour remonter le titre */
+  }
+  
+  /* Conteneur d'information du profil */
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  /* Style du label pour l'email */
+  .profile-info label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: left;
+    width: 100%;
+  }
+  
+  /* Style du champ email en lecture seule */
+  .profile-info p {
+    font-size: 16px;
+    margin-bottom: 20px;
+    background-color: white;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    text-align: left;
+    box-sizing: border-box;
+  }
+  
+  /* Style du bouton */
+  .profile-info button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .profile-info button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Message d'erreur */
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  

@@ -1,16 +1,11 @@
+// backend/src/routes/auth.route.js
 import express from 'express';
-import { login, register, changePassword } from '../controller/auth.controller.js';
-import authMiddleware from '../middleware/authMiddleware.js';
+import { login, register } from '../controller/auth.controller.js';
+import { validateRegister, validateLogin } from '../middleware/authValidator.js';
 
 const router = express.Router();
 
-// Route pour s'inscrire
-router.post('/register', register);
-
-// Route pour se connecter
-router.post('/login', login);
-
-// Route pour changer le mot de passe
-router.put('/change-password', authMiddleware, changePassword);
+router.post('/login', validateLogin, login);
+router.post('/register', validateRegister, register);
 
 export default router;

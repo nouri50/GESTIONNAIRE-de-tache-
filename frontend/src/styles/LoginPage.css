@@ -1,52 +1,46 @@
-/* Styles de la page de profil */
-.profile-page {
-  max-width: 600px;
-  margin: 0 auto;
+.login-page {
+  background-color: #f0f0f0;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
+  border-radius: 10px;
+  max-width: 400px;
+  margin: 0 auto;
   text-align: center;
-  font-size: 24px;
+}
+
+.login-page h1 {
   color: #333;
-  margin-bottom: 20px;
 }
 
-.profile-info {
-  margin-bottom: 20px;
+.login-error {
+  color: red;
+  margin-bottom: 10px;
 }
 
-.profile-info label {
-  font-weight: bold;
-  display: inline-block;
-  width: 150px;
+.login-form {
+  display: flex;
+  flex-direction: column;
 }
 
-.profile-info p {
-  display: inline-block;
-  color: #555;
+.login-field {
+  margin-bottom: 15px;
 }
 
-button {
-  background-color: #007AFF;
+.login-field input {
+  padding: 10px;
+  width: 100%;
+}
+
+.login-button {
+  background-color: #007bff;
   color: white;
+  padding: 10px;
   border: none;
-  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
-  display: block;
-  margin: 20px auto;
 }
 
-button:hover {
-  background-color: #005BB5;
-}
-
-.error-message {
-  color: red;
-  text-align: center;
-  margin-bottom: 20px;
+.forgot-password {
+  margin-top: 10px;
+  color: #007bff;
+  cursor: pointer;
 }

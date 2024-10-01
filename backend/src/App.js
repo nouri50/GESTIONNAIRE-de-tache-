@@ -1,20 +1,18 @@
+// backend/src/app.js
 import express from 'express';
 import cors from 'cors';
-import authRoutes from './routes/auth.route.js';
-import userRoutes from './routes/user.route.js'; // Import des routes utilisateur
+import userRoutes from './routes/user.route.js'; // Importez correctement les routes des utilisateurs
+import authRoutes from './routes/auth.route.js'; // Importez correctement les routes d'authentification
 
 const app = express();
-const PORT = process.env.PORT || 5001;
-
-// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes); // Vérifiez que cette ligne est bien présente
-console.log('Routes utilisateur chargées: /api/user');
-// Démarrage du serveur
+// Utiliser les routes sous /api
+app.use('/api', userRoutes); // Route pour les utilisateurs
+app.use('/api/auth', authRoutes); // Route pour l'authentification
+
+const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
-    console.log(`Le serveur fonctionne sur le port ${PORT}`);
+  console.log(`Le serveur fonctionne sur le port ${PORT}`);
 });
