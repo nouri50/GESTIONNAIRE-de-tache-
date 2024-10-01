@@ -6,7 +6,7 @@ import authMiddleware from '../middleware/authMiddleware.js'; // Middleware d'au
 const router = express.Router();
 
 // Récupérer tous les utilisateurs
-router.get('/users', authMiddleware, getAllUsers);
+router.get('/users', authMiddleware, getUsers);
 
 // Mettre à jour un utilisateur
 router.put('/users/:id', authMiddleware, updateUser);

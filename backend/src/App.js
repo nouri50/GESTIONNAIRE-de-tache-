@@ -8,8 +8,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Utiliser les routes sous /api
-app.use('/api', userRoutes); // Route pour les utilisateurs
+/ Utiliser les routes utilisateur sous /api
+app.use('/api', userRoutes);
 app.use('/api/auth', authRoutes); // Route pour l'authentification
 
 const PORT = process.env.PORT || 5001;
