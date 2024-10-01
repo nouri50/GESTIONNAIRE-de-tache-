@@ -1,9 +1,35 @@
-import { check, validationResult } from 'express-validator';
+// backend/src/middleware/authValidator.js
+import { body, validationResult } from 'express-validator';
 
-// Middleware de validation de l'inscription
+// Validation pour l'inscription
 export const validateRegister = [
-  check('email').isEmail().withMessage('Enter a valid email'),
-  check('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters'),
+  body('email')
+    .isEmail()
+    .withMessage('Veuillez fournir une adresse email valide.'),
+  
+  body('password')
+    .isLength({ min: 6, max: 15 })
+    .withMessage('Le mot de passe doit contenir entre 6 et 15 caractères.'),
+
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  }
+];
+
+// Validation pour la connexion
+export const validateLogin = [
+  body('email')
+    .isEmail()
+    .withMessage('Veuillez fournir une adresse email valide.'),
+  
+  body('password')
+    .notEmpty()
+    .withMessage('Le mot de passe est requis.'),
+
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

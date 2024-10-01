@@ -1,10 +1,17 @@
+// backend/src/routes/user.route.js
 import express from 'express';
-import { getUserProfile } from '../controller/user.controller.js'; // Assurez-vous que cette importation est correcte
-import authMiddleware from '../middleware/authMiddleware.js'; // Importer authMiddleware
+import { getAllUsers, updateUser, deleteUser } from '../controller/user.controller.js';
+import authMiddleware from '../middleware/authMiddleware.js'; // Middleware d'authentification
 
 const router = express.Router();
 
-// Route protégée pour obtenir le profil de l'utilisateur
-router.get('/profile', authMiddleware, getUserProfile); // Utilisation d'authMiddleware ici
+// Récupérer tous les utilisateurs
+router.get('/users', authMiddleware, getAllUsers);
+
+// Mettre à jour un utilisateur
+router.put('/users/:id', authMiddleware, updateUser);
+
+// Supprimer un utilisateur
+router.delete('/users/:id', authMiddleware, deleteUser);
 
 export default router;
