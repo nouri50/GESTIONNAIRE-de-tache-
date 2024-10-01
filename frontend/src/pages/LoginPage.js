@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../utils/api'; // Assurez-vous que cette fonction est correctement définie dans votre API
-import '../styles/LoginPage.css';
+import { login } from '../utils/api';
+import '../styles/LoginPage.css'; // Importer le CSS spécifique à la page de connexion
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
 import '../styles/background.css';
+
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,21 +19,13 @@ const LoginPage = ({ setIsLoggedIn }) => {
     try {
       const response = await login({ email, password });
 
-      // Vérifie que la réponse contient un token
       if (response && response.token) {
         const token = response.token;
         console.log("Token reçu:", token);
-
-        // Stocke le token dans localStorage
         localStorage.setItem('token', token);
-
-        // Met à jour l'état de connexion
         setIsLoggedIn(true);
-
-        // Redirection vers la page d'accueil
         navigate('/home');
       } else {
-        console.error("Token invalide :", response);
         setErrorMessage("Token invalide. Impossible de se connecter.");
       }
     } catch (error) {
@@ -41,11 +34,11 @@ const LoginPage = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <div>
-      <h1>Connexion</h1>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Affiche les messages d'erreur */}
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="login-page">
+      <h1 data-cy="login-title">Connexion</h1>
+      {errorMessage && <p className="login-error" data-cy="login-error">{errorMessage}</p>}
+      <form onSubmit={handleSubmit} className="login-form">
+        <div className="login-field">
           <label>Email</label>
           <input
             type="email"
@@ -55,7 +48,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
             required
           />
         </div>
-        <div>
+        <div className="login-field">
           <label>Mot de passe</label>
           <input
             type="password"
@@ -65,7 +58,10 @@ const LoginPage = ({ setIsLoggedIn }) => {
             required
           />
         </div>
-        <button type="submit">Connexion</button>
+        <button type="submit" className="login-button">Connexion</button>
+        <p className="forgot-password" onClick={() => navigate('/forgot-password')}>
+          Mot de passe oublié ?
+        </p>
       </form>
     </div>
   );

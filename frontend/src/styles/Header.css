@@ -1,100 +1,100 @@
+/* Style général pour le header */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    background-color: #007AFF;
+    padding: 10px 20px;
+    background-color: #007aff;
     position: relative;
-}
-
-.logo {
-    height: 40px;
-}
-
-.menu-icon {
-    font-size: 30px;
-    cursor: pointer;
-    color: white;
-    display: none; /* Cacher par défaut */
-}
-
-.nav {
+    z-index: 1000;
+  }
+  
+  .logo {
+    height: 50px;
+  }
+  
+  .nav {
+    position: relative;
+  }
+  
+  .nav-list {
     display: flex;
-    align-items: center;
-}
-
-.nav-list {
     list-style: none;
-    display: flex;
-}
-
-.nav-list li {
-    margin-left: 2rem;
-}
-
-.nav-list li a {
+  }
+  
+  .nav-list li {
+    margin-left: 20px;
+  }
+  
+  .nav-list li a, .nav-list li button {
     text-decoration: none;
     color: white;
-    font-size: 1.2rem;
-}
-
-.logout-button {
-    background-color: #FF3B30;
+    font-size: 18px;
+    background: none;
     border: none;
-    padding: 0.5rem 1rem;
-    color: white;
-    font-size: 1rem;
     cursor: pointer;
-    border-radius: 5px;
-}
-
-.logout-button:hover {
-    background-color: #FF5C5C;
-}
-
-/* Styles pour mobile */
-@media (max-width: 768px) {
-    .menu-icon {
-        display: block;
-    }
-
-    .nav {
-        display: none;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        background-color: #007AFF;
-        width: 200px;
-        height: 100vh;
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem;
-    }
-
-    .nav.open {
-        display: flex;
-    }
-
+  }
+  
+  .nav-list li button:hover, .nav-list li a:hover {
+    color: #f0f0f0;
+  }
+  
+  /* Styles pour le menu burger */
+  .burger {
+    display: none;
+    flex-direction: column;
+    cursor: pointer;
+  }
+  
+  .burger span {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 4px;
+    transition: 0.3s;
+  }
+  
+  /* Media Queries pour le responsive */
+  @media (max-width: 768px) {
     .nav-list {
-        flex-direction: column;
-        width: 100%;
+      position: absolute;
+      top: 100%; /* Juste en dessous du header */
+      right: 0;
+      background-color: #007aff;
+      flex-direction: column;
+      width: 100%; /* Occuper toute la largeur de l'écran */
+      text-align: center;
+      display: none;
+      z-index: 1000;
     }
-
+  
+    .nav-list.open {
+      display: flex; /* Affiche le menu burger quand il est ouvert */
+    }
+  
     .nav-list li {
-        margin: 1rem 0;
-        width: 100%;
+      margin: 15px 0;
     }
-
-    .nav-list li a {
-        font-size: 1.5rem;
-        width: 100%;
-        padding: 0.5rem 0;
-        display: block;
+  
+    .burger {
+      display: flex;
     }
-
-    .logout-button {
-        width: 100%;
-        padding: 0.75rem;
-        font-size: 1.5rem;
+  
+    .burger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
     }
-}
+  
+    .burger.active span:nth-child(2) {
+      opacity: 0;
+    }
+  
+    .burger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+  }
+  
+  /* Correction pour éviter le chevauchement */
+  .user-management-page {
+    margin-top: 60px; /* Laisse de l'espace pour le menu déroulant */
+  }
+  

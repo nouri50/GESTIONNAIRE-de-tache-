@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getUserProfile } from '../utils/api';
-import '../styles/ProfilPage.css'; // Assurez-vous que ce chemin est correct
+import '../styles/profilepage.css';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
 import '../styles/background.css';
+
 const ProfilPage = () => {
   const [profile, setProfile] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');

@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/db.config.js';  // Assure-toi que la connexion à la DB est correcte
+import sequelize from '../config/db.config.js'; // Assurez-vous que ce chemin est correct
 
 const User = sequelize.define('User', {
   email: {
@@ -11,8 +11,14 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  role: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  }
 }, {
-  timestamps: false,  // Désactiver les colonnes createdAt et updatedAt
+  timestamps: true, // Active les champs timestamps
+  createdAt: 'created_at', // Mapping du nom de la colonne
+  updatedAt: 'updated_at', // Mapping du nom de la colonne
 });
 
 export default User;
