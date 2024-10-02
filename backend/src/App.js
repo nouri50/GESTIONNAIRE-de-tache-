@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 // Définition des routes
-app.use('/api', userRoutes);
+app.use('/api', userRoutes);  // Inclusion des routes utilisateurs
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', tasksRoutes);
 

@@ -1,16 +1,13 @@
+// backend/src/routes/user.route.js
 import express from 'express';
-import { getTasks, createTask, updateTask, deleteTask } from '../controller/task.controller.js';
+import { getAllUsers, updateUser, deleteUser, getUserProfile } from '../controller/user.controller.js';
 import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', authMiddleware, getTasks);                  // Récupérer toutes les tâches
-router.post('/', authMiddleware, createTask);               // Créer une nouvelle tâche
-router.put('/:id', authMiddleware, updateTask);             // Mettre à jour une tâche
-router.delete('/:id', authMiddleware, deleteTask);          // Supprimer une tâche
+router.get('/profile', authMiddleware, getUserProfile); // Route pour récupérer le profil utilisateur
+router.get('/users', getAllUsers);                      // Route pour récupérer tous les utilisateurs
+router.put('/users/:id', authMiddleware, updateUser);    // Route pour mettre à jour un utilisateur
+router.delete('/users/:id', authMiddleware, deleteUser); // Route pour supprimer un utilisateur
 
 export default router;
-
-
-
-

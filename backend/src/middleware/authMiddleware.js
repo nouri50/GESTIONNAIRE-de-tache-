@@ -1,20 +1,18 @@
 import jwt from 'jsonwebtoken';
 
 const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-
+  const token = req.headers.authorization?.split(' ')[1]; // Récupère le token depuis le header
+  
   if (!token) {
-    console.log('Aucun token trouvé');  // Log si aucun token n'est trouvé
     return res.status(401).json({ message: 'Accès refusé. Aucun token fourni.' });
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    console.log('Utilisateur authentifié :', req.user);  // Log l'utilisateur authentifié
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Vérifie et décode le token
+    req.user = decoded; // Associe les données décodées à req.user
     next();
   } catch (error) {
-    console.log('Token invalide :', error);  // Log si le token est invalide
+    console.error('Token invalide :', error);
     return res.status(401).json({ message: 'Token invalide.' });
   }
 };
