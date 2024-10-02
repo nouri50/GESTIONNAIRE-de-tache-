@@ -1,54 +1,48 @@
-// backend/src/controller/user.controller.js
-
 import User from '../model/user.model.js';
 
-// Fonction pour obtenir tous les utilisateurs
+// Fonction pour récupérer tous les utilisateurs
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll(); // Exemple de récupération des utilisateurs
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs.' });
   }
 };
-// Fonction pour obtenir le profil d'un utilisateur
+
+// Fonction pour récupérer le profil de l'utilisateur connecté
 export const getUserProfile = async (req, res) => {
   try {
-    const user = await User.findByPk(req.user.id); // Récupération du profil de l'utilisateur connecté
-    if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-    res.json(user);
+    const user = await User.findByPk(req.user.id); // Utilisation de l'ID de l'utilisateur provenant du middleware
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    }
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la récupération du profil utilisateur.' });
   }
 };
-
-// Fonction pour mettre à jour un utilisateur
 export const updateUser = async (req, res) => {
+  const userId = req.params.id;
+  const { email, role, status } = req.body; // Assurez-vous que ces champs existent dans la requête
+
   try {
-    const user = await User.findByPk(req.params.id); // Récupération de l'utilisateur à mettre à jour
-    if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    const user = await User.findByPk(userId); // Cherchez l'utilisateur par ID
 
-    const { role, status } = req.body; // Récupération des données envoyées dans le corps de la requête
-    user.role = role;
-    user.status = status;
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
+    }
 
-    await user.save(); // Sauvegarde des modifications
-    res.status(200).json({ message: 'Utilisateur mis à jour avec succès.' });
+    // Mettez à jour les champs de l'utilisateur
+    user.email = email || user.email;
+    user.role = role || user.role;
+    user.status = status || user.status;
+
+    await user.save(); // Sauvegardez les modifications
+
+    res.status(200).json({ message: 'Utilisateur modifié avec succès.', user });
   } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de la mise à jour de l\'utilisateur.' });
+    console.error('Erreur lors de la modification de l\'utilisateur:', error);
+    res.status(500).json({ message: 'Erreur lors de la modification de l\'utilisateur.' });
   }
 };
-
-// Fonction pour supprimer un utilisateur
-export const deleteUser = async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id); // Récupération de l'utilisateur à supprimer
-    if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé.' });
-
-    await user.destroy(); // Suppression de l'utilisateur
-    res.status(200).json({ message: 'Utilisateur supprimé avec succès.' });
-  } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de la suppression de l\'utilisateur.' });
-  }
-};
-

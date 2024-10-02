@@ -11,10 +11,18 @@ export const getTasks = async (req, res) => {
 
 export const createTask = async (req, res) => {
   const { title, description } = req.body;
+  console.log("Données reçues :", req.body);  // Log pour vérifier les données reçues
+  console.log("Utilisateur connecté :", req.user);  // Log pour vérifier l'utilisateur authentifié
+  
+  if (!req.user || !req.user.id) {
+    return res.status(400).json({ error: 'Utilisateur non authentifié' });
+  }
+
   try {
     const newTask = await Task.create({ title, description, userId: req.user.id });
     res.status(201).json(newTask);
   } catch (err) {
+    console.error('Erreur lors de la création de la tâche :', err);
     res.status(500).json({ error: 'Échec de la création de la tâche' });
   }
 };
@@ -22,8 +30,12 @@ export const createTask = async (req, res) => {
 export const updateTask = async (req, res) => {
   const { id } = req.params;
   const { title, description, status } = req.body;
+  
   try {
     const task = await Task.findByPk(id);
+    if (!task) {
+      return res.status(404).json({ error: 'Tâche non trouvée' });
+    }
     if (task.userId !== req.user.id) {
       return res.status(403).json({ error: 'Non autorisé' });
     }
@@ -39,8 +51,12 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
   const { id } = req.params;
+  
   try {
     const task = await Task.findByPk(id);
+    if (!task) {
+      return res.status(404).json({ error: 'Tâche non trouvée' });
+    }
     if (task.userId !== req.user.id) {
       return res.status(403).json({ error: 'Non autorisé' });
     }
