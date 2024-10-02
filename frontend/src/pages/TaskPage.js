@@ -10,11 +10,12 @@ const TaskPage = () => {
 
   const addTask = async (task) => {
     try {
-      const token = localStorage.getItem('token');
-      console.log('Token envoyé avec la requête :', token);  // Ajoutez un log pour vérifier le token
+      const token = localStorage.getItem('token');  // Vérifiez que le token est bien récupéré
+      console.log('Token envoyé avec la requête :', token);  // Log du token pour vérifier
+  
       const response = await axios.post('http://localhost:5001/api/tasks', task, {
         headers: {
-          Authorization: `Bearer ${token}`,  // Le token JWT est ajouté ici
+          Authorization: `Bearer ${token}`,  // Envoyer le token avec la requête
           'Content-Type': 'application/json'
         }
       });
@@ -23,8 +24,6 @@ const TaskPage = () => {
       console.error('Erreur lors de l\'ajout de la tâche', error);
     }
   };
-  
-  
   
 
   const handleSubmit = (e) => {
