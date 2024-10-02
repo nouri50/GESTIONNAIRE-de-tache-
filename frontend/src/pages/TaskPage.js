@@ -3,7 +3,7 @@ import axios from 'axios';
 import '../styles/background.css';
 import '../styles/Header.css';
 import '../styles/Footer.css';
-
+import '../styles/TaskPage.css';
 const TaskPage = () => {
   const [task, setTask] = useState({ title: '', description: '' });
   const [message, setMessage] = useState('');
@@ -11,18 +11,21 @@ const TaskPage = () => {
   const addTask = async (task) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/api/tasks', task, {
+      console.log('Token envoyé avec la requête :', token);  // Ajoutez un log pour vérifier le token
+      const response = await axios.post('http://localhost:5001/api/tasks', task, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          Authorization: `Bearer ${token}`,  // Le token JWT est ajouté ici
+          'Content-Type': 'application/json'
         }
       });
-      console.log('Tâche ajoutée avec succès', response.data);
-      setMessage('Tâche ajoutée avec succès');
+      console.log('Tâche ajoutée :', response.data);
     } catch (error) {
       console.error('Erreur lors de l\'ajout de la tâche', error);
-      setMessage('Erreur lors de l\'ajout de la tâche');
     }
   };
+  
+  
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();

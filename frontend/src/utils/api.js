@@ -54,20 +54,7 @@ export const deleteTask = async (taskId) => {
 
 
 // Récupérer la liste des utilisateurs
-export const getUsers = async () => {
-  try {
-    const token = localStorage.getItem('token'); // Récupération du token
-    const response = await axios.get('http://localhost:5001/api/users', {
-      headers: {
-        Authorization: `Bearer ${token}`, // Ajout du token dans l'en-tête
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Erreur lors de la récupération des utilisateurs:', error);
-    throw new Error('Erreur lors de la récupération des utilisateurs.');
-  }
-};
+
 
 // Suppression d'un utilisateur
 export const deleteUser = async (userId) => {
@@ -85,19 +72,17 @@ export const deleteUser = async (userId) => {
 
 // Mise à jour d'un utilisateur
 // utils/api.js
+// frontend/src/utils/api.js
 export const updateUser = async (userId, updatedData) => {
-  try {
-    const response = await axios.put(`http://localhost:5001/api/users/${userId}`, updatedData, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Erreur lors de la mise à jour de l\'utilisateur:', error);
-    throw error;
-  }
+  const response = await axios.put(`http://localhost:5001/api/users/${userId}`, updatedData, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  return response.data;
 };
+
+
 
 
 
@@ -130,19 +115,28 @@ export const login = async (credentials) => {
 // ==================== Profil Utilisateur ====================
 
 // Fonction pour obtenir le profil utilisateur
-export const getUserProfile = async () => {
+export const getUsers = async () => {
   try {
-    const token = localStorage.getItem('token');  // Récupérer le token JWT stocké dans localStorage
-    const response = await api.get('/user/profile', {
+    const response = await axios.get('http://localhost:5001/api/users', {
       headers: {
-        Authorization: `Bearer ${token}`,  // Envoyer le token JWT dans l'en-tête Authorization
-      },
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
     });
-    return response.data;  // Retourne les données du profil utilisateur
+    return response.data;
   } catch (error) {
-    console.error('Erreur lors de la récupération du profil utilisateur', error);
+    console.error('Erreur lors de la récupération des utilisateurs', error);
     throw error;
   }
+};
+
+// Récupérer le profil utilisateur
+export const getUserProfile = async () => {
+  const response = await axios.get('http://localhost:5001/api/profile', {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    },
+  });
+  return response.data;
 };
 
 
