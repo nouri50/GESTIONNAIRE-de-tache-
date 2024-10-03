@@ -20,5 +20,5 @@ When('I click on the button connexion', () => {
 
 Then('I receive an error message', () => {
     cy.wait(9000)
-    cy.xpath('//p[@data-testid="status-message"]').should('be.visible')
+    cy.get('[data-testid="status-message"]').should('be.visible')
 })
