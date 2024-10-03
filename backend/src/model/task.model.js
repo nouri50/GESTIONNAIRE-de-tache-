@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/db.config.js';  // Assurez-vous que le chemin vers votre configuration de DB est correct
+import sequelize from '../config/db.config.js';
 
 const Task = sequelize.define('Task', {
   title: {
@@ -11,17 +11,19 @@ const Task = sequelize.define('Task', {
     allowNull: true,
   },
   status: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: DataTypes.ENUM('pending', 'in_progress', 'completed'),
+    allowNull: true,
     defaultValue: 'pending',
   },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    field: 'user_id',  // Mappe à la colonne 'user_id' dans la base de données
-  }
+  },
 }, {
-  timestamps: true,  // Active la gestion automatique de created_at et updated_at
+  tableName: 'tasks',  // Assurez-vous que Sequelize utilise la bonne table
+  timestamps: true,    // Active les timestamps
+  createdAt: 'created_at',  // Correspondance avec la colonne de la DB
+  updatedAt: 'updated_at',  // Correspondance avec la colonne de la DB
 });
 
-export default Task;  // Exporter le modèle comme export par défaut
+export default Task;

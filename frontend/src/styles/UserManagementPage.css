@@ -1,4 +1,4 @@
-/* Styles pour la page de gestion des utilisateurs */
+/* Styles généraux pour la page de gestion des utilisateurs */
 .user-management-page {
   margin: 0 auto;
   padding: 20px;
@@ -54,6 +54,7 @@ table th, table td {
   padding: 10px;
   text-align: left;
   border: 1px solid #ddd;
+  font-size: 14px;  /* Taille de la police */
 }
 
 table th {
@@ -66,23 +67,43 @@ table td {
   color: #333;
 }
 
+/* Réduire l'écart entre les boutons */
 table td button {
   background-color: #007aff;
   border: none;
   padding: 8px 12px;
+  margin: 5px;
   color: white;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 12px; /* Taille de police ajustée */
 }
 
 table td button:hover {
   background-color: #005bb5;
 }
 
+/* Styles spécifiques pour les icônes de modification et de suppression */
 .edit-icon, .delete-icon {
   width: 20px;
   height: 20px;
+}
+
+/* Styles pour les boutons Enregistrer et Annuler */
+.edit-save-button, .edit-cancel-button {
+  background-color: #007aff;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  margin: 5px; /* Espacement entre les boutons */
+  border-radius: 5px;
+  font-size: 12px; /* Ajuster la taille de la police */
   cursor: pointer;
+  display: inline-block;
+}
+
+.edit-save-button:hover, .edit-cancel-button:hover {
+  background-color: #005bb5;
 }
 
 /* Pagination */
@@ -165,35 +186,3 @@ table td button:hover {
   font-weight: bold;
   text-align: center;
 }
-
-/* Formulaire de modification */
-.edit-form {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-}
-
-.edit-form input, .edit-form select {
-  width: calc(50% - 20px);
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.edit-form input[type="submit"] {
-  width: 100%;
-  background-color: #007aff;
-  color: white;
-  border: none;
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.edit-form input[type="submit"]:hover {
-  background-color: #005bb5;
-}
-
