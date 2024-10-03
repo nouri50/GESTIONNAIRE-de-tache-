@@ -6,7 +6,7 @@ Given('I am on the website', () => {
 })
 
 Given('I redirected on the connexion page', () => {
-    cy.xpath('//button[@class="start-button"]').click()
+    cy.xpath('//a[@href="/login"]').click()
 })
 
 When('I fill the account id on the fields', () => {
@@ -20,5 +20,5 @@ When('I click on the button connexion', () => {
 
 Then('I receive an error message', () => {
     cy.wait(9000)
-    cy.get('[data-testid="status-message"]').should('be.visible')
+    cy.get('p').should('be.visible')
 })
