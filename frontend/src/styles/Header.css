@@ -1,100 +1,103 @@
 /* Style général pour le header */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #007aff;
+  position: relative;
+  z-index: 1000;
+}
+
+.logo {
+  height: 50px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-list {
+  display: flex;
+  list-style: none;
+  align-items: center; /* S'assure que tout est centré verticalement */
+  padding: 0;
+  margin: 0;
+}
+
+.nav-list li {
+  margin-left: 20px;
+}
+
+.nav-list li a, .nav-list li button {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 15px; /* Harmonisation des espaces */
+  transition: background-color 0.3s;
+  display: flex; /* Assure un meilleur alignement */
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-list li button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.nav-list li button:hover, .nav-list li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-list li:last-child button {
+  padding: 10px 20px; /* Assure que le bouton Déconnexion garde une taille uniforme */
+  margin-left: 20px; /* Ajustement du décalage */
+}
+
+/* Media Queries pour le responsive */
+@media (max-width: 768px) {
+  .nav-list {
+    position: absolute;
+    top: 100%; 
+    right: 0;
     background-color: #007aff;
-    position: relative;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+    display: none;
     z-index: 1000;
   }
-  
-  .logo {
-    height: 50px;
-  }
-  
-  .nav {
-    position: relative;
-  }
-  
-  .nav-list {
+
+  .nav-list.open {
     display: flex;
-    list-style: none;
   }
-  
+
   .nav-list li {
-    margin-left: 20px;
+    margin: 15px 0;
   }
-  
-  .nav-list li a, .nav-list li button {
-    text-decoration: none;
-    color: white;
-    font-size: 18px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .nav-list li button:hover, .nav-list li a:hover {
-    color: #f0f0f0;
-  }
-  
-  /* Styles pour le menu burger */
+
   .burger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
+    display: flex;
   }
-  
-  .burger span {
-    width: 25px;
-    height: 3px;
-    background-color: white;
-    margin: 4px;
-    transition: 0.3s;
+
+  .burger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
   }
-  
-  /* Media Queries pour le responsive */
-  @media (max-width: 768px) {
-    .nav-list {
-      position: absolute;
-      top: 100%; /* Juste en dessous du header */
-      right: 0;
-      background-color: #007aff;
-      flex-direction: column;
-      width: 100%; /* Occuper toute la largeur de l'écran */
-      text-align: center;
-      display: none;
-      z-index: 1000;
-    }
-  
-    .nav-list.open {
-      display: flex; /* Affiche le menu burger quand il est ouvert */
-    }
-  
-    .nav-list li {
-      margin: 15px 0;
-    }
-  
-    .burger {
-      display: flex;
-    }
-  
-    .burger.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-  
-    .burger.active span:nth-child(2) {
-      opacity: 0;
-    }
-  
-    .burger.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
-    }
+
+  .burger.active span:nth-child(2) {
+    opacity: 0;
   }
-  
-  /* Correction pour éviter le chevauchement */
-  .user-management-page {
-    margin-top: 60px; /* Laisse de l'espace pour le menu déroulant */
+
+  .burger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px);
   }
-  
+}
+
+/* Correction pour éviter le chevauchement */
+.user-management-page {
+  margin-top: 60px;
+}

@@ -46,33 +46,36 @@ const ChangePasswordPage = () => {
       {errorMessage && <p className="change-password-error" data-cy="change-password-error">{errorMessage}</p>}
       <form onSubmit={handleSubmit} className="change-password-form">
         <div className="change-password-field">
-          <label>Mot de passe actuel</label>
+          <label data-cy="current-password-label">Mot de passe actuel</label>
           <input
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
             required
+            data-cy="current-password-input"
           />
         </div>
         <div className="change-password-field">
-          <label>Nouveau mot de passe</label>
+          <label data-cy="new-password-label">Nouveau mot de passe</label>
           <input
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
             required
+            data-cy="new-password-input"
           />
         </div>
         <div className="change-password-field">
-          <label>Confirmer le nouveau mot de passe</label>
+          <label data-cy="confirm-password-label">Confirmer le nouveau mot de passe</label>
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
+            data-cy="confirm-password-input"
           />
         </div>
-        <button type="submit" className="change-password-button">Changer le mot de passe</button>
+        <button type="submit" className="change-password-button" data-cy="submit-password-button">Changer le mot de passe</button>
       </form>
     </div>
   );
