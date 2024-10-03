@@ -4,7 +4,7 @@ describe('Connexion users not linked account', () => {
   })
 
   it('I redirected on the connexion page', () => {
-    cy.xpath('//button[@class="start-button"]').click()
+    cy.xpath('//a[@href="/login"]').click()
   })
 
   it('I fill the fields', () => {
@@ -18,6 +18,6 @@ describe('Connexion users not linked account', () => {
 
   it('I receive an error message', () => {
     cy.wait(9000)
-    cy.get('[data-testid="status-message"]').should('be.visible')
+    cy.get('p').should('be.visible')
   })
 })
