@@ -33,7 +33,7 @@ const EditTaskPage = () => {
     e.preventDefault();
     try {
       await updateTask(taskId, task);
-      navigate('/manage-tasks');
+      navigate('/gestion-taches');  // Redirection après mise à jour
     } catch (error) {
       console.error('Erreur lors de la mise à jour de la tâche :', error);
     }
@@ -41,7 +41,6 @@ const EditTaskPage = () => {
 
   return (
     <div className="page-container">
-
       <div className="main-content">
         <h1>Modifier la Tâche</h1>
         <form onSubmit={handleSubmit}>

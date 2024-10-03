@@ -1,0 +1,105 @@
+/* Styles globaux pour la page */
+.gestion-taches-page {
+    margin: 0 auto;
+    padding: 20px;
+    max-width: 1200px;
+    background-color: #f0f8ff;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+  }
+  
+  /* Styles pour le tableau */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  table th, table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  table th {
+    background-color: #007aff;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  table td {
+    background-color: white;
+    color: #333;
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  /* Ajustement des cellules d'action pour les icônes */
+  table td.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  /* Boutons dans les cellules */
+  table td button {
+   background-color: #007aff;
+    border: none;
+    padding: 8px 12px;
+    margin: 5px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px; /* Taille de police ajustée */
+  }
+  
+  table td button img {
+    width: 15px; /* Réduction de la taille de l'icône */
+    height: 15px;
+  }
+  
+  table td button:hover {
+    background-color: #005bb5;
+  }
+  
+  /* Pagination */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .pagination a {
+    margin: 0 5px;
+    padding: 8px 12px;
+    background-color: #007aff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  .pagination a:hover {
+    background-color: #005bb5;
+  }
+  
+  /* Messages d'erreur et de succès */
+  .error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .success-message {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+  }
+  

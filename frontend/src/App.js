@@ -15,9 +15,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // État de la connexion
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // Vérifier si le token est présent dans le localStorage lors du chargement initial
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -27,21 +26,21 @@ const App = () => {
 
   return (
     <Router>
-      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /> {/* Passer l'état de connexion au Header */}
+      <Header isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Footer />
       <Routes>
-        <Route path="/" element={<Navigate to="/landing" />} /> {/* Redirige vers la landing page */}
+        <Route path="/" element={<Navigate to="/landing" />} />
         <Route path="/landing" element={<LandingPage />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/tache" element={<TaskPage />} /> {/* Page de création de tâches */}
-        <Route path="/gestion-taches" element={<TaskManagementPage />} /> {/* Page de gestion des tâches */}
-        <Route path="/modifier-tache/:taskId" element={<EditTaskPage />} /> {/* Page pour modifier une tâche */}
-        <Route path="/gestion-utilisateur" element={<UserManagementPage />} /> {/* Page de gestion des utilisateurs */}
-        <Route path="/profil" element={<ProfilPage />} /> {/* Page de profil */}
-        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} /> {/* Page de login */}
-        <Route path="/signup" element={<SignupPage />} /> {/* Page d'inscription */}
-        <Route path="/forgot-password" element={<ForgotPasswordPage />} /> {/* Page de mot de passe oublié */}
-        <Route path="/change-password" element={<ChangePasswordPage />} /> {/* Page pour changer le mot de passe */}
+        <Route path="/tache" element={<TaskPage />} />
+        <Route path="/gestion-taches" element={<TaskManagementPage />} />
+        <Route path="/modifier-tache/:taskId" element={<EditTaskPage />} /> {/* Route d'édition */}
+        <Route path="/gestion-utilisateur" element={<UserManagementPage />} />
+        <Route path="/profil" element={<ProfilPage />} />
+        <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/change-password" element={<ChangePasswordPage />} />
       </Routes>
     </Router>
   );
