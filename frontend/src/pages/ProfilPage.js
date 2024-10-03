@@ -35,7 +35,10 @@ const ProfilPage = () => {
         <div className="profile-info">
           <label>Email:</label>
           <p data-cy="profile-email">{profile.email}</p>
-          <button onClick={handlePasswordChange} data-cy="profile-change-password-button">
+          <button 
+            onClick={handlePasswordChange} 
+            data-cy="profile-change-password-button"
+          >
             Modifier le mot de passe
           </button>
         </div>
