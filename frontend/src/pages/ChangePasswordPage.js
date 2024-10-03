@@ -16,6 +16,7 @@ const ChangePasswordPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validation des mots de passe
     if (newPassword === currentPassword) {
       setErrorMessage("Le nouveau mot de passe ne doit pas être identique à l'ancien.");
       return;
@@ -32,6 +33,7 @@ const ChangePasswordPage = () => {
     }
 
     try {
+      // Appel API pour changer le mot de passe
       await changePassword({ currentPassword, newPassword });
       setErrorMessage("Mot de passe modifié avec succès.");
       navigate('/profil');
