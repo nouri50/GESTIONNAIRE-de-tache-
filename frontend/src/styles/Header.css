@@ -1,16 +1,15 @@
-/* Style général pour le header */
+/* Style général du header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #007AFF;
   padding: 10px 20px;
-  background-color: #007aff;
-  position: relative;
-  z-index: 1000;
 }
 
 .logo {
-  height: 50px;
+  width: 50px;
+  height: auto;
 }
 
 .nav {
@@ -18,57 +17,75 @@
   align-items: center;
 }
 
-.nav-list {
-  display: flex;
-  list-style: none;
-  align-items: center; /* S'assure que tout est centré verticalement */
-  padding: 0;
-  margin: 0;
-}
-
-.nav-list li {
-  margin-left: 20px;
-}
-
-.nav-list li a, .nav-list li button {
-  text-decoration: none;
-  color: white;
-  font-size: 18px;
-  background: none;
-  border: none;
+.burger {
+  display: none;
+  flex-direction: column;
   cursor: pointer;
-  padding: 10px 15px; /* Harmonisation des espaces */
-  transition: background-color 0.3s;
-  display: flex; /* Assure un meilleur alignement */
-  justify-content: center;
-  align-items: center;
 }
 
-.nav-list li button {
-  background-color: rgba(255, 255, 255, 0.1);
+.burger span {
+  height: 3px;
+  width: 25px;
+  background-color: white;
+  margin-bottom: 5px;
   border-radius: 5px;
 }
 
-.nav-list li button:hover, .nav-list li a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+.nav-list {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.nav-list li:last-child button {
-  padding: 10px 20px; /* Assure que le bouton Déconnexion garde une taille uniforme */
-  margin-left: 20px; /* Ajustement du décalage */
+.nav-list li {
+  margin-right: 20px; /* Espace entre les éléments du menu */
 }
 
-/* Media Queries pour le responsive */
+.nav-list li:last-child {
+  margin-right: 0;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px; /* Ajuster la taille pour garder sur une ligne */
+  padding: 10px;
+}
+
+.nav-list a:hover {
+  background-color: #005bb5;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.nav-close {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
+  .burger {
+    display: flex;
+  }
+
   .nav-list {
-    position: absolute;
-    top: 100%; 
+    display: none;
+    position: fixed;
+    top: 0;
     right: 0;
+    width: 60vw;
+    height: 100vh;
     background-color: #007aff;
     flex-direction: column;
-    width: 100%;
-    text-align: center;
-    display: none;
+    justify-content: center;
+    align-items: center;
     z-index: 1000;
   }
 
@@ -77,27 +94,38 @@
   }
 
   .nav-list li {
-    margin: 15px 0;
+    margin-bottom: 20px;
+    margin-right: 0; /* Supprimer le margin-right en mode mobile */
   }
 
-  .burger {
-    display: flex;
+  .nav-list a {
+    font-size: 20px;
+    text-align: center;
   }
 
-  .burger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+  .nav-close {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 20px;
   }
 
-  .burger.active span:nth-child(2) {
-    opacity: 0;
-  }
-
-  .burger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+  .nav-list a:hover {
+    background-color: transparent; /* En mobile, pas d'effet hover sur les liens */
   }
 }
 
-/* Correction pour éviter le chevauchement */
-.user-management-page {
-  margin-top: 60px;
+/* Ajustements pour les écrans plus grands */
+@media (min-width: 768px) {
+  .nav-list {
+    display: flex; /* Toujours affiché en mode desktop */
+  }
+
+  .burger {
+    display: none; /* Cacher l'icône du burger sur grand écran */
+  }
+
+  .nav-close {
+    display: none; /* Pas besoin de la croix de fermeture en desktop */
+  }
 }
