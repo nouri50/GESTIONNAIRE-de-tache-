@@ -17,6 +17,10 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
   return (
     <header className="header">
       <img src={logo} alt="logo" className="logo" />
@@ -27,10 +31,11 @@ const Header = ({ isLoggedIn, setIsLoggedIn }) => {
           <span></span>
         </div>
         <ul className={`nav-list ${isMenuOpen ? 'open' : ''}`}>
-          <li><Link to="/home">Accueil</Link></li>
-          <li><Link to="/tache">Tâches</Link></li>
-          <li><Link to="/gestion-utilisateur">Gestion des utilisateurs</Link></li>
-          <li><Link to="/profil">Profil</Link></li>
+          <button className="nav-close" onClick={closeMenu}>×</button> {/* Bouton de fermeture */}
+          <li><Link to="/home" onClick={closeMenu}>Accueil</Link></li>
+          <li><Link to="/tache" onClick={closeMenu}>Tâches</Link></li>
+          <li><Link to="/gestion-utilisateur" onClick={closeMenu}>Gestion des utilisateurs</Link></li>
+          <li><Link to="/profil" onClick={closeMenu}>Profil</Link></li>
           {isLoggedIn ? (
             <li><button onClick={handleLogout}>Déconnexion</button></li>
           ) : (
