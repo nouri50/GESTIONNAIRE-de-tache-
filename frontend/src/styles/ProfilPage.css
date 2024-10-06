@@ -1,67 +1,75 @@
-.profile-container {
-  max-width: 600px;
-  margin: 0 auto;
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  background-color: #e6f0ff; /* Conserver la couleur de fond cohérente avec les autres pages */
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.profile-header {
-  font-size: 28px;
-  font-weight: bold;
-  text-align: center;
+h1 {
+  font-size: 2rem;
   color: #333;
   margin-bottom: 20px;
 }
 
-.profile-field {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 15px;
+.profile-info {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px; /* Largeur maximale pour les écrans plus larges */
+  text-align: center;
 }
 
-.profile-label {
-  font-size: 16px;
+.profile-info label {
   font-weight: bold;
-  margin-bottom: 5px;
-  color: #555;
+  color: #007AFF; /* Couleur bleu cohérente */
 }
 
-.profile-input {
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ddd;
-  background-color: #e9e9e9;
+.profile-info p {
+  font-size: 1.1rem;
   color: #333;
-  pointer-events: none; /* Lecture seule */
-  width: 100%; /* S'assure que le champ email prend toute la largeur disponible */
+  margin: 10px 0;
 }
 
-.password-field {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+.error-message {
+  color: red;
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #007aff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
   margin-top: 20px;
 }
 
-.modify-password-button {
-  background-color: #007AFF;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-left: 10px; /* Ajoute un petit espacement par rapport au label */
-}
-
-.modify-password-button:hover {
+button:hover {
   background-color: #005bb5;
 }
 
-.center-content {
-  display: flex;
-  justify-content: center;
+/* Pour mobile */
+@media (max-width: 600px) {
+  .profile-info {
+    width: 90%;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+  }
 }

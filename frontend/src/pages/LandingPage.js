@@ -20,7 +20,9 @@ const LandingPage = () => {
         <Link to="/signup">
           <button className="start-button">Commencer</button>
         </Link>
+        <Link to="/About">
         <button className="learn-more-button">En savoir plus</button>
+        </Link>
       </div>
     </div>
   );

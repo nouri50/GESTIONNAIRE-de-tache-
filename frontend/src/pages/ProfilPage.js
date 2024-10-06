@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getUserProfile } from '../utils/api';
-import '../styles/profilepage.css';
 import { useNavigate } from 'react-router-dom';
-import '../styles/Header.css';
-import '../styles/Footer.css'; 
-import '../styles/background.css';
+import '../styles/ProfilPage.css'; // Assurez-vous que le fichier CSS est lié
 
 const ProfilPage = () => {
   const [profile, setProfile] = useState(null);
@@ -17,33 +14,31 @@ const ProfilPage = () => {
         const data = await getUserProfile();
         setProfile(data);
       } catch (error) {
-        setErrorMessage('Erreur lors de la récupération du profil utilisateur.');
+        setErrorMessage('Votre session a expiré. Veuillez vous reconnecter.');
+        setTimeout(() => {
+          navigate('/login'); // Redirige vers la page de connexion après 3 secondes
+        }, 3000);
       }
     };
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   const handlePasswordChange = () => {
-    navigate('/change-password');
+    navigate('/change-password'); // Redirige vers la page de modification de mot de passe
   };
 
   return (
     <div className="profile-page">
-      <h1 data-cy="profile-title">Profil Utilisateur</h1>
-      {errorMessage && <p className="error-message" data-cy="profile-error">{errorMessage}</p>}
+      <h1>Profil Utilisateur</h1>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       {profile ? (
         <div className="profile-info">
           <label>Email:</label>
-          <p data-cy="profile-email">{profile.email}</p>
-          <button 
-            onClick={handlePasswordChange} 
-            data-cy="profile-change-password-button"
-          >
-            Modifier le mot de passe
-          </button>
+          <p>{profile.email}</p>
+          <button onClick={handlePasswordChange}>Modifier le mot de passe</button>
         </div>
       ) : (
-        <p data-cy="profile-loading">Chargement...</p>
+        <p>Chargement...</p>
       )}
     </div>
   );
