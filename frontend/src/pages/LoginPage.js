@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../utils/api'; // Assurez-vous que cette fonction est correctement définie dans votre API
+import { useNavigate, Link } from 'react-router-dom';
+import { login } from '../utils/api'; // Assurez-vous que cette fonction est définie
+import '../styles/LoginPage.css'; // Assurez-vous de créer ce fichier CSS
 
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
@@ -10,27 +11,16 @@ const LoginPage = ({ setIsLoggedIn }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(''); // Réinitialise les messages d'erreur
+    setErrorMessage('');
 
     try {
       const response = await login({ email, password });
-
-      // Vérifie que la réponse contient un token
       if (response && response.token) {
-        const token = response.token;
-        console.log("Token reçu:", token);
-
-        // Stocke le token dans localStorage
-        localStorage.setItem('token', token);
-
-        // Met à jour l'état de connexion
+        localStorage.setItem('token', response.token); // Stocke le token
         setIsLoggedIn(true);
-
-        // Redirection vers la page d'accueil
-        navigate('/home');
+        navigate('/home'); // Redirection vers la page d'accueil
       } else {
-        console.error("Token invalide :", response);
-        setErrorMessage("Token invalide. Impossible de se connecter.");
+        setErrorMessage("Impossible de se connecter.");
       }
     } catch (error) {
       setErrorMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
@@ -38,32 +28,29 @@ const LoginPage = ({ setIsLoggedIn }) => {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h1>Connexion</h1>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Affiche les messages d'erreur */}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Entrez votre email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Mot de passe</label>
-          <input
-            type="password"
-            placeholder="Entrez votre mot de passe"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <label>Email</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <label>Mot de passe</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         <button type="submit">Connexion</button>
       </form>
+      <Link to="/forgot-password" className="forgot-password-link">
+        Mot de passe oublié ?
+      </Link> {/* Lien vers la page de réinitialisation du mot de passe */}
     </div>
   );
 };

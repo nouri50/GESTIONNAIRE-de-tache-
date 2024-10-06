@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';  // Importation correcte
 
 const api = axios.create({
   baseURL: 'http://localhost:5001/api',
@@ -7,8 +8,31 @@ const api = axios.create({
   }
 });
 
+// Vérification de l'expiration du token
+const checkTokenExpiration = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);  // Appel correct à jwtDecode
+      const currentTime = Date.now() / 1000;  // Temps actuel en secondes
+
+      if (decodedToken.exp < currentTime) {
+        alert('Votre session a expiré. Veuillez vous reconnecter.');
+        localStorage.removeItem('token');
+        window.location.href = '/login';  // Redirection vers la page de connexion
+      }
+    } catch (error) {
+      console.error('Erreur lors de la vérification du token :', error);
+      localStorage.removeItem('token');
+      window.location.href = '/login';  // Redirection vers la page de connexion
+    }
+  }
+};
+
 // Interception pour ajouter le token d'authentification
 api.interceptors.request.use((config) => {
+  checkTokenExpiration(); // Vérifie si le token a expiré avant chaque requête
+
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -17,6 +41,7 @@ api.interceptors.request.use((config) => {
 }, (error) => {
   return Promise.reject(error);
 });
+
 
 // Récupérer toutes les tâches
 export const getTasks = async () => {

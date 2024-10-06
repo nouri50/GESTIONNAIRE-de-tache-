@@ -1,46 +1,65 @@
-.login-page {
-  background-color: #f0f0f0;
-  padding: 20px;
-  border-radius: 10px;
+/* Styles pour la page de connexion */
+.login-container {
   max-width: 400px;
   margin: 0 auto;
-  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.login-page h1 {
+h1 {
+  text-align: center;
   color: #333;
 }
 
-.login-error {
-  color: red;
+label {
+  display: block;
+  margin-top: 15px;
+  color: #555;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
-.login-form {
-  display: flex;
-  flex-direction: column;
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007aff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.login-field {
+button:hover {
+  background-color: #005bb5;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
   margin-bottom: 15px;
 }
 
-.login-field input {
-  padding: 10px;
-  width: 100%;
-}
-
-.login-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.forgot-password {
+.forgot-password-link {
+  display: block;
+  text-align: center;
   margin-top: 10px;
-  color: #007bff;
-  cursor: pointer;
+  color: #007aff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
 }
