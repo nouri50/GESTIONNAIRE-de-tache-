@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { login } from '../utils/api'; // Assurez-vous que cette fonction est définie
 import '../styles/LoginPage.css'; // Assurez-vous de créer ce fichier CSS
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css';
 
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
