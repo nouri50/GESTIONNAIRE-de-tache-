@@ -1,10 +1,10 @@
 import express from 'express';
-import { login, register } from '../controller/auth.controller.js';
-import authMiddleware from '../middleware/authMiddleware.js';
+import { forgotPassword, resetPassword, login, register } from '../controller/auth.controller.js';
 
 const router = express.Router();
 
-// Routes d'authentification
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
 router.post('/login', login);
 router.post('/register', register);
 
