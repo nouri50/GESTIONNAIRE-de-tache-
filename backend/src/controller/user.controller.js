@@ -1,9 +1,7 @@
 import User from '../model/user.model.js';
+import { validationResult } from 'express-validator';
 
 // Fonction pour récupérer tous les utilisateurs
-
-
-// backend/src/controller/user.controller.js
 export const getAllUsers = async (req, res) => {
   console.log('Requête reçue pour récupérer tous les utilisateurs');
   try {
@@ -15,19 +13,15 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-// backend/src/controller/user.controller.js
-
-
 // Fonction pour supprimer un utilisateur
 export const deleteUser = async (req, res) => {
-  const userId = req.params.id; // Récupère l'ID de l'utilisateur depuis les paramètres de la requête
+  const userId = req.params.id;
   try {
-    const user = await User.findByPk(userId); // Recherche l'utilisateur par son ID
+    const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).json({ message: 'Utilisateur non trouvé' });
     }
-
-    await user.destroy(); // Supprime l'utilisateur
+    await user.destroy();
     res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
   } catch (error) {
     console.error('Erreur lors de la suppression de l\'utilisateur :', error);
@@ -35,15 +29,13 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-
+// Fonction pour récupérer le profil utilisateur
 export const getUserProfile = async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id);
-    
     if (!user) {
       return res.status(404).json({ message: 'Utilisateur non trouvé' });
     }
-
     res.status(200).json(user);
   } catch (error) {
     console.error('Erreur lors de la récupération du profil utilisateur :', error);
@@ -51,23 +43,28 @@ export const getUserProfile = async (req, res) => {
   }
 };
 
+// Fonction pour mettre à jour un utilisateur
 export const updateUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const userId = req.params.id;
-  const { email, role, status } = req.body; // Assurez-vous que ces champs existent dans la requête
+  const { email, role, status } = req.body;
 
   try {
-    const user = await User.findByPk(userId); // Cherchez l'utilisateur par ID
-
+    const user = await User.findByPk(userId);
     if (!user) {
       return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     }
 
-    // Mettez à jour les champs de l'utilisateur
+    // Mise à jour des champs, avec vérification des valeurs
     user.email = email || user.email;
     user.role = role || user.role;
     user.status = status || user.status;
 
-    await user.save(); // Sauvegardez les modifications
+    await user.save();
 
     res.status(200).json({ message: 'Utilisateur modifié avec succès.', user });
   } catch (error) {
