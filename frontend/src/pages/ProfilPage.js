@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { getUserProfile } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import '../styles/ProfilPage.css'; // Assurez-vous que le fichier CSS est lié
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css';
 
 const ProfilPage = () => {
   const [profile, setProfile] = useState(null);

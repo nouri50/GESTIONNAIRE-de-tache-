@@ -1,203 +1,105 @@
-/* Styles généraux */
-body, html {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  font-family: Arial, sans-serif;
-  background-color: #e6f0ff; /* Arrière-plan général de la page */
-}
-
-.page-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-.main-content {
-  background-color: white; /* Fond blanc pour le contenu principal */
-  margin: 20px auto;
-  width: 90%;
-  max-width: 1200px;
+/* Conteneur principal de la page */
+.user-management-page {
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Ombre pour un effet doux */
-  flex-grow: 1; /* Permet au contenu de prendre l'espace disponible */
 }
-
-footer {
-  background-color: #007AFF;
-  padding: 20px;
-  text-align: center;
-  color: white;
-  margin-top: auto; /* Positionne le footer en bas */
-}
-
-/* Styles pour le tableau des utilisateurs */
-/* Ajout pour agrandir le tableau */
-table {
-  width: 90%; /* Ajuste la largeur du tableau à 90% de l'écran */
-  margin: 0 auto; /* Centre le tableau */
-  border-collapse: collapse;
-  background-color: white;
-}
-
-table th, table td {
-  padding: 10px;
-  text-align: left;
-  border: 1px solid #ddd;
-}
-
-table th {
-  background-color: #007aff;
-  color: white;
-}
-
-table td {
-  background-color: white;
-  color: #333;
-}
-
-table td button {
-  background-color: #007aff;
-  border: none;
-  padding: 8px 12px;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-table td button:hover {
-  background-color: #005bb5;
-}
-
-
-.edit-icon, .delete-icon {
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.pagination a {
-  margin: 0 5px;
-  padding: 8px 12px;
-  background-color: #007aff;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-}
-
-.pagination a:hover {
-  background-color: #005bb5;
-}
-
-/* Barre de recherche */
+/* CSS pour centrer le champ de recherche et le bouton */
 .search-container {
   display: flex;
   justify-content: space-evenly;
+  align-items: baseline;
   margin-bottom: 20px;
 }
 
 .search-container input {
-  width: 30%;
+  width: 300px;
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  margin-right: 10px; /* Espace entre le champ et le bouton */
+}
+
+.search-container .search-button {
+  padding: 10px 20px;
+  background-color: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
   font-size: 16px;
 }
 
-
-/* Réduction de la taille du bouton Chercher */
-.search-container button {
-  padding: 8px 12px; /* Réduit le padding à l'intérieur du bouton */
-  margin-left: 10px;
-  background-color: #007aff;
-  border: none;
-  color: white;
-  font-size: 14px; /* Réduit la taille de la police */
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100px; /* Réduit la largeur du bouton */
-}
-
-.search-container button:hover {
+.search-container .search-button:hover {
   background-color: #005bb5;
 }
 
-
-
-/* Media Queries */
-
-/* Petits écrans (smartphones en mode portrait) */
-@media (max-width: 600px) {
-  .main-content {
-      width: 95%; /* Augmente la largeur pour s'adapter aux petits écrans */
-      padding: 15px; /* Réduit le padding */
-      margin: 10px auto; /* Réduit l'espacement externe */
-      border-radius: 10px; /* Coins plus petits sur les petits écrans */
-  }
-
-  h1 {
-      font-size: 1.5rem; /* Réduction de la taille de la police pour les titres */
-  }
-
-  p, button {
-      font-size: 1rem; /* Ajuste la taille de la police pour le texte et les boutons */
-  }
+/* Limiter la largeur du bouton */
+.search-container .search-button {
+  width: auto;
 }
 
-/* Tablettes et écrans moyens (paysage) */
-@media (min-width: 601px) and (max-width: 1024px) {
-  .main-content {
-      width: 90%; /* Largeur ajustée pour les tablettes */
-      padding: 20px;
-      margin: 20px auto;
-  }
 
-  h1 {
-      font-size: 2rem; /* Taille de la police adaptée pour les tablettes */
-  }
 
-  p, button {
-      font-size: 1.1rem; /* Ajustement de la taille du texte */
-  }
-}
 
-/* Grands écrans (ordinateurs de bureau) */
-@media (min-width: 1025px) {
-  .main-content {
-      max-width: 1200px;
-      padding: 25px;
-  }
-
-  h1 {
-      font-size: 2.5rem; /* Taille de la police pour les grands écrans */
-  }
-
-  p, button {
-      font-size: 1.2rem;
-  }
-}
-
-.error-section {
-  margin-top: 20px;
-  text-align: center;
-  position: fixed;
-  bottom: 10px; /* Positionne le message en bas */
-  left: 0;
+/* Table */
+table {
   width: 100%;
-  background-color: rgba(255, 0, 0, 0.1); /* Fond rouge transparent */
-  padding: 10px;
+  border-collapse: collapse;
+  margin-top: 20px;
 }
 
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #007AFF;
+  color: white;
+}
+
+/* Message d'erreur */
 .error-message {
   color: red;
-  font-size: 16px;
-  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Message de succès */
+.success-message {
+  color: green;
+  margin-bottom: 20px;
+}
+
+/* Modale de confirmation */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  opacity: 0.8;
 }
