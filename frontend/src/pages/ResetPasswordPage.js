@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Pour récupérer le token depuis l'URL
-import axios from 'axios'; // Pour envoyer la requête de réinitialisation
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css';
+import '../styles/ResetPasswordPage.css';
 
 const ResetPasswordPage = () => {
-  const { token } = useParams(); // Récupère le token depuis l'URL
+  const { token } = useParams();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -11,22 +15,21 @@ const ResetPasswordPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+  
     if (newPassword !== confirmPassword) {
       setMessage('Les mots de passe ne correspondent pas.');
       return;
     }
-
+  
     try {
-      // Envoyer la requête de réinitialisation avec le token et le nouveau mot de passe
       const response = await axios.post(`http://localhost:5001/api/auth/reset-password/${token}`, {
         newPassword,
       });
-
+  
       if (response.status === 200) {
         setMessage('Votre mot de passe a été réinitialisé avec succès.');
         setTimeout(() => {
-          navigate('/login'); // Redirige vers la page de connexion après 3 secondes
+          navigate('/login');
         }, 3000);
       } else {
         setMessage('Erreur lors de la réinitialisation du mot de passe.');

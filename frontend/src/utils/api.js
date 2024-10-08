@@ -30,17 +30,21 @@ const checkTokenExpiration = () => {
 };
 
 // Interception pour ajouter le token d'authentification
+// Interception pour ajouter le token d'authentification
 api.interceptors.request.use((config) => {
-  checkTokenExpiration(); // Vérifie si le token a expiré avant chaque requête
-
   const token = localStorage.getItem('token');
+  console.log('Token envoyé:', token);  // Loguez le token envoyé
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
+  } else {
+    console.error('Token manquant');
   }
   return config;
 }, (error) => {
   return Promise.reject(error);
 });
+
+
 
 
 // Récupérer toutes les tâches
