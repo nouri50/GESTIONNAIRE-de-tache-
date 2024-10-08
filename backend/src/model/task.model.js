@@ -1,24 +1,23 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.config.js';
 
-const User = sequelize.define('User', {
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password: {
+const Task = sequelize.define('Task', {
+  title: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  resetPasswordToken: {
+  description: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  resetPasswordExpires: {
-    type: DataTypes.DATE,
-    allowNull: true,
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: 'pending',
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
 });
 
-export default User;
+export default Task;

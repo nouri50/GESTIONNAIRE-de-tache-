@@ -2,10 +2,23 @@ import Task from '../model/task.model.js';
 
 export const getTasks = async (req, res) => {
   try {
+    if (!req.user || !req.user.id) {
+      console.error('Utilisateur non authentifié.');
+      return res.status(400).json({ message: 'Utilisateur non authentifié.' });
+    }
+
+    console.log('ID de l\'utilisateur connecté:', req.user.id);
+
     const tasks = await Task.findAll({ where: { userId: req.user.id } });
+
+    if (!tasks) {
+      return res.status(404).json({ message: 'Aucune tâche trouvée.' });
+    }
+
     res.json(tasks);
   } catch (err) {
-    res.status(500).json({ error: 'Échec de la récupération des tâches' });
+    console.error('Erreur lors de la récupération des tâches:', err);
+    res.status(500).json({ error: 'Erreur lors de la récupération des tâches.' });
   }
 };
 

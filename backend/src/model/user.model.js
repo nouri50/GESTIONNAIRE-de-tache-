@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/db.config.js'; // Assurez-vous que ce chemin est correct
+import sequelize from '../config/db.config.js';
 
 const User = sequelize.define('User', {
   email: {
@@ -13,20 +13,18 @@ const User = sequelize.define('User', {
   },
   role: {
     type: DataTypes.STRING,
-    allowNull: true,
+    defaultValue: 'user',
   },
   resetPasswordToken: {
     type: DataTypes.STRING,
-    allowNull: true, // Peut être nul si aucun token n'est généré
+    allowNull: true,
   },
   resetPasswordExpires: {
     type: DataTypes.DATE,
-    allowNull: true, // Peut être nul si aucun token n'est généré
-  }
+    allowNull: true,
+  },
 }, {
-  timestamps: true, // Active les champs timestamps (created_at, updated_at)
-  createdAt: 'created_at', // Mapping du nom de la colonne pour createdAt
-  updatedAt: 'updated_at', // Mapping du nom de la colonne pour updatedAt
+  timestamps: false,  // Désactive l'utilisation automatique de createdAt et updatedAt
 });
 
 export default User;
