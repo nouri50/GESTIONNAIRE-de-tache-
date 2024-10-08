@@ -1,19 +1,18 @@
 import jwt from 'jsonwebtoken';
 
 const authMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) {
-    return res.status(400).json({ message: 'Aucun token fourni.' });
-  }
+  const token = req.header('Authorization').replace('Bearer ', '');
 
-  const token = authHeader.split(' ')[1];
+  if (!token) {
+    return res.status(401).json({ message: 'Accès refusé. Token manquant.' });
+  }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;  // Ajoutez l'utilisateur décodé à la requête
-    next();
+    req.user = decoded;  // Stocke les informations décodées du token dans req.user
+    next();  // Continue avec l'exécution de la prochaine fonction middleware
   } catch (error) {
-    return res.status(401).json({ message: 'Token invalide ou expiré.' });
+    res.status(400).json({ message: 'Token invalide.' });
   }
 };
 
