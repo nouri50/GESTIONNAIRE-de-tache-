@@ -1,131 +1,78 @@
-/* Styles de base pour la page de profil */
-.profile-page {
-  background-color: #f4f4f4;
-  padding: 20px;
-  max-width: 600px;
+/* Centrage du conteneur de connexion */
+.login-container {
+  width: 100%;
+  max-width: 400px;
   margin: 50px auto;
+  padding: 20px;
+  background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
-.profile-page h1 {
-  text-align: center;
-  font-size: 2rem;
+/* Titre de la page de connexion */
+.login-container h1 {
   margin-bottom: 20px;
+  font-size: 24px;
   color: #333;
 }
 
-.profile-info {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.profile-info label {
-  font-weight: bold;
-  margin-bottom: 10px;
-  display: block;
-}
-
-.profile-info p {
-  font-size: 1.1rem;
-  color: #555;
-}
-
-.profile-info button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 15px;
-  font-size: 1rem;
-  color: #fff;
-  background-color: #007bff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.profile-info button:hover {
-  background-color: #0056b3;
-}
-
-/* Message d'erreur */
+/* Messages d'erreur */
 .error-message {
-  color: #ff0000;
-  text-align: center;
-  margin-top: 20px;
+  color: red;
+  margin-bottom: 15px;
 }
 
-/* Styles pour le modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  max-width: 500px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.modal-content h2 {
-  font-size: 1.8rem;
-  margin-bottom: 10px;
+/* Style des labels */
+.login-container label {
+  display: block;
+  font-size: 16px;
   color: #333;
+  margin-bottom: 5px;
+  text-align: left;
 }
 
-.modal-content p {
-  font-size: 1.2rem;
-  margin-bottom: 20px;
-  color: #555;
-}
-
-.modal-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.modal-buttons button {
-  flex: 1;
+/* Style des champs d'entrée */
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: 100%;
   padding: 10px;
-  font-size: 1rem;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* Bouton de soumission */
+.login-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007AFF;
   border: none;
   border-radius: 5px;
+  color: white;
+  font-size: 16px;
   cursor: pointer;
-  margin: 0 10px;
   transition: background-color 0.3s ease;
 }
 
-/* Bouton de confirmation de suppression */
-.confirm-delete {
-  background-color: #dc3545;
-  color: #fff;
+/* Effet au survol du bouton */
+.login-container button:hover {
+  background-color: #005BB5;
 }
 
-.confirm-delete:hover {
-  background-color: #c82333;
+/* Lien pour mot de passe oublié */
+.forgot-password-link {
+  display: block;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #007AFF;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-/* Bouton d'annulation de suppression */
-.cancel-delete {
-  background-color: #6c757d;
-  color: #fff;
-}
-
-.cancel-delete:hover {
-  background-color: #5a6268;
+/* Effet au survol du lien */
+.forgot-password-link:hover {
+  color: #005BB5;
 }
