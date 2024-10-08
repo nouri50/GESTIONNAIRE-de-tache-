@@ -1,34 +1,35 @@
 import React, { useState } from 'react';
-import '../styles/background.css'; // Import du style pour le background
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css'; 
+import '../styles/ForgotPasswordPage.css'; 
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const response = await fetch('/api/auth/forgot-password', {
+      const response = await fetch('http://localhost:5001/api/auth/forgot-password', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
 
       if (response.ok) {
-        setMessage('Un email avec un lien de réinitialisation a été envoyé.');
+        setMessage('Un email de réinitialisation a été envoyé.');
       } else {
         setMessage('Erreur lors de l\'envoi de l\'email.');
       }
     } catch (error) {
-      console.error('Erreur lors de la requête:', error);
-      setMessage('Erreur lors de l\'envoi de l\'email.');
+      console.error('Erreur lors de la requête', error);
+      setMessage('Erreur lors de la requête.');
     }
   };
 
   return (
-    <div className="page-container"> {/* Application du background */}
+    <div className="page-container">
       <div className="main-content">
         <h2>Mot de passe oublié</h2>
         <form onSubmit={handleSubmit}>
