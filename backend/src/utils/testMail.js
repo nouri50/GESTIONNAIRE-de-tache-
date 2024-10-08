@@ -1,6 +1,9 @@
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
-export const sendResetEmail = async (email, resetLink) => {
+dotenv.config();
+
+const sendTestEmail = async () => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -11,16 +14,17 @@ export const sendResetEmail = async (email, resetLink) => {
 
   const mailOptions = {
     from: process.env.GMAIL_USER,
-    to: email,
-    subject: 'Réinitialisation de votre mot de passe',
-    text: `Cliquez sur le lien suivant pour réinitialiser votre mot de passe : ${resetLink}`,
+    to: 'jeubilleulloiwoi-8899@yopmail.com',  // Remplacez par votre email
+    subject: 'Test Nodemailer',
+    text: 'Ceci est un test pour vérifier Nodemailer.',
   };
 
   try {
     await transporter.sendMail(mailOptions);
     console.log('Email envoyé avec succès');
   } catch (error) {
-    console.error('Erreur lors de l\'envoi de l\'email :', error);
-    throw new Error('Échec de l\'envoi de l\'email.');
+    console.error('Erreur lors de l\'envoi de l\'email de test :', error);
   }
 };
+
+sendTestEmail();

@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
+import { Op } from 'sequelize'; // Import de Op pour les opérateurs Sequelize
 import User from '../model/user.model.js';
 import { sendResetEmail } from '../utils/mailer.js'; // Correct import
 
@@ -41,36 +42,16 @@ export const login = async (req, res) => {
   }
 };
 
-// Changement de mot de passe
-export const changePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
-  if (newPassword.length < 6 || newPassword.length > 15) {
-    return res.status(400).json({ message: "Le nouveau mot de passe doit contenir entre 6 et 15 caractères." });
-  }
-
-  try {
-    const user = await User.findByPk(req.user.id);
-    if (!user || !(await bcrypt.compare(currentPassword, user.password))) {
-      return res.status(400).json({ message: "L'ancien mot de passe est incorrect." });
-    }
-
-    user.password = await bcrypt.hash(newPassword, 10);
-    await user.save();
-    res.status(200).json({ message: "Mot de passe modifié avec succès." });
-  } catch (error) {
-    res.status(500).json({ message: 'Erreur lors du changement de mot de passe.' });
-  }
-};
-
 // Réinitialiser mot de passe
 export const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { newPassword } = req.body;
+
   try {
     const user = await User.findOne({
       where: {
         resetPasswordToken: token,
-        resetPasswordExpires: { $gt: Date.now() },
+        resetPasswordExpires: { [Op.gt]: new Date() },
       },
     });
 
@@ -78,6 +59,7 @@ export const resetPassword = async (req, res) => {
       return res.status(400).json({ message: 'Token invalide ou expiré.' });
     }
 
+    // Mettre à jour le mot de passe
     user.password = await bcrypt.hash(newPassword, 10);
     user.resetPasswordToken = null;
     user.resetPasswordExpires = null;
@@ -85,6 +67,7 @@ export const resetPassword = async (req, res) => {
 
     res.status(200).json({ message: 'Mot de passe réinitialisé avec succès.' });
   } catch (error) {
+    console.error('Erreur lors de la réinitialisation du mot de passe :', error);
     res.status(500).json({ message: 'Erreur lors de la réinitialisation du mot de passe.' });
   }
 };
@@ -92,6 +75,7 @@ export const resetPassword = async (req, res) => {
 // Fonction pour gérer l'oubli de mot de passe
 export const forgotPassword = async (req, res) => {
   const { email } = req.body;
+  console.log('Requête reçue pour réinitialisation de mot de passe pour : ', email);
 
   try {
     const user = await User.findOne({ where: { email } });
@@ -102,14 +86,19 @@ export const forgotPassword = async (req, res) => {
     const resetToken = crypto.randomBytes(20).toString('hex');
     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
+    // Définir l'expiration à 1 heure à partir de l'heure actuelle (en UTC)
     user.resetPasswordToken = resetToken;
-    user.resetPasswordExpires = Date.now() + 3600000; // 1 heure
+    user.resetPasswordExpires = new Date(Date.now() + 3600000); // 1 heure
+
     await user.save();
 
+    console.log('Envoi de l\'email à :', email);
     await sendResetEmail(user.email, resetLink);
+    console.log('Email envoyé avec succès');
 
     res.status(200).json({ message: 'Un email de réinitialisation a été envoyé.' });
   } catch (error) {
+    console.error('Erreur lors de l\'envoi de l\'email :', error);
     res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'email.' });
   }
 };
