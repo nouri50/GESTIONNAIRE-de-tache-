@@ -1,55 +1,52 @@
-.page-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f0f4f7;
+/* LoginPage.css ou SignupPage.css selon le fichier que vous utilisez */
+.signup-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.main-content {
-  background-color: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
-  width: 400px;
+.signup-container h1 {
   text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
+.signup-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-container input {
+  margin-bottom: 20px;
+  padding: 10px;
   border-radius: 5px;
-  box-sizing: border-box;
-  font-size: 16px;
+  border: 1px solid #ccc;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #007AFF;
-  color: white;
+.signup-container button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
   border: none;
   border-radius: 5px;
-  font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
 }
 
-button:hover {
-  background-color: #005bb5;
+.signup-container button:hover {
+  background-color: #0056b3;
 }
 
-.error-message {
-  color: red;
+.login-link {
+  display: block;
+  text-align: center;
+  margin-top: 30px;  /* Augmentez la marge pour plus d'espace entre le bouton et le lien */
   font-size: 14px;
-  margin-bottom: 10px;
 }
 
-.status-message {
-  margin-top: 20px;
-  color: green;
-  font-size: 16px;
+.login-link a {
+  text-decoration: none;
+  color: #000;
 }
- 
