@@ -6,6 +6,8 @@ import User from '../model/user.model.js';
 import { sendResetEmail } from '../utils/mailer.js'; // Correct import
 
 // Inscription
+
+// Inscription
 export const register = async (req, res) => {
   const { email, password } = req.body;
   if (password.length < 6 || password.length > 15) {
@@ -18,13 +20,21 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: "Cet email est déjà utilisé." });
     }
 
+    // Créer un nouvel utilisateur
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ email, password: hashedPassword });
-    res.status(201).json({ message: "Inscription réussie", user: newUser });
+
+    // Générer un token JWT
+    const token = jwt.sign({ id: newUser.id, email: newUser.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Renvoyer le token et les informations de l'utilisateur
+    res.status(201).json({ message: "Inscription réussie", token, user: newUser });
   } catch (error) {
+    console.error("Erreur lors de l'inscription:", error);
     res.status(500).json({ message: "Erreur lors de l'inscription." });
   }
 };
+
 
 // Connexion
 export const login = async (req, res) => {
