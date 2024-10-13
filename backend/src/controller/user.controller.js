@@ -117,37 +117,30 @@ export const deleteUserWithPasswordCheck = async (req, res) => {
 
 // Fonction pour supprimer un utilisateur avec vérification du mot de passe admin
 export const deleteUserWithAdminPasswordCheck = async (req, res) => {
-  const { targetUserId, adminPassword } = req.body; // Le mot de passe de l'admin doit être envoyé
+  const { userId, adminPassword } = req.body;  // Mot de passe de l'administrateur entré
 
   try {
-    // 1. Trouver l'utilisateur connecté (administrateur)
-    const adminUser = await User.findByPk(req.user.id);
+    const admin = await User.findByPk(req.user.id);  // Trouver l'admin connecté
 
-    if (!adminUser) {
-      return res.status(404).json({ message: 'Administrateur non trouvé.' });
+    // Vérification si l'utilisateur connecté est bien un administrateur
+    if (admin.role !== 'admin') {
+      return res.status(403).json({ message: 'Accès interdit. Seul un administrateur peut supprimer des comptes.' });
     }
 
-    // 2. Vérifier si l'utilisateur connecté a le rôle d'administrateur
-    if (adminUser.role !== 'admin') {
-      return res.status(403).json({ message: 'Accès refusé. Vous n\'êtes pas administrateur.' });
-    }
-
-    // 3. Vérifier le mot de passe de l'administrateur
-    const isPasswordValid = await bcrypt.compare(adminPassword, adminUser.password);
+    // Vérification du mot de passe de l'administrateur
+    const isPasswordValid = await bcrypt.compare(adminPassword, admin.password);
     if (!isPasswordValid) {
       return res.status(401).json({ message: 'Mot de passe administrateur incorrect.' });
     }
 
-    // 4. Trouver l'utilisateur cible à supprimer
-    const targetUser = await User.findByPk(targetUserId);
-    if (!targetUser) {
-      return res.status(404).json({ message: 'Utilisateur à supprimer non trouvé.' });
+    // Si le mot de passe est valide, supprimer l'utilisateur
+    const userToDelete = await User.findByPk(userId);
+    if (!userToDelete) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     }
 
-    // 5. Supprimer l'utilisateur cible
-    await targetUser.destroy();
+    await userToDelete.destroy();
     res.status(200).json({ message: 'Utilisateur supprimé avec succès.' });
-
   } catch (error) {
     console.error('Erreur lors de la suppression de l\'utilisateur :', error);
     res.status(500).json({ message: 'Erreur lors de la suppression de l\'utilisateur.' });
