@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getUsers, deleteUser, updateUser, verifyPassword } from "../utils/api"; // Importer verifyPassword
-import { deleteTask, updateTask } from '../utils/api';
-
+import { getUsers, deleteUser, updateUser, verifyPassword } from "../utils/api";
 import { useNavigate } from "react-router-dom";
-import "../styles/UserManagementPage.css"; // Importation du CSS mis à jour
-import edit from "../image/edit.png";
-import effacer from "../image/effacer.png";
+import "../styles/UserManagementPage.css"; 
+import editIcon from "../image/edit.png";  // Importez l'icône de modification
+import deleteIcon from "../image/effacer.png";  // Importez l'icône de suppression
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
@@ -16,102 +14,93 @@ const UserManagementPage = () => {
     role: "",
     status: "",
   });
-  const [password, setPassword] = useState(""); // Ajout de l'état pour le mot de passe
+  const [password, setPassword] = useState("");  // Pour stocker le mot de passe pour la vérification
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [userToDelete, setUserToDelete] = useState(null);
-  const [passwordError, setPasswordError] = useState(""); // Gestion des erreurs de mot de passe
+  const [showPasswordModal, setShowPasswordModal] = useState(false);  // Pour afficher la modale de mot de passe
+  const [userToDelete, setUserToDelete] = useState(null);  // Utilisateur en attente de suppression
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    } else {
-      const fetchUsers = async () => {
-        try {
-          const usersList = await getUsers();
-          setUsers(usersList);
-        } catch (error) {
-          setErrorMessage("Erreur lors de la récupération des utilisateurs.");
-        }
-      };
-      fetchUsers();
-    }
-  }, [navigate]);
+    const fetchUsers = async () => {
+      try {
+        const usersList = await getUsers();
+        setUsers(usersList);
+      } catch (error) {
+        setErrorMessage("Erreur lors de la récupération des utilisateurs.");
+      }
+    };
+    fetchUsers();
+  }, []);
 
-  const handleEdit = (user) => {
-    setEditingUserId(user.id); // Activer le mode édition pour cet utilisateur
+  // Gestion de l'édition d'un utilisateur
+  const handleEditClick = (user) => {
+    setEditingUserId(user.id);  // Passer en mode édition pour l'utilisateur sélectionné
     setUpdatedUser({
       email: user.email,
-      role: user.role || "",
-      status: user.status || "",
+      role: user.role,
+      status: user.status,
     });
   };
 
-  const handleChange = (e) => {
+  const handleUpdateChange = (e) => {
     const { name, value } = e.target;
-    setUpdatedUser((prevUser) => ({
-      ...prevUser,
+    setUpdatedUser((prevState) => ({
+      ...prevState,
       [name]: value,
     }));
   };
 
-  const handleSave = async () => {
+  const handleSaveEdit = async () => {
     try {
-      await updateUser(editingUserId, updatedUser);
-      setSuccessMessage("Utilisateur mis à jour avec succès");
-      setEditingUserId(null); // Sortir du mode édition après sauvegarde
+      await updateUser(editingUserId, updatedUser);  // Appel API pour mettre à jour l'utilisateur
+      setUsers(users.map((user) => 
+        user.id === editingUserId ? { ...user, ...updatedUser } : user
+      ));  // Mettre à jour l'utilisateur localement
+      setSuccessMessage("Utilisateur mis à jour avec succès.");
+      setEditingUserId(null);  // Sortir du mode édition
     } catch (error) {
       setErrorMessage("Erreur lors de la mise à jour de l'utilisateur.");
     }
   };
 
-  // Ouvre la modale de confirmation de suppression
-  const openDeleteModal = (user) => {
-    setUserToDelete(user); // Stocker l'utilisateur à supprimer
-    setShowDeleteModal(true); // Afficher la modale de suppression
+  const handleDeleteClick = (user) => {
+    setUserToDelete(user);  // Stocker l'utilisateur à supprimer
+    setShowPasswordModal(true);  // Afficher la modale pour la saisie du mot de passe
   };
 
-  // Ferme la modale de confirmation de suppression
-  const closeDeleteModal = () => {
-    setShowDeleteModal(false); // Fermer la modale
-    setUserToDelete(null); // Réinitialiser l'utilisateur à supprimer
-    setPassword(""); // Réinitialiser le mot de passe après fermeture
-    setPasswordError(""); // Réinitialiser l'erreur de mot de passe
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);  // Mettre à jour l'état du mot de passe
   };
 
-  const handleDelete = async () => {
+  const handleDeleteConfirm = async () => {
     try {
-      const adminPassword = prompt("Veuillez entrer votre mot de passe pour confirmer la suppression.");
-      if (!adminPassword) {
-        setErrorMessage("La suppression a été annulée.");
+      const isPasswordValid = await verifyPassword(password);
+      
+      if (!isPasswordValid) {
+        setErrorMessage("Mot de passe incorrect.");
         return;
       }
-  
-      // Envoyer la requête de suppression avec le mot de passe de l'admin
-      await deleteUserWithAdminPasswordCheck({
-        targetUserId: userToDelete.id,
-        adminPassword,
-      });
-  
-      setUsers(users.filter((user) => user.id !== userToDelete.id)); // Supprimer l'utilisateur de la liste
+
+      // Si le mot de passe est correct, supprimer l'utilisateur
+      await deleteUser(userToDelete.id);
+      setUsers(users.filter((user) => user.id !== userToDelete.id));  // Supprimer l'utilisateur de la liste
       setSuccessMessage("Utilisateur supprimé avec succès.");
-      closeDeleteModal(); // Fermer la modale de suppression
+      setShowPasswordModal(false);  // Fermer la modale après suppression
+      setPassword("");  // Réinitialiser le mot de passe
     } catch (error) {
       setErrorMessage("Erreur lors de la suppression de l'utilisateur.");
     }
   };
+
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="user-management-page" data-cy="user-management-page">
-      <h1 data-cy="page-title">Liste des utilisateurs</h1>
+    <div className="user-management-page">
+      <h1>Gestion des utilisateurs</h1>
 
-      {/* Barre de recherche */}
       <div className="search-container">
         <input
           type="text"
@@ -119,160 +108,100 @@ const UserManagementPage = () => {
           className="search-input"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          data-cy="search-input"
         />
-        <button className="search-button" data-cy="search-button">
-          Chercher
-        </button>
       </div>
 
-      {errorMessage && (
-        <p className="error-message" data-cy="error-message">
-          {errorMessage}
-        </p>
-      )}
-      {successMessage && (
-        <p className="success-message" data-cy="success-message">
-          {successMessage}
-        </p>
-      )}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
 
-      {/* Affichage d'un message si aucun utilisateur trouvé */}
-      {filteredUsers.length === 0 ? (
-        <p data-cy="no-user-found" className="no-user-found">
-          Aucun utilisateur trouvé pour cette recherche.
-        </p>
-      ) : (
-        <table data-cy="users-table">
-          <thead>
-            <tr>
-              <th>Email</th>
-              <th>Rôle</th>
-              <th>Statut</th>
-              <th>Actions</th>
+      <table className="users-table">
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Rôle</th>
+            <th>Statut</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredUsers.map((user) => (
+            <tr key={user.id}>
+              <td>
+                {editingUserId === user.id ? (
+                  <input 
+                    type="text" 
+                    name="email" 
+                    value={updatedUser.email} 
+                    onChange={handleUpdateChange} 
+                  />
+                ) : (
+                  user.email
+                )}
+              </td>
+              <td>
+                {editingUserId === user.id ? (
+                  <select
+                    name="role"
+                    value={updatedUser.role}
+                    onChange={handleUpdateChange}
+                  >
+                    <option value="user">Utilisateur</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                ) : (
+                  user.role
+                )}
+              </td>
+              <td>
+                {editingUserId === user.id ? (
+                  <select
+                    name="status"
+                    value={updatedUser.status}
+                    onChange={handleUpdateChange}
+                  >
+                    <option value="active">Actif</option>
+                    <option value="inactive">Inactif</option>
+                  </select>
+                ) : (
+                  user.status
+                )}
+              </td>
+              <td>
+                {editingUserId === user.id ? (
+                  <button onClick={handleSaveEdit}>
+                    <img src={editIcon} alt="Enregistrer" className="icon" /> Enregistrer
+                  </button>
+                ) : (
+                  <button onClick={() => handleEditClick(user)}>
+                    <img src={editIcon} alt="Modifier" className="icon" /> Éditer
+                  </button>
+                )}
+                <button onClick={() => handleDeleteClick(user)}>
+                  <img src={deleteIcon} alt="Supprimer" className="icon" /> Supprimer
+                </button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user.id} data-cy={`user-row-${user.id}`}>
-                <td>
-                  {editingUserId === user.id ? (
-                    <input
-                      type="text"
-                      name="email"
-                      value={updatedUser.email}
-                      onChange={handleChange}
-                      data-cy={`edit-email-${user.id}`}
-                    />
-                  ) : (
-                    user.email
-                  )}
-                </td>
-                <td>
-                  {editingUserId === user.id ? (
-                    <select
-                      name="role"
-                      value={updatedUser.role}
-                      onChange={handleChange}
-                    >
-                      <option value="">Sélectionner un rôle</option>
-                      <option value="admin">Admin</option>
-                      <option value="user">Utilisateur</option>
-                    </select>
-                  ) : (
-                    user.role
-                  )}
-                </td>
-                <td>
-                  {editingUserId === user.id ? (
-                    <select
-                      name="status"
-                      value={updatedUser.status}
-                      onChange={handleChange}
-                    >
-                      <option value="">Sélectionner un statut</option>
-                      <option value="active">Actif</option>
-                      <option value="inactive">Inactif</option>
-                    </select>
-                  ) : (
-                    user.status
-                  )}
-                </td>
-                <td>
-                  {editingUserId === user.id ? (
-                    <>
-                      <button
-                        onClick={handleSave}
-                        data-cy={`save-user-${user.id}`}
-                      >
-                        Enregistrer
-                      </button>
-                      <button
-                        onClick={() => setEditingUserId(null)}
-                        data-cy={`cancel-edit-${user.id}`}
-                      >
-                        Annuler
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => handleEdit(user)}
-                        data-cy={`edit-user-${user.id}`}
-                      >
-                        <img src={edit} alt="Modifier" className="icon" />{" "}
-                        Modifier
-                      </button>
-                      <button
-                        onClick={() => openDeleteModal(user)}
-                        data-cy={`delete-user-${user.id}`}
-                      >
-                        <img src={effacer} alt="Supprimer" className="icon" />{" "}
-                        Supprimer
-                      </button>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+          ))}
+        </tbody>
+      </table>
 
-      {/* Modale de confirmation de suppression */}
-      {showDeleteModal && (
-        <div className="modal" data-cy="delete-modal">
+      {/* Modale pour la saisie du mot de passe avant suppression */}
+      {showPasswordModal && (
+        <div className="modal">
           <div className="modal-content">
             <h3>Confirmer la suppression</h3>
             <p>
-              Voulez-vous vraiment supprimer l'utilisateur{" "}
-              {userToDelete?.email} ?
+              Veuillez saisir votre mot de passe pour confirmer la suppression
+              de l'utilisateur {userToDelete?.email}.
             </p>
-            
-            {/* Ajout du champ pour saisir le mot de passe */}
             <input
               type="password"
-              placeholder="Saisissez votre mot de passe"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}  // Mettre à jour l'état du mot de passe
-              data-cy="password-input"
-              className="password-input"
+              onChange={handlePasswordChange}
+              placeholder="Mot de passe"
             />
-
-            {passwordError && (
-              <p className="error-message" data-cy="password-error">
-                {passwordError}
-              </p>
-            )}
-
-            <button
-              onClick={handleDelete}
-              data-cy="confirm-delete"
-              disabled={!password}  // Désactiver le bouton si le mot de passe n'est pas saisi
-            >
-              Confirmer
-            </button>
-            <button onClick={closeDeleteModal} data-cy="cancel-delete">
+            <button onClick={handleDeleteConfirm}>Confirmer</button>
+            <button onClick={() => setShowPasswordModal(false)}>
               Annuler
             </button>
           </div>
