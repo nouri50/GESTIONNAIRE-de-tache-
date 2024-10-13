@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { getUsers, deleteUser, updateUser } from "../utils/api";
+import { getUsers, deleteUser, updateUser, verifyPassword } from "../utils/api"; // Importer verifyPassword
+import { deleteTask, updateTask } from '../utils/api';
+
 import { useNavigate } from "react-router-dom";
 import "../styles/UserManagementPage.css"; // Importation du CSS mis à jour
 import edit from "../image/edit.png";
@@ -19,6 +21,7 @@ const UserManagementPage = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [userToDelete, setUserToDelete] = useState(null);
+  const [passwordError, setPasswordError] = useState(""); // Gestion des erreurs de mot de passe
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -76,11 +79,23 @@ const UserManagementPage = () => {
     setShowDeleteModal(false); // Fermer la modale
     setUserToDelete(null); // Réinitialiser l'utilisateur à supprimer
     setPassword(""); // Réinitialiser le mot de passe après fermeture
+    setPasswordError(""); // Réinitialiser l'erreur de mot de passe
   };
 
   const handleDelete = async () => {
     try {
-      await deleteUser(userToDelete.id);
+      const adminPassword = prompt("Veuillez entrer votre mot de passe pour confirmer la suppression.");
+      if (!adminPassword) {
+        setErrorMessage("La suppression a été annulée.");
+        return;
+      }
+  
+      // Envoyer la requête de suppression avec le mot de passe de l'admin
+      await deleteUserWithAdminPasswordCheck({
+        targetUserId: userToDelete.id,
+        adminPassword,
+      });
+  
       setUsers(users.filter((user) => user.id !== userToDelete.id)); // Supprimer l'utilisateur de la liste
       setSuccessMessage("Utilisateur supprimé avec succès.");
       closeDeleteModal(); // Fermer la modale de suppression
@@ -88,7 +103,6 @@ const UserManagementPage = () => {
       setErrorMessage("Erreur lors de la suppression de l'utilisateur.");
     }
   };
-
   const filteredUsers = users.filter((user) =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -123,102 +137,107 @@ const UserManagementPage = () => {
         </p>
       )}
 
-
-      <table data-cy="users-table">
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Rôle</th>
-            <th>Statut</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.map((user) => (
-            <tr key={user.id} data-cy={`user-row-${user.id}`}>
-              <td>
-                {editingUserId === user.id ? (
-                  <input
-                    type="text"
-                    name="email"
-                    value={updatedUser.email}
-                    onChange={handleChange}
-                    data-cy={`edit-email-${user.id}`}
-                  />
-                ) : (
-                  user.email
-                )}
-              </td>
-              <td>
-                {editingUserId === user.id ? (
-                  <select
-                    name="role"
-                    value={updatedUser.role}
-                    onChange={handleChange}
-                  >
-                    <option value="">Sélectionner un rôle</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">Utilisateur</option>
-                  </select>
-                ) : (
-                  user.role
-                )}
-              </td>
-              <td>
-                {editingUserId === user.id ? (
-                  <select
-                    name="status"
-                    value={updatedUser.status}
-                    onChange={handleChange}
-                  >
-                    <option value="">Sélectionner un statut</option>
-                    <option value="active">Actif</option>
-                    <option value="inactive">Inactif</option>
-                  </select>
-                ) : (
-                  user.status
-                )}
-              </td>
-              <td>
-                {editingUserId === user.id ? (
-                  <>
-                    <button
-                      onClick={handleSave}
-                      data-cy={`save-user-${user.id}`}
-                    >
-                      Enregistrer
-                    </button>
-                    <button
-                      onClick={() => setEditingUserId(null)}
-                      data-cy={`cancel-edit-${user.id}`}
-                    >
-                      
-                      Annuler
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => handleEdit(user)}
-                      data-cy={`edit-user-${user.id}`}
-                    >
-                      <img src={edit} alt="Modifier" className="icon" />{" "}
-                      Modifier
-                    </button>
-                    <button
-                      onClick={() => openDeleteModal(user)}
-                      data-cy={`delete-user-${user.id}`}
-                    >
-                      <img src={effacer} alt="Supprimer" className="icon" />{" "}
-                      Supprimer
-                    </button>
-                  </>
-                )}
-              </td>
+      {/* Affichage d'un message si aucun utilisateur trouvé */}
+      {filteredUsers.length === 0 ? (
+        <p data-cy="no-user-found" className="no-user-found">
+          Aucun utilisateur trouvé pour cette recherche.
+        </p>
+      ) : (
+        <table data-cy="users-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Rôle</th>
+              <th>Statut</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filteredUsers.map((user) => (
+              <tr key={user.id} data-cy={`user-row-${user.id}`}>
+                <td>
+                  {editingUserId === user.id ? (
+                    <input
+                      type="text"
+                      name="email"
+                      value={updatedUser.email}
+                      onChange={handleChange}
+                      data-cy={`edit-email-${user.id}`}
+                    />
+                  ) : (
+                    user.email
+                  )}
+                </td>
+                <td>
+                  {editingUserId === user.id ? (
+                    <select
+                      name="role"
+                      value={updatedUser.role}
+                      onChange={handleChange}
+                    >
+                      <option value="">Sélectionner un rôle</option>
+                      <option value="admin">Admin</option>
+                      <option value="user">Utilisateur</option>
+                    </select>
+                  ) : (
+                    user.role
+                  )}
+                </td>
+                <td>
+                  {editingUserId === user.id ? (
+                    <select
+                      name="status"
+                      value={updatedUser.status}
+                      onChange={handleChange}
+                    >
+                      <option value="">Sélectionner un statut</option>
+                      <option value="active">Actif</option>
+                      <option value="inactive">Inactif</option>
+                    </select>
+                  ) : (
+                    user.status
+                  )}
+                </td>
+                <td>
+                  {editingUserId === user.id ? (
+                    <>
+                      <button
+                        onClick={handleSave}
+                        data-cy={`save-user-${user.id}`}
+                      >
+                        Enregistrer
+                      </button>
+                      <button
+                        onClick={() => setEditingUserId(null)}
+                        data-cy={`cancel-edit-${user.id}`}
+                      >
+                        Annuler
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleEdit(user)}
+                        data-cy={`edit-user-${user.id}`}
+                      >
+                        <img src={edit} alt="Modifier" className="icon" />{" "}
+                        Modifier
+                      </button>
+                      <button
+                        onClick={() => openDeleteModal(user)}
+                        data-cy={`delete-user-${user.id}`}
+                      >
+                        <img src={effacer} alt="Supprimer" className="icon" />{" "}
+                        Supprimer
+                      </button>
+                    </>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
 
       {/* Modale de confirmation de suppression */}
       {showDeleteModal && (
@@ -239,6 +258,12 @@ const UserManagementPage = () => {
               data-cy="password-input"
               className="password-input"
             />
+
+            {passwordError && (
+              <p className="error-message" data-cy="password-error">
+                {passwordError}
+              </p>
+            )}
 
             <button
               onClick={handleDelete}

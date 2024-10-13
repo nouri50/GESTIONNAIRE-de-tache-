@@ -10,14 +10,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Route pour vérifier l'heure du serveur
-app.get('/time', (req, res) => {
-  const serverTime = new Date().toLocaleString();
-  res.send(`Heure actuelle du serveur : ${serverTime}`);
-});
-
 // Définition des routes
-app.use('/api', userRoutes);  
+app.use('/api/users', userRoutes);  
 app.use('/api/auth', authRoutes);
 app.use('/api/tasks', tasksRoutes);
 

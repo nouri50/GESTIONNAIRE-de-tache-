@@ -1,4 +1,3 @@
-// backend/src/middleware/authValidator.js
 import { body, validationResult } from 'express-validator';
 
 // Validation pour l'inscription
@@ -38,3 +37,17 @@ export const validateLogin = [
     next();
   }
 ];
+export const verifyPassword = async (password) => {
+  try {
+    const token = localStorage.getItem('token'); // Assurez-vous que le token est bien récupéré
+    const response = await api.post('/auth/verify-password', { password }, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Inclure le token dans les en-têtes
+      },
+    });
+    return response.data.isValid;
+  } catch (error) {
+    console.error('Erreur lors de la vérification du mot de passe:', error);
+    throw error;
+  }
+};
