@@ -1,5 +1,5 @@
 {
-  "name": "delete_users_incorrect_password",
+  "name": "users_add_valide",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
