@@ -1,14 +1,16 @@
 import express from 'express';
-import { login, register, forgotPassword, resetPassword, verifyPassword } from '../controller/auth.controller.js';
-import { validateLogin, validateRegister } from '../middleware/authValidator.js';
-import authMiddleware from '../middleware/authMiddleware.js';
-
+import { forgotPassword, resetPassword, login, register } from '../controller/auth.controller.js';
+import { deleteOwnAccount } from '../controller/user.controller.js';
+import authMiddleware from '../middleware/authMiddleware.js'; // Assure-toi que cet import est bien présent
 const router = express.Router();
 
-router.post('/login', validateLogin, login);
-router.post('/register', validateRegister, register);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
-router.post('/verify-password', authMiddleware, verifyPassword);
+router.post('/login', login);
+router.post('/register', register);
+
+// Route pour que l'utilisateur connecté puisse supprimer son propre compte
+
+
 
 export default router;
