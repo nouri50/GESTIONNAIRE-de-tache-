@@ -1,24 +1,18 @@
 import jwt from 'jsonwebtoken';
 
 const authMiddleware = (req, res, next) => {
-  const authHeader = req.header('Authorization');
-  
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  const token = req.header('Authorization').replace('Bearer ', '');
+
+  if (!token) {
     return res.status(401).json({ message: 'Accès refusé. Token manquant.' });
   }
 
-  const token = authHeader.replace('Bearer ', '');
-
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;  // Stocke l'ID utilisateur décodé dans req.user
-    next();
+    req.user = decoded;  // Stocke les informations décodées du token dans req.user
+    next();  // Continue avec l'exécution de la prochaine fonction middleware
   } catch (error) {
-    if (error.name === 'TokenExpiredError') {
-      return res.status(401).json({ message: 'Votre session a expiré. Veuillez vous reconnecter.' });
-    } else {
-      return res.status(400).json({ message: 'Token invalide.' });
-    }
+    res.status(400).json({ message: 'Token invalide.' });
   }
 };
 
