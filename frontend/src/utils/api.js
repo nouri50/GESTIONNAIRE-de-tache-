@@ -1,51 +1,30 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';  // Importation correcte
 
 const api = axios.create({
-  baseURL: 'http://localhost:5001/api',
+  baseURL: 'http://localhost:5001/api',  // Base URL de votre backend
   headers: {
     'Content-Type': 'application/json',
   }
 });
 
-// Vérification de l'expiration du token
-const checkTokenExpiration = () => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    try {
-      const decodedToken = jwtDecode(token);  // Appel correct à jwtDecode
-      const currentTime = Date.now() / 1000;  // Temps actuel en secondes
-
-      if (decodedToken.exp < currentTime) {
-        alert('Votre session a expiré. Veuillez vous reconnecter.');
-        localStorage.removeItem('token');
-        window.location.href = '/login';  // Redirection vers la page de connexion
+// Intercepteur pour ajouter un token, sauf pour les routes d'authentification
+api.interceptors.request.use(
+  (config) => {
+    // Ne pas vérifier le token pour l'inscription ou la connexion
+    if (!config.url.includes('/auth/register') && !config.url.includes('/auth/login')) {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+        console.log('Token envoyé:', token);  // Loguez le token envoyé
+      } else {
+        console.warn('Token manquant');  // Ceci ne devrait pas se produire après authentification
       }
-    } catch (error) {
-      console.error('Erreur lors de la vérification du token :', error);
-      localStorage.removeItem('token');
-      window.location.href = '/login';  // Redirection vers la page de connexion
     }
-  }
-};
-
-// Interception pour ajouter le token d'authentification
-// Interception pour ajouter le token d'authentification
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
-  console.log('Token envoyé:', token);  // Loguez le token envoyé
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  } else {
-    console.error('Token manquant');
-  }
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
-
-
-
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+// ==================== Gestion des Tâches ====================
 
 // Récupérer toutes les tâches
 export const getTasks = async () => {
@@ -70,10 +49,6 @@ export const updateTask = async (taskId, taskData) => {
 };
 
 // Supprimer une tâche
-
-
-
-// Supprimer une tâche
 export const deleteTask = async (taskId) => {
   try {
     await api.delete(`/tasks/${taskId}`);
@@ -96,17 +71,6 @@ export const getUsers = async () => {
   }
 };
 
-// Supprimer un utilisateur
-export const deleteUser = async (userId) => {
-  try {
-    const response = await api.delete(`/users/${userId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Erreur lors de la suppression de l\'utilisateur', error);
-    throw error;
-  }
-};
-
 // Mettre à jour un utilisateur
 export const updateUser = async (userId, updatedData) => {
   try {
@@ -114,6 +78,17 @@ export const updateUser = async (userId, updatedData) => {
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la mise à jour de l\'utilisateur', error);
+    throw error;
+  }
+};
+
+// Supprimer un utilisateur
+export const deleteUser = async (userId) => {
+  try {
+    const response = await api.delete(`/users/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la suppression de l\'utilisateur', error);
     throw error;
   }
 };
@@ -135,8 +110,7 @@ export const signup = async (userData) => {
 export const login = async (credentials) => {
   try {
     const response = await api.post('/auth/login', credentials);
-    console.log('Réponse de la connexion:', response.data); // Log de la réponse
-    return response.data;  // Retourne les données de connexion (y compris le token)
+    return response.data;
   } catch (error) {
     console.error('Erreur lors de la connexion:', error);
     throw error;
@@ -167,19 +141,10 @@ export const changePassword = async (passwordData) => {
   }
 };
 
-// Fonction pour supprimer un utilisateur avec vérification du mot de passe
+// Supprimer un utilisateur avec vérification du mot de passe
 export const deleteUserWithPasswordCheck = async (userId, password) => {
   try {
-    const token = localStorage.getItem('token');
-    const response = await axios.post(
-      `${API_URL}/users/delete-with-password`,
-      { userId, password },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await api.post('/users/delete-with-password', { userId, password });
     return response.data;
   } catch (error) {
     throw error;

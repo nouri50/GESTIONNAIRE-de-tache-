@@ -5,9 +5,11 @@ import '../styles/TaskPage.css';
 import '../styles/Header.css';
 import '../styles/Footer.css'; 
 import '../styles/background.css';
+
 const TaskPage = () => {
   const [task, setTask] = useState({ title: '', description: '', status: 'pending' });
   const [message, setMessage] = useState('');
+  const [messageType, setMessageType] = useState(''); // Ajout d'un état pour le type de message
   const navigate = useNavigate();
 
   const addTask = async (taskData) => {
@@ -25,12 +27,14 @@ const TaskPage = () => {
       });
       console.log('Tâche ajoutée :', response.data);
       setMessage('Tâche ajoutée avec succès.');
+      setMessageType('success'); // Définir le type de message à 'success'
       setTimeout(() => {
         navigate('/gestion-taches');
       }, 2000);
     } catch (error) {
       console.error('Erreur lors de l\'ajout de la tâche', error);
       setMessage('Erreur lors de l\'ajout de la tâche.');
+      setMessageType('error'); // Définir le type de message à 'error'
     }
   };
 
@@ -77,7 +81,14 @@ const TaskPage = () => {
           </select>
           <button type="submit" data-cy="task-submit-button">Ajouter Tâche</button>
         </form>
-        {message && <p data-cy="task-message">{message}</p>}
+        {message && (
+          <p
+            data-cy="task-message"
+            className={messageType === 'success' ? 'success-message' : 'error-message'}
+          >
+            {message}
+          </p>
+        )}
       </div>
     </div>
   );
