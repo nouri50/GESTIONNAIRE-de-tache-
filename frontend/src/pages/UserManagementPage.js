@@ -1,91 +1,91 @@
-import React, { useState, useEffect } from "react";
-import { getUsers, deleteUser, updateUser } from "../utils/api";
-import { useNavigate } from "react-router-dom";
-import "../styles/UserManagementPage.css"; // Importation du CSS mis à jour
-import edit from "../image/edit.png";
-import effacer from "../image/effacer.png";
+import React, { useEffect, useState } from 'react';
+import { getUsers, updateUser, deleteUserWithPasswordCheck } from '../utils/api.js';
+import { FaEdit, FaTrash } from 'react-icons/fa';
+import '../styles/UserManagementPage.css';
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [editingUserId, setEditingUserId] = useState(null);
-  const [updatedUser, setUpdatedUser] = useState({
-    email: "",
-    role: "",
-    status: "",
-  });
-  const [password, setPassword] = useState(""); // Ajout de l'état pour le mot de passe
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [adminPassword, setAdminPassword] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [userToDelete, setUserToDelete] = useState(null);
-  const navigate = useNavigate();
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editedEmail, setEditedEmail] = useState('');
+  const [editedRole, setEditedRole] = useState('');
+  const [editedStatus, setEditedStatus] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/login");
-    } else {
-      const fetchUsers = async () => {
-        try {
-          const usersList = await getUsers();
-          setUsers(usersList);
-        } catch (error) {
-          setErrorMessage("Erreur lors de la récupération des utilisateurs.");
-        }
-      };
-      fetchUsers();
-    }
-  }, [navigate]);
+    const fetchUsers = async () => {
+      try {
+        const usersData = await getUsers();
+        setUsers(usersData);
+      } catch (error) {
+        setErrorMessage('Erreur lors de la récupération des utilisateurs.');
+      }
+    };
+    fetchUsers();
+  }, []);
 
-  const handleEdit = (user) => {
-    setEditingUserId(user.id); // Activer le mode édition pour cet utilisateur
-    setUpdatedUser({
-      email: user.email,
-      role: user.role || "",
-      status: user.status || "",
-    });
+  const openDeleteModal = (userId) => {
+    setSelectedUserId(userId);
+    setShowDeleteModal(true);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setUpdatedUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
-  };
-
-  const handleSave = async () => {
-    try {
-      await updateUser(editingUserId, updatedUser);
-      setSuccessMessage("Utilisateur mis à jour avec succès");
-      setEditingUserId(null); // Sortir du mode édition après sauvegarde
-    } catch (error) {
-      setErrorMessage("Erreur lors de la mise à jour de l'utilisateur.");
-    }
-  };
-
-  // Ouvre la modale de confirmation de suppression
-  const openDeleteModal = (user) => {
-    setUserToDelete(user); // Stocker l'utilisateur à supprimer
-    setShowDeleteModal(true); // Afficher la modale de suppression
-  };
-
-  // Ferme la modale de confirmation de suppression
   const closeDeleteModal = () => {
-    setShowDeleteModal(false); // Fermer la modale
-    setUserToDelete(null); // Réinitialiser l'utilisateur à supprimer
-    setPassword(""); // Réinitialiser le mot de passe après fermeture
+    setShowDeleteModal(false);
+    setAdminPassword('');
+    setErrorMessage('');
   };
 
-  const handleDelete = async () => {
+  const handleDeleteUser = async () => {
+    if (!adminPassword) {
+      setErrorMessage('Veuillez entrer le mot de passe.');
+      return;
+    }
     try {
-      await deleteUser(userToDelete.id);
-      setUsers(users.filter((user) => user.id !== userToDelete.id)); // Supprimer l'utilisateur de la liste
-      setSuccessMessage("Utilisateur supprimé avec succès.");
-      closeDeleteModal(); // Fermer la modale de suppression
+      const response = await deleteUserWithPasswordCheck(selectedUserId, adminPassword);
+      setSuccessMessage(response.message);
+      setErrorMessage('');
+      setShowDeleteModal(false);
+      setUsers(users.filter((user) => user.id !== selectedUserId));
     } catch (error) {
-      setErrorMessage("Erreur lors de la suppression de l'utilisateur.");
+      setErrorMessage(error.response?.data?.message || 'Erreur lors de la suppression.');
+    }
+  };
+
+  const openEditModal = (user) => {
+    setSelectedUserId(user.id);
+    setEditedEmail(user.email);
+    setEditedRole(user.role);
+    setEditedStatus(user.status);
+    setShowEditModal(true);
+  };
+
+  const closeEditModal = () => {
+    setShowEditModal(false);
+    setEditedEmail('');
+    setEditedRole('');
+    setEditedStatus('');
+    setErrorMessage('');
+  };
+
+  const handleEditUser = async () => {
+    try {
+      const response = await updateUser(selectedUserId, {
+        email: editedEmail,
+        role: editedRole,
+        status: editedStatus,
+      });
+      setSuccessMessage(response.message);
+      setErrorMessage('');
+      setShowEditModal(false);
+      setUsers(users.map((user) =>
+        user.id === selectedUserId ? { ...user, email: editedEmail, role: editedRole, status: editedStatus } : user
+      ));
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Erreur lors de la modification.');
     }
   };
 
@@ -94,39 +94,21 @@ const UserManagementPage = () => {
   );
 
   return (
-    <div className="user-management-page" data-cy="user-management-page">
-      <h1 data-cy="page-title">Liste des utilisateurs</h1>
-
-      {/* Barre de recherche */}
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Rechercher un utilisateur..."
-          className="search-input"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          data-cy="search-input"
-        />
-        <button className="search-button" data-cy="search-button">
-          Chercher
-        </button>
-      </div>
-
-      {errorMessage && (
-        <p className="error-message" data-cy="error-message">
-          {errorMessage}
-        </p>
-      )}
-      {successMessage && (
-        <p className="success-message" data-cy="success-message">
-          {successMessage}
-        </p>
-      )}
-
-
-      <table data-cy="users-table">
+    <div className="container">
+      <h1>Gestion des utilisateurs</h1>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+      <input
+        type="text"
+        className="search-input"
+        placeholder="Rechercher un utilisateur..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Email</th>
             <th>Rôle</th>
             <th>Statut</th>
@@ -134,122 +116,77 @@ const UserManagementPage = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map((user) => (
-            <tr key={user.id} data-cy={`user-row-${user.id}`}>
-              <td>
-                {editingUserId === user.id ? (
-                  <input
-                    type="text"
-                    name="email"
-                    value={updatedUser.email}
-                    onChange={handleChange}
-                    data-cy={`edit-email-${user.id}`}
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user) => (
+              <tr key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.email}</td>
+                <td>{user.role}</td>
+                <td>{user.status}</td>
+                <td>
+                  <FaEdit
+                    className="icon"
+                    onClick={() => openEditModal(user)}
                   />
-                ) : (
-                  user.email
-                )}
-              </td>
-              <td>
-                {editingUserId === user.id ? (
-                  <select
-                    name="role"
-                    value={updatedUser.role}
-                    onChange={handleChange}
-                  >
-                    <option value="">Sélectionner un rôle</option>
-                    <option value="admin">Admin</option>
-                    <option value="user">Utilisateur</option>
-                  </select>
-                ) : (
-                  user.role
-                )}
-              </td>
-              <td>
-                {editingUserId === user.id ? (
-                  <select
-                    name="status"
-                    value={updatedUser.status}
-                    onChange={handleChange}
-                  >
-                    <option value="">Sélectionner un statut</option>
-                    <option value="active">Actif</option>
-                    <option value="inactive">Inactif</option>
-                  </select>
-                ) : (
-                  user.status
-                )}
-              </td>
-              <td>
-                {editingUserId === user.id ? (
-                  <>
-                    <button
-                      onClick={handleSave}
-                      data-cy={`save-user-${user.id}`}
-                    >
-                      Enregistrer
-                    </button>
-                    <button
-                      onClick={() => setEditingUserId(null)}
-                      data-cy={`cancel-edit-${user.id}`}
-                    >
-                      
-                      Annuler
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => handleEdit(user)}
-                      data-cy={`edit-user-${user.id}`}
-                    >
-                      <img src={edit} alt="Modifier" className="icon" />{" "}
-                      Modifier
-                    </button>
-                    <button
-                      onClick={() => openDeleteModal(user)}
-                      data-cy={`delete-user-${user.id}`}
-                    >
-                      <img src={effacer} alt="Supprimer" className="icon" />{" "}
-                      Supprimer
-                    </button>
-                  </>
-                )}
+                  <FaTrash
+                    className="icon"
+                    onClick={() => openDeleteModal(user.id)}
+                  />
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" className="no-results">
+                Aucun utilisateur trouvé.
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
-      {/* Modale de confirmation de suppression */}
       {showDeleteModal && (
-        <div className="modal" data-cy="delete-modal">
+        <div className="modal">
           <div className="modal-content">
-            <h3>Confirmer la suppression</h3>
-            <p>
-              Voulez-vous vraiment supprimer l'utilisateur{" "}
-              {userToDelete?.email} ?
-            </p>
-            
-            {/* Ajout du champ pour saisir le mot de passe */}
+            <h2>Mot de passe administrateur requis</h2>
             <input
               type="password"
-              placeholder="Saisissez votre mot de passe"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}  // Mettre à jour l'état du mot de passe
-              data-cy="password-input"
-              className="password-input"
+              placeholder="Mot de passe administrateur"
+              value={adminPassword}
+              onChange={(e) => setAdminPassword(e.target.value)}
             />
+            <button className="confirm-button" onClick={handleDeleteUser}>Confirmer la suppression</button>
+            <button className="cancel-button" onClick={closeDeleteModal}>Annuler</button>
+          </div>
+        </div>
+      )}
 
-            <button
-              onClick={handleDelete}
-              data-cy="confirm-delete"
-              disabled={!password}  // Désactiver le bouton si le mot de passe n'est pas saisi
+      {showEditModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Modifier l'utilisateur</h2>
+            <input
+              type="email"
+              placeholder="Email"
+              value={editedEmail}
+              onChange={(e) => setEditedEmail(e.target.value)}
+            />
+            <select
+              value={editedRole}
+              onChange={(e) => setEditedRole(e.target.value)}
             >
-              Confirmer
-            </button>
-            <button onClick={closeDeleteModal} data-cy="cancel-delete">
-              Annuler
-            </button>
+              <option value="user">Utilisateur</option>
+              <option value="admin">Administrateur</option>
+            </select>
+            <select
+              value={editedStatus}
+              onChange={(e) => setEditedStatus(e.target.value)}
+            >
+              <option value="active">Actif</option>
+              <option value="inactive">Inactif</option>
+            </select>
+            <button className="confirm-button" onClick={handleEditUser}>Enregistrer les modifications</button>
+            <button className="cancel-button" onClick={closeEditModal}>Annuler</button>
           </div>
         </div>
       )}

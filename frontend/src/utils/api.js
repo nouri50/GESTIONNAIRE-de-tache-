@@ -166,3 +166,22 @@ export const changePassword = async (passwordData) => {
     throw error;
   }
 };
+
+// Fonction pour supprimer un utilisateur avec vérification du mot de passe
+export const deleteUserWithPasswordCheck = async (userId, password) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.post(
+      `${API_URL}/users/delete-with-password`,
+      { userId, password },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

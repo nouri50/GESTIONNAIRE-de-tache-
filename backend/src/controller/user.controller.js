@@ -83,4 +83,38 @@ export const updateUser = async (req, res) => {
   }
 };
 
-// Exports
+export const deleteUserWithPasswordCheck = async (req, res) => {
+  const { userId, password } = req.body;
+  const loggedInUserId = req.user.id;
+
+  try {
+    // Trouver l'utilisateur connecté
+    const loggedInUser = await User.findByPk(loggedInUserId);
+    if (!loggedInUser) {
+      return res.status(404).json({ message: 'Utilisateur connecté non trouvé.' });
+    }
+
+    // Vérifier si le mot de passe est correct
+    const isPasswordValid = await bcrypt.compare(password, loggedInUser.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Mot de passe incorrect.' });
+    }
+
+    // Trouver l'utilisateur à supprimer
+    const userToDelete = await User.findByPk(userId);
+    if (!userToDelete) {
+      return res.status(404).json({ message: 'Utilisateur à supprimer non trouvé.' });
+    }
+
+    // Vérifier le statut de l'utilisateur avant suppression
+    if (userToDelete.status !== 'active') {
+      return res.status(400).json({ message: 'Impossible de supprimer un utilisateur inactif.' });
+    }
+
+    await userToDelete.destroy();
+    res.status(200).json({ message: 'Utilisateur supprimé avec succès.' });
+  } catch (error) {
+    console.error('Erreur lors de la suppression de l\'utilisateur :', error);
+    res.status(500).json({ message: 'Erreur serveur lors de la suppression de l\'utilisateur.' });
+  }
+};
