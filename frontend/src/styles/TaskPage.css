@@ -1,126 +1,136 @@
-/* Styles de base pour la page */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  color: #333;
+body, html {
   margin: 0;
-  padding: 20px;
-}
-
-h1 {
-  font-size: 2em;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* Styles pour les messages de succès et d'erreur */
-p {
-  margin: 0 0 15px;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-p[style*="color: red"] {
-  background-color: #ffdddd;
-  border: 1px solid #ff5c5c;
-}
-
-p[style*="color: green"] {
-  background-color: #ddffdd;
-  border: 1px solid #5cff5c;
-}
-
-/* Styles pour la table */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
-  background-color: #fff;
-}
-
-th, td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-th {
-  background-color: #007bff;
-  color: white;
-}
-
-td {
-  vertical-align: middle;
-}
-
-tr:hover {
-  background-color: #f1f1f1;
-}
-
-/* Styles pour les icônes */
-td img {
-  cursor: pointer;
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-}
-
-/* Styles de la modal */
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+  padding: 0;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  font-family: Arial, sans-serif;
+  background-color: #e6f0ff;
+  padding-top: 20px; /* Ajoute de l'espace en haut pour donner de la "respiration" */
 }
 
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+.page-container {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Espace entre les champs de formulaire */
+  min-height: 100vh;
+  padding-bottom: 120px; /* Ajoute plus d'espace pour le footer */
+  justify-content: center;
+  align-items: center;
+  padding: 20px; /* Ajoute un espace autour de la page pour plus de confort visuel */
 }
 
-.buttons-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px; /* Espace entre les boutons */
-}
-
-.buttons-container .save-button {
-  background-color: #007bff; /* Bleu pour le bouton "Enregistrer" */
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  flex: 1;
-}
-
-.buttons-container .cancel-button {
-  background-color: #ff4d4d; /* Rouge pour le bouton "Annuler" */
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  flex: 1;
-}
-.search-input {
+.main-content {
+  background-color: white;
+  width: 100%;
+  max-width: 500px; /* Réduit la largeur maximale pour éviter les dépassements */
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  box-sizing: border-box; /* Assurez-vous que la largeur inclut le padding et les bordures */
   padding: 10px;
-  width: 300px; /* Ajustez la largeur comme souhaité */
-  border-radius: 4px;
-  display: block; /* Pour centrer le champ */
-  margin: 0 auto; /* Centrage horizontal */
+  margin: 10px 0; /* Espacement entre les champs */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+textarea {
+  resize: vertical; /* Permet de redimensionner seulement en vertical */
+  height: 80px; /* Ajuste la hauteur initiale pour être plus cohérente */
+}
+
+button {
+  background-color: #007aff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #005bb5;
+  transform: scale(1.05);
+}
+
+footer {
+  background-color: #007AFF;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.error-section {
+  margin-top: 20px;
+  text-align: center;
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Media Queries */
+
+/* Petits écrans */
+@media (max-width: 600px) {
+  .main-content {
+    width: 95%;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+}
+
+/* Tablettes et écrans moyens */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .main-content {
+    width: 85%;
+    padding: 30px;
+    margin: 30px auto;
+  }
+
+  button {
+    font-size: 15px;
+    padding: 12px 18px;
+  }
+}
+
+/* Grands écrans */
+@media (min-width: 1025px) {
+  .main-content {
+    max-width: 600px;
+    padding: 40px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 14px 20px;
+  }
 }

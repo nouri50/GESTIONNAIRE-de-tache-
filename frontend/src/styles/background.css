@@ -4,24 +4,61 @@ body, html {
   height: 100%;
   font-family: Arial, sans-serif;
   background-color: #e6f0ff;
+  padding-top: 20px; /* Ajoute de l'espace en haut pour donner de la "respiration" */
 }
 
 .page-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 80px; /* Ajoute un espace pour le footer */
+  padding-bottom: 120px; /* Ajoute plus d'espace pour le footer */
   justify-content: center;
   align-items: center;
+  padding: 20px; /* Ajoute un espace autour de la page pour plus de confort visuel */
 }
 
 .main-content {
   background-color: white;
   width: 100%;
-  max-width: 1000px;
-  padding: 20px;
+  max-width: 500px; /* Réduit la largeur maximale pour éviter les dépassements */
+  padding: 30px;
   border-radius: 20px;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 100%;
+  box-sizing: border-box; /* Assurez-vous que la largeur inclut le padding et les bordures */
+  padding: 10px;
+  margin: 10px 0; /* Espacement entre les champs */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+textarea {
+  resize: vertical; /* Permet de redimensionner seulement en vertical */
+  height: 80px; /* Ajuste la hauteur initiale pour être plus cohérente */
+}
+
+button {
+  background-color: #007aff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #005bb5;
+  transform: scale(1.05);
 }
 
 footer {
@@ -37,42 +74,24 @@ footer {
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.error-section {
-  margin-top: 20px;
-  text-align: center;
-  position: fixed;
-  bottom: 10px;
-  left: 0;
-  width: 100%;
-  background-color: rgba(255, 0, 0, 0.1);
-  padding: 10px;
-}
-
 .error-message {
-  color: red;
+  color: #ff4d4d; /* Rouge vif pour attirer l'attention */
   font-size: 16px;
   font-weight: bold;
-}
-
-button {
-  background-color: #007aff;
-  color: white;
-  border: none;
-  padding: 10px 15px;
+  background-color: rgba(255, 0, 0, 0.1); /* Fond légèrement rouge */
+  padding: 10px;
   border-radius: 5px;
+  margin-top: 15px;
+}
+
+.success-message {
+  color: #4caf50; /* Vert pour signaler le succès */
   font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #005bb5;
-}
-
-img {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
+  font-weight: bold;
+  background-color: rgba(76, 175, 80, 0.1); /* Fond légèrement vert */
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 15px;
 }
 
 /* Media Queries */
@@ -80,56 +99,41 @@ img {
 /* Petits écrans */
 @media (max-width: 600px) {
   .main-content {
-    width: 90%;
-    padding: 15px;
-    margin: 10px auto;
+    width: 95%;
+    padding: 20px;
+    margin: 20px auto;
     border-radius: 10px;
   }
 
   button {
     font-size: 14px;
-    padding: 8px 12px;
-  }
-
-  img {
-    width: 20px;
-    height: 20px;
+    padding: 10px 15px;
   }
 }
 
 /* Tablettes et écrans moyens */
 @media (min-width: 601px) and (max-width: 1024px) {
   .main-content {
-    width: 90%;
-    padding: 20px;
-    margin: 20px auto;
+    width: 85%;
+    padding: 30px;
+    margin: 30px auto;
   }
 
   button {
     font-size: 15px;
-    padding: 9px 14px;
-  }
-
-  img {
-    width: 22px;
-    height: 22px;
+    padding: 12px 18px;
   }
 }
 
 /* Grands écrans */
 @media (min-width: 1025px) {
   .main-content {
-    max-width: 1000px;
-    padding: 25px;
+    max-width: 600px;
+    padding: 40px;
   }
 
   button {
     font-size: 16px;
-    padding: 10px 15px;
-  }
-
-  img {
-    width: 24px;
-    height: 24px;
+    padding: 14px 20px;
   }
 }

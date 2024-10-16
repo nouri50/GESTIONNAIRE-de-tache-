@@ -1,18 +1,22 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const authMiddleware = (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
+  const authHeader = req.headers.authorization;
 
-  if (!token) {
-    return res.status(401).json({ message: 'Accès refusé. Token manquant.' });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;  // Stocke les informations décodées du token dans req.user
-    next();  // Continue avec l'exécution de la prochaine fonction middleware
-  } catch (error) {
-    res.status(400).json({ message: 'Token invalide.' });
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    const token = authHeader.replace('Bearer ', '');
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Token invalide.' });
+    }
+  } else {
+    return res.status(401).json({ message: 'Token manquant.' });
   }
 };
 
