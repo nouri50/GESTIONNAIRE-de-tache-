@@ -23,8 +23,14 @@ const User = sequelize.define('User', {
     type: DataTypes.DATE,
     allowNull: true,
   },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: 'active',
+  },
 }, {
-  timestamps: false,  // Désactive l'utilisation automatique de createdAt et updatedAt
+  timestamps: false,  // Active l'utilisation automatique de createdAt et updatedAt
+  createdAt: 'created_at',  // Renomme le champ createdAt en created_at
+  updatedAt: 'updated_at',  // Renomme le champ updatedAt en updated_at
 });
 
 export default User;
