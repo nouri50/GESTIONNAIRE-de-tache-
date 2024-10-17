@@ -1,7 +1,7 @@
 /* Centrage du conteneur de connexion */
 .login-container {
   width: 100%;
-  max-width: 400px;
+  max-width: 500px; /* Augmenté à 500px pour plus de largeur */
   margin: 50px auto;
   padding: 20px;
   background-color: white;

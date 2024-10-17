@@ -1,46 +1,50 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
+import crypto from 'crypto'; // Utilisez directement 'crypto' intégré dans Node.js
 import { Op } from 'sequelize'; // Import de Op pour les opérateurs Sequelize
 import User from '../model/user.model.js';
 import { sendResetEmail } from '../utils/mailer.js'; // Correct import
 
 // Inscription
+// Contrôleur pour l'inscription d'un utilisateur
 export const register = async (req, res) => {
   const { email, password } = req.body;
-  if (password.length < 6 || password.length > 15) {
-    return res.status(400).json({ message: "Le mot de passe doit contenir entre 6 et 15 caractères." });
-  }
 
   try {
-    const existingUser = await User.findOne({ where: { email } });
-    if (existingUser) {
-      return res.status(400).json({ message: "Cet email est déjà utilisé." });
-    }
-
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({ email, password: hashedPassword });
-    res.status(201).json({ message: "Inscription réussie", user: newUser });
+    res.status(201).json({ message: 'Utilisateur créé avec succès.' });
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de l'inscription." });
+    res.status(500).json({ message: 'Erreur lors de la création de l’utilisateur.' });
   }
 };
 
-// Connexion
 export const login = async (req, res) => {
   const { email, password } = req.body;
+
   try {
     const user = await User.findOne({ where: { email } });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ message: 'Email ou mot de passe incorrect.' });
+    if (!user) {
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Mot de passe incorrect.' });
+    }
+
+    const token = jwt.sign(
+      { id: user.id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' } // Expiration du token
+    );
+
     res.status(200).json({ token });
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de la connexion.' });
   }
 };
+// Connexion
 
 // Réinitialiser mot de passe
 export const resetPassword = async (req, res) => {
