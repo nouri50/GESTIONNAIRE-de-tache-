@@ -38,6 +38,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         <label>Email</label>
         <input
           type="email"
+          data-testid="login-email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -45,15 +46,14 @@ const LoginPage = ({ setIsLoggedIn }) => {
         <label>Mot de passe</label>
         <input
           type="password"
+          data-testid="login-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Connexion</button>
+        <button type="submit" data-testid="login-submit">Connexion</button>
       </form>
-      <Link to="/forgot-password" className="forgot-password-link">
-        Mot de passe oublié ?
-      </Link> {/* Lien vers la page de réinitialisation du mot de passe */}
+      <Link to="/signup" className="signup-link" data-testid="signup-link">Créer un compte</Link>
     </div>
   );
 };

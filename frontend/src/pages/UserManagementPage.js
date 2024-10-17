@@ -3,6 +3,8 @@ import { getUsers, updateUser, deleteUserWithPasswordCheck } from '../utils/api.
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import '../styles/UserManagementPage.css';
 import '../styles/Header.css';
+import '../styles/Footer.css';
+import '../styles/background.css'
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
