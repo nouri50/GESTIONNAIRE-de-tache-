@@ -3,7 +3,7 @@ body, html {
   padding: 0;
   height: 100%;
   font-family: Arial, sans-serif;
-  background-color: #e6f0ff;
+  background-color: rgba(0, 122, 255, 0.15);
   padding-top: 20px; /* Ajoute de l'espace en haut pour donner de la "respiration" */
 }
 

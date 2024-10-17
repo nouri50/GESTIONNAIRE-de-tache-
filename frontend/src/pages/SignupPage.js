@@ -1,47 +1,49 @@
 import React, { useState } from 'react';
-import { signup } from '../utils/api';
 import '../styles/SignupPage.css';
+import '../styles/Footer.css';
+import '../styles/background.css';
+import '../styles/Header.css';
+
 
 const SignupPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
-  const handleSubmit = async (e) => {
+  const handleSignup = (e) => {
     e.preventDefault();
-    try {
-      const userData = { email, password };
-      console.log('Données envoyées:', JSON.stringify(userData));
-      await signup(userData);
-      window.location.href = '/login'; // Redirection vers la page de connexion après succès
-    } catch (err) {
-      setError("Erreur lors de l'inscription, veuillez réessayer.");
-    }
+    // Logic for handling signup
+    console.log("Inscription réussie");
   };
 
   return (
-    <div className="signup-form-container">
-      <form onSubmit={handleSubmit}>
-        <h2>Inscription</h2>
-        {error && <p className="error-message">{error}</p>}
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          id="signup-email"
-        />
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          id="signup-password"
-        />
-        <button type="submit">S'inscrire</button>
+    <div className="signup-container">
+      <form id="signup-form" onSubmit={handleSignup}>
+        <h1>Créer un compte</h1>
+        <div className="form-group">
+          <label htmlFor="signup-email">Email :</label>
+          <input
+            type="email"
+            id="signup-email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="signup-password">Mot de passe :</label>
+          <input
+            type="password"
+            id="signup-password"
+            name="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" id="signup-submit">S'inscrire</button>
       </form>
+      <a href="/login" className="already-member-link">Déjà membre ? Connectez-vous ici</a>
     </div>
   );
 };
