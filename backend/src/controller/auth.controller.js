@@ -8,14 +8,32 @@ import { sendResetEmail } from '../utils/mailer.js'; // Correct import
 // Inscription
 // Contrôleur pour l'inscription d'un utilisateur
 export const register = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
+    const { email, password } = req.body;
+
+    // Vérification des champs requis
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email et mot de passe sont requis' });
+    }
+
+    console.log('Données reçues :', req.body);
+
+    // Vérifier si l'utilisateur existe déjà
+    const userExists = await User.findOne({ where: { email } });
+    if (userExists) {
+      return res.status(400).json({ message: 'Utilisateur existe déjà' });
+    }
+
+    // Hacher le mot de passe avant de l'enregistrer
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ email, password: hashedPassword });
-    res.status(201).json({ message: 'Utilisateur créé avec succès.' });
+    console.log('Mot de passe haché');
+
+    // Créer un nouvel utilisateur
+    const user = await User.create({ email, password: hashedPassword });
+    res.status(201).json({ message: 'Utilisateur créé', user });
   } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de la création de l’utilisateur.' });
+    console.error('Erreur interne :', error);
+    res.status(500).json({ message: 'Erreur interne du serveur' });
   }
 };
 
