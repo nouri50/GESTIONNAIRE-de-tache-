@@ -1,10 +1,10 @@
-/* Style général du header */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #007AFF;
   padding: 10px 20px;
+  margin-top: -20px; /* Augmenté pour remonter encore plus le header */
 }
 
 .logo {

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { getUsers, updateUser, deleteUserWithPasswordCheck } from '../utils/api.js';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import '../styles/UserManagementPage.css';
+import '../styles/Header.css';
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -40,18 +40,19 @@ const UserManagementPage = () => {
   };
 
   const handleDeleteUser = async () => {
-    if (!adminPassword) {
-      setErrorMessage('Veuillez entrer le mot de passe.');
-      return;
-    }
     try {
-      const response = await deleteUserWithPasswordCheck(selectedUserId, adminPassword);
-      setSuccessMessage(response.message);
-      setErrorMessage('');
-      setShowDeleteModal(false);
+      const response = await deleteUserWithPasswordCheck({
+        adminPassword,
+        id: selectedUserId,
+      });
+
+      console.log('Utilisateur supprimé:', response);
+      setSuccessMessage("Utilisateur supprimé avec succès.");
       setUsers(users.filter((user) => user.id !== selectedUserId));
+      closeDeleteModal();
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || 'Erreur lors de la suppression.');
+      console.error('Erreur lors de la suppression avec mot de passe:', error);
+      setErrorMessage(error.response?.data?.message || 'Erreur lors de la suppression avec mot de passe.');
     }
   };
 
@@ -78,9 +79,11 @@ const UserManagementPage = () => {
         role: editedRole,
         status: editedStatus,
       });
+
       setSuccessMessage(response.message);
       setErrorMessage('');
       setShowEditModal(false);
+
       setUsers(users.map((user) =>
         user.id === selectedUserId ? { ...user, email: editedEmail, role: editedRole, status: editedStatus } : user
       ));
@@ -89,22 +92,11 @@ const UserManagementPage = () => {
     }
   };
 
-  const filteredUsers = users.filter((user) =>
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
     <div className="container">
       <h1>Gestion des utilisateurs</h1>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
-      <input
-        type="text"
-        className="search-input"
-        placeholder="Rechercher un utilisateur..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
       <table>
         <thead>
           <tr>
@@ -116,8 +108,8 @@ const UserManagementPage = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.length > 0 ? (
-            filteredUsers.map((user) => (
+          {users.length > 0 ? (
+            users.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.email}</td>

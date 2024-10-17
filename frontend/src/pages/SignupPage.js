@@ -10,14 +10,8 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userData = {
-        email,
-        password,
-      };
-
-      // Vérifiez que les données sont bien un objet JSON
+      const userData = { email, password };
       console.log('Données envoyées:', JSON.stringify(userData));
-
       await signup(userData);
       window.location.href = '/login'; // Redirection vers la page de connexion après succès
     } catch (err) {

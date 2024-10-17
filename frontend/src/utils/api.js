@@ -1,23 +1,22 @@
 import axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5001/api',  // Base URL de votre backend
+  baseURL: 'http://localhost:5001/api',
   headers: {
     'Content-Type': 'application/json',
   }
 });
 
-// Intercepteur pour ajouter un token, sauf pour les routes d'authentification
 api.interceptors.request.use(
   (config) => {
-    // Ne pas vérifier le token pour l'inscription ou la connexion
     if (!config.url.includes('/auth/register') && !config.url.includes('/auth/login')) {
       const token = localStorage.getItem('token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-        console.log('Token envoyé:', token);  // Loguez le token envoyé
+        console.log('Token envoyé:', token);
       } else {
-        console.warn('Token manquant');  // Ceci ne devrait pas se produire après authentification
+        console.warn('Token manquant');
       }
     }
     return config;
@@ -106,23 +105,23 @@ export const signup = async (userData) => {
   }
 };
 
-// Connexion
+// Connexion//
 export const login = async (credentials) => {
   try {
     const response = await api.post('/auth/login', credentials);
+    localStorage.setItem('token', response.data.token);
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la connexion:', error);
     throw error;
   }
 };
-
 // ==================== Profil Utilisateur ====================
 
 // Récupérer le profil utilisateur
 export const getUserProfile = async () => {
   try {
-    const response = await api.get('/profile');
+    const response = await api.get('/users/profile');
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération du profil utilisateur', error);
@@ -142,11 +141,17 @@ export const changePassword = async (passwordData) => {
 };
 
 // Supprimer un utilisateur avec vérification du mot de passe
-export const deleteUserWithPasswordCheck = async (userId, password) => {
-  try {
-    const response = await api.post('/users/delete-with-password', { userId, password });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+export const deleteUserWithPasswordCheck = async (data) => {
+  const token = localStorage.getItem('token');
+  return await axios.post(
+    'http://localhost:5001/api/users/delete-with-password',
+    data,
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
 };
+

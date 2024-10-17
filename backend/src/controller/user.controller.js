@@ -1,5 +1,7 @@
 import User from '../model/user.model.js';
 import { validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
+
 
 // Fonction pour récupérer tous les utilisateurs
 export const getAllUsers = async (req, res) => {
@@ -83,38 +85,37 @@ export const updateUser = async (req, res) => {
   }
 };
 
+// Fonction pour supprimer un utilisateur après vérification du mot de passe administrateur
+
 export const deleteUserWithPasswordCheck = async (req, res) => {
-  const { userId, password } = req.body;
-  const loggedInUserId = req.user.id;
+  const { adminPassword, id } = req.body;
+  if (!adminPassword) {
+    return res.status(400).json({ message: 'Mot de passe administrateur requis.' });
+  }
 
   try {
-    // Trouver l'utilisateur connecté
-    const loggedInUser = await User.findByPk(loggedInUserId);
-    if (!loggedInUser) {
-      return res.status(404).json({ message: 'Utilisateur connecté non trouvé.' });
+    // Trouver l'utilisateur administrateur actuellement connecté
+    const adminUser = await User.findOne({ where: { id: req.user.id, role: 'admin' } });
+    if (!adminUser) {
+      return res.status(403).json({ message: 'Accès refusé. Utilisateur administrateur non trouvé.' });
     }
 
-    // Vérifier si le mot de passe est correct
-    const isPasswordValid = await bcrypt.compare(password, loggedInUser.password);
+    // Comparaison du mot de passe administrateur
+    const isPasswordValid = await bcrypt.compare(adminPassword, adminUser.password);
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Mot de passe incorrect.' });
+      return res.status(403).json({ message: 'Mot de passe administrateur incorrect.' });
     }
 
-    // Trouver l'utilisateur à supprimer
-    const userToDelete = await User.findByPk(userId);
+    // Supprimer l'utilisateur spécifié
+    const userToDelete = await User.findByPk(id);
     if (!userToDelete) {
-      return res.status(404).json({ message: 'Utilisateur à supprimer non trouvé.' });
-    }
-
-    // Vérifier le statut de l'utilisateur avant suppression
-    if (userToDelete.status !== 'active') {
-      return res.status(400).json({ message: 'Impossible de supprimer un utilisateur inactif.' });
+      return res.status(404).json({ message: 'Utilisateur non trouvé.' });
     }
 
     await userToDelete.destroy();
-    res.status(200).json({ message: 'Utilisateur supprimé avec succès.' });
+    return res.status(200).json({ message: 'Utilisateur supprimé avec succès.' });
   } catch (error) {
-    console.error('Erreur lors de la suppression de l\'utilisateur :', error);
-    res.status(500).json({ message: 'Erreur serveur lors de la suppression de l\'utilisateur.' });
+    console.error('Erreur lors de la suppression de l’utilisateur:', error);
+    return res.status(500).json({ message: 'Erreur serveur.' });
   }
 };
