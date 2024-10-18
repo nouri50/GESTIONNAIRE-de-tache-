@@ -36,7 +36,6 @@ export const register = async (req, res) => {
     res.status(500).json({ message: 'Erreur interne du serveur' });
   }
 };
-
 export const login = async (req, res) => {
   const { email, password } = req.body;
 
