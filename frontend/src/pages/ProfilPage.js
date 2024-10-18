@@ -1,81 +1,48 @@
 import React, { useEffect, useState } from 'react';
-import { getUserProfile, deleteUser } from '../utils/api'; // Assurez-vous d'avoir cette fonction dans votre API
-import { useNavigate } from 'react-router-dom';
-import '../styles/ProfilPage.css'; // Fichier CSS pour la page de profil
-import '../styles/Header.css';
-import '../styles/Footer.css'; 
-import '../styles/background.css';
+import { getUserProfile, deleteUser } from '../utils/api';
+import '../styles/ProfilPage.css';
 
-const ProfilPage = () => {
-  const [profile, setProfile] = useState(null);
+const ProfilePage = () => {
+  const [user, setUser] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
-  const [showModal, setShowModal] = useState(false); // État pour afficher le modal
-  const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchUserProfile = async () => {
       try {
-        const data = await getUserProfile();
-        setProfile(data);
+        const userProfile = await getUserProfile();
+        setUser(userProfile);
       } catch (error) {
-        setErrorMessage('Votre session a expiré. Veuillez vous reconnecter.');
-        setTimeout(() => {
-          navigate('/login'); // Redirige vers la page de connexion après 3 secondes
-        }, 3000);
+        setErrorMessage("Erreur lors de la récupération des informations de l'utilisateur.");
       }
     };
-    fetchProfile();
-  }, [navigate]);
-
-  const handlePasswordChange = () => {
-    navigate('/change-password'); // Redirige vers la page de modification de mot de passe
-  };
+    fetchUserProfile();
+  }, []);
 
   const handleDeleteAccount = async () => {
     try {
-      await deleteUser(profile.id); // Supprime l'utilisateur par son ID
-      navigate('/signup'); // Redirige après suppression
+      await deleteUser(user.id);
+      setSuccessMessage("Compte supprimé avec succès.");
     } catch (error) {
       setErrorMessage("Erreur lors de la suppression du compte.");
     }
   };
 
   return (
-    <div className="profile-page">
+    <div className="profile-container">
       <h1>Profil Utilisateur</h1>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-      {profile ? (
-        <div className="profile-info">
-          <label>Email:</label>
-          <p>{profile.email}</p>
-          <button onClick={handlePasswordChange}>Modifier le mot de passe</button>
-          <button onClick={() => setShowModal(true)} className="delete-account-btn">
-            Supprimer le compte
-          </button>
-        </div>
-      ) : (
-        <p>Chargement...</p>
-      )}
-
-      {/* Modal pour la suppression de compte */}
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Confirmer la suppression</h2>
-            <p>Êtes-vous sûr de vouloir supprimer votre compte ? Cette action est irréversible.</p>
-            <div className="modal-buttons">
-              <button onClick={handleDeleteAccount} className="confirm-delete" data-testid="confirm-delete-button">
-                Supprimer
-              </button>
-              <button onClick={() => setShowModal(false)} className="cancel-delete" data-testid="cancel-delete-button">
-                Annuler
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+      <div className="profile-info">
+        <p><span className="info-label">Email:</span> {user.email}</p>
+        <p><span className="info-label">Statut:</span> {user.status}</p>
+        <p><span className="info-label">Rôle:</span> {user.role}</p>
+      </div>
+      <button className="profile-button change-password-button">Modifier le mot de passe</button>
+      <button className="profile-button delete-account-button" onClick={handleDeleteAccount}>Supprimer le compte</button>
     </div>
   );
 };
 
-export default ProfilPage;
+export default ProfilePage;
+

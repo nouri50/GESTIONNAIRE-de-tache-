@@ -108,8 +108,8 @@ const UserManagementPage = () => {
   return (
     <div className="container">
       <h1>Gestion des utilisateurs</h1>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      {successMessage && <p className="success-message">{successMessage}</p>}
+      {errorMessage && <p className="error-message" data-testid="error-message">{errorMessage}</p>}
+      {successMessage && <p className="success-message" data-testid="success-message">{successMessage}</p>}
       
       {/* Barre de recherche */}
       <input
@@ -121,7 +121,7 @@ const UserManagementPage = () => {
         data-testid="search-bar"
       />
 
-      <table>
+      <table data-testid="user-table">
         <thead>
           <tr>
             <th>ID</th>
@@ -134,18 +134,20 @@ const UserManagementPage = () => {
         <tbody>
           {filteredUsers.length > 0 ? (
             filteredUsers.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.email}</td>
-                <td>{user.role}</td>
-                <td>{user.status}</td>
+              <tr key={user.id} data-testid={`user-row-${user.id}`}>
+                <td data-testid={`user-id-${user.id}`}>{user.id}</td>
+                <td data-testid={`user-email-${user.id}`}>{user.email}</td>
+                <td data-testid={`user-role-${user.id}`}>{user.role}</td>
+                <td data-testid={`user-status-${user.id}`}>{user.status}</td>
                 <td>
                   <FaEdit
                     className="icon"
+                    data-testid={`edit-user-${user.id}`}
                     onClick={() => openEditModal(user)}
                   />
                   <FaTrash
                     className="icon"
+                    data-testid={`delete-user-${user.id}`}
                     onClick={() => openDeleteModal(user.id)}
                   />
                 </td>
@@ -153,7 +155,7 @@ const UserManagementPage = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="5" className="no-results">
+              <td colSpan="5" className="no-results" data-testid="no-users">
                 Aucun utilisateur trouvé.
               </td>
             </tr>
@@ -162,7 +164,7 @@ const UserManagementPage = () => {
       </table>
 
       {showDeleteModal && (
-        <div className="modal">
+        <div className="modal" data-testid="delete-modal">
           <div className="modal-content">
             <h2>Mot de passe administrateur requis</h2>
             <input
@@ -170,15 +172,16 @@ const UserManagementPage = () => {
               placeholder="Mot de passe administrateur"
               value={adminPassword}
               onChange={(e) => setAdminPassword(e.target.value)}
+              data-testid="admin-password-input"
             />
-            <button className="confirm-button" onClick={handleDeleteUser}>Confirmer la suppression</button>
-            <button className="cancel-button" onClick={closeDeleteModal}>Annuler</button>
+            <button className="confirm-button" data-testid="confirm-delete-button" onClick={handleDeleteUser}>Confirmer la suppression</button>
+            <button className="cancel-button" data-testid="cancel-delete-button" onClick={closeDeleteModal}>Annuler</button>
           </div>
         </div>
       )}
 
       {showEditModal && (
-        <div className="modal">
+        <div className="modal" data-testid="edit-modal">
           <div className="modal-content">
             <h2>Modifier l'utilisateur</h2>
             <input
@@ -186,10 +189,12 @@ const UserManagementPage = () => {
               placeholder="Email"
               value={editedEmail}
               onChange={(e) => setEditedEmail(e.target.value)}
+              data-testid="edit-email-input"
             />
             <select
               value={editedRole}
               onChange={(e) => setEditedRole(e.target.value)}
+              data-testid="edit-role-select"
             >
               <option value="user">Utilisateur</option>
               <option value="admin">Administrateur</option>
@@ -197,12 +202,13 @@ const UserManagementPage = () => {
             <select
               value={editedStatus}
               onChange={(e) => setEditedStatus(e.target.value)}
+              data-testid="edit-status-select"
             >
               <option value="active">Actif</option>
               <option value="inactive">Inactif</option>
             </select>
-            <button className="confirm-button" onClick={handleEditUser}>Enregistrer les modifications</button>
-            <button className="cancel-button" onClick={closeEditModal}>Annuler</button>
+            <button className="confirm-button" data-testid="confirm-edit-button" onClick={handleEditUser}>Enregistrer les modifications</button>
+            <button className="cancel-button" data-testid="cancel-edit-button" onClick={closeEditModal}>Annuler</button>
           </div>
         </div>
       )}

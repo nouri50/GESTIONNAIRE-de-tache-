@@ -1,17 +1,11 @@
-.profile-page {
+.profile-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 100vh;
-  background-color: #e6f0ff; /* Conserver la couleur de fond cohérente avec les autres pages */
+  min-height: 100vh;
+  background-color: #e6f0ff;
   padding: 20px;
-}
-
-h1 {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 20px;
 }
 
 .profile-info {
@@ -19,42 +13,60 @@ h1 {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
   width: 100%;
-  max-width: 400px; /* Largeur maximale pour les écrans plus larges */
   text-align: center;
-}
-
-.profile-info label {
-  font-weight: bold;
-  color: #007AFF; /* Couleur bleu cohérente */
+  margin-bottom: 15px;
 }
 
 .profile-info p {
   font-size: 1.1rem;
-  color: #333;
+  color: #333; /* Informations de profil en noir */
   margin: 10px 0;
 }
 
-.error-message {
-  color: red;
-  font-size: 1rem;
-  margin-bottom: 20px;
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+  text-align: center;
 }
 
-button {
+.profile-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.profile-button {
   background-color: #007aff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 20px; /* Dimensions du bouton ajustées */
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-top: 20px;
+  margin: 5px; /* Espacement autour des boutons */
+  width: auto; /* Pour éviter que le bouton prenne toute la largeur */
 }
 
-button:hover {
+.profile-button:hover {
   background-color: #005bb5;
+}
+
+.success-message {
+  color: green; /* Message de succès en vert */
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+.error-message {
+  color: red; /* Message d'erreur en rouge */
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 
 /* Pour mobile */
@@ -68,8 +80,10 @@ button:hover {
     font-size: 1.5rem;
   }
 
-  button {
+  .profile-button {
     font-size: 0.9rem;
-    padding: 8px 15px;
+    padding: 10px 15px;
+    width: auto; /* Assurez-vous que les boutons ne s'étendent pas trop sur mobile */
   }
 }
+
