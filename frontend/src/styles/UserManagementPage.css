@@ -1,88 +1,89 @@
-/* Styles généraux pour la page */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-  margin: 0;
-  padding: 0;
-}
-
+/* Styles pour la page de gestion des utilisateurs */
 .container {
-  max-width: 800px;
+  width: 90%;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-/* Titre de la page */
+/* Titres */
 h1 {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 24px;
   color: #333;
 }
 
-/* Style du champ de recherche */
-.search-input {
-  margin-bottom: 20px;
+/* Barre de recherche */
+.search-bar {
+  display: block;
+  width: 100%;
+  max-width: 400px;
   padding: 10px;
-  width: 300px; /* Ajustez la largeur comme souhaité */
-  border-radius: 4px;
-  border: 1px solid #ddd;
-  display: block; /* Pour centrer le champ */
-  margin: 0 auto 20px; /* Centrage horizontal avec espace en bas */
-  box-sizing: border-box;
+  margin: 0 auto 20px auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-/* Table des utilisateurs */
+/* Messages d'erreur et de succès */
+.error-message, .success-message {
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.error-message {
+  color: #fff;
+  background-color: #e74c3c;
+}
+
+.success-message {
+  color: #fff;
+  background-color: #2ecc71;
+}
+
+/* Tableau des utilisateurs */
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-th, td {
-  padding: 12px 15px;
-  text-align: left;
-  border: 1px solid #ddd;
+table th,
+table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
 }
 
-th {
-  background-color: #007AFF;
+table th {
+  background-color: #007aff;
   color: white;
 }
 
-tr:nth-child(even) {
-  background-color: #f9f9f9;
+table .no-results {
+  color: #666;
+  font-style: italic;
 }
 
-/* Style des boutons d'action */
-button {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
+/* Icônes */
+.icon {
+  width: 24px; /* Ajuster la taille des icônes */
+  height: 24px;
   cursor: pointer;
-  font-size: 14px;
+  margin: 0 5px;
+  transition: transform 0.2s ease;
 }
 
-button.edit-button {
-  background-color: #007AFF;
-  color: white;
-  margin-right: 10px;
+.icon:hover {
+  transform: scale(1.1); /* Animation pour améliorer l'interaction utilisateur */
 }
 
-button.delete-button {
-  background-color: #FF4D4D;
-  color: white;
-}
-
-button.edit-button:hover,
-button.delete-button:hover {
-  opacity: 0.9;
-}
-
-/* Modale de suppression et de modification */
+/* Modale */
 .modal {
   position: fixed;
   top: 0;
@@ -91,81 +92,82 @@ button.delete-button:hover {
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .modal-content {
   background: #fff;
   padding: 20px;
-  border-radius: 8px;
-  width: 400px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  text-align: center;
-}
-
-.modal-content h2 {
-  margin-top: 0;
-  margin-bottom: 20px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .modal-content input,
 .modal-content select {
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.modal-content button {
-  width: 48%;
-  padding: 10px;
+/* Boutons de la modale */
+.confirm-button,
+.cancel-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
   margin: 5px;
 }
 
-.modal-content .confirm-button {
-  background-color: #007AFF;
+.confirm-button {
+  background-color: #007aff;
   color: white;
 }
 
-.modal-content .cancel-button {
-  background-color: #FF4D4D;
-  color: white;
+.confirm-button:hover {
+  background-color: #005bb5;
 }
 
-.modal-content .confirm-button:hover,
-.modal-content .cancel-button:hover {
-  opacity: 0.9;
+.cancel-button {
+  background-color: #ccc;
+  color: #333;
 }
 
-/* Message d'erreur et de succès */
-.error-message {
-  color: red;
-  text-align: center;
-  margin-bottom: 20px;
+.cancel-button:hover {
+  background-color: #999;
 }
 
-.success-message {
-  color: green;
-  text-align: center;
-  margin-bottom: 20px;
-}
+/* Résolution mobile */
+@media (max-width: 600px) {
+  .container {
+    padding: 15px;
+  }
 
-/* Message pour aucun utilisateur trouvé */
-.no-results {
-  text-align: center;
-  color: #999;
-  margin-top: 20px;
-}
+  h1 {
+    font-size: 1.5rem;
+  }
 
-/* Icônes d'action */
-.icon {
-  cursor: pointer;
-  margin-right: 10px;
-}
+  table th,
+  table td {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
 
-.icon:hover {
-  opacity: 0.7;
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .confirm-button,
+  .cancel-button {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+  }
 }

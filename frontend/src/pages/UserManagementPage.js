@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getUsers, updateUser, deleteUserWithPasswordCheck } from '../utils/api.js';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import editIcon from '../image/edit.png'; // Import de l'icône d'édition
+import deleteIcon from '../image/effacer.png'; // Import de l'icône de suppression
 import '../styles/UserManagementPage.css';
 import '../styles/Header.css';
 import '../styles/Footer.css';
-import '../styles/background.css'
+import '../styles/background.css';
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
@@ -140,14 +141,18 @@ const UserManagementPage = () => {
                 <td data-testid={`user-role-${user.id}`}>{user.role}</td>
                 <td data-testid={`user-status-${user.id}`}>{user.status}</td>
                 <td>
-                  <FaEdit
+                  <img
+                    src={editIcon}
+                    alt="Éditer"
                     className="icon"
-                    data-testid={`edit-user-${user.id}`}
+                    data-testid={`edit-icon-user-${user.id}`}
                     onClick={() => openEditModal(user)}
                   />
-                  <FaTrash
+                  <img
+                    src={deleteIcon}
+                    alt="Supprimer"
                     className="icon"
-                    data-testid={`delete-user-${user.id}`}
+                    data-testid={`delete-icon-user-${user.id}`}
                     onClick={() => openDeleteModal(user.id)}
                   />
                 </td>
