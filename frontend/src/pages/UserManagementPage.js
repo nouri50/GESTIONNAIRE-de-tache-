@@ -17,6 +17,7 @@ const UserManagementPage = () => {
   const [editedStatus, setEditedStatus] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -94,11 +95,32 @@ const UserManagementPage = () => {
     }
   };
 
+  // Fonction de recherche
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // Filtrer les utilisateurs en fonction du terme de recherche
+  const filteredUsers = users.filter(user =>
+    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="container">
       <h1>Gestion des utilisateurs</h1>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message">{successMessage}</p>}
+      
+      {/* Barre de recherche */}
+      <input
+        type="text"
+        placeholder="Rechercher un utilisateur..."
+        value={searchTerm}
+        onChange={handleSearch}
+        className="search-bar"
+        data-testid="search-bar"
+      />
+
       <table>
         <thead>
           <tr>
@@ -110,8 +132,8 @@ const UserManagementPage = () => {
           </tr>
         </thead>
         <tbody>
-          {users.length > 0 ? (
-            users.map((user) => (
+          {filteredUsers.length > 0 ? (
+            filteredUsers.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
                 <td>{user.email}</td>

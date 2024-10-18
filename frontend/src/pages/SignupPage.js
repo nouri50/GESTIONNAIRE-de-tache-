@@ -16,7 +16,12 @@ const SignupPage = () => {
       await signup(userData);
       window.location.href = '/login'; // Redirection vers la page de connexion après succès
     } catch (err) {
-      setError("Erreur lors de l'inscription, veuillez réessayer.");
+      // Vérifier le type d'erreur renvoyée pour afficher un message approprié
+      if (err.response && err.response.status === 400 && err.response.data.message === 'Utilisateur existe déjà') {
+        setError("Ce compte est déjà utilisé. Veuillez en essayer un autre.");
+      } else {
+        setError("Erreur lors de l'inscription, veuillez réessayer.");
+      }
     }
   };
 
