@@ -1,0 +1,22 @@
+{
+  "name": "delete_account_admin_password_invalide",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "GESTIONNAIRE-de-tache-"
+  },
+  "keywords": [
+    "cypress",
+    "automation"
+  ],
+  "author": "nesrine",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "cypress": "^13.15.0"
+  }
+}
