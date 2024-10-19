@@ -20,10 +20,8 @@ describe('Modif users management', () => {
   })
 
   it('I modify my informations', () => {
-    cy.xpath('//select[@data-testid="edit-role-select"]').should('be.visible').click()
-    cy.get('[data-testid="edit-role-select"]').select('Administrateur')
-    cy.xpath('//select[@data-testid="edit-status-select"]/option[@value="active"]').should('exist').click()
-    cy.get('[data-testid="edit-status-select"]').select('Active')
+    cy.xpath('//select[@data-testid="edit-role-select"]').select('admin')
+    cy.xpath('//select[@data-testid="edit-status-select"]').select('active')
     cy.xpath('//button[@data-testid="confirm-edit-button"]').click()
   })
 
