@@ -4,7 +4,7 @@
   align-items: center;
   background-color: #007AFF;
   padding: 10px 20px;
-  margin-top: -20px; /* Augmenté pour remonter encore plus le header */
+  margin-top: -20px; 
 }
 
 .logo {

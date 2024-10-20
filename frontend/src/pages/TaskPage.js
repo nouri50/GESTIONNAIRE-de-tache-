@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import jwt_decode from 'jwt-decode';  // Importation de jwt-decode
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/TaskPage.css';
 import '../styles/Header.css';
-import '../styles/Footer.css'; 
+import '../styles/Footer.css';
 import '../styles/background.css';
+
+
 
 const TaskPage = () => {
   const [task, setTask] = useState({ title: '', description: '', status: 'pending' });
