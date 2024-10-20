@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import jwt_decode from 'jwt-decode';  // Importation de jwt-decode
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addTask } from '../utils/api'; // Importer la fonction corrigée
 import '../styles/TaskPage.css';
 import '../styles/Header.css';
-import '../styles/Footer.css';
+import '../styles/Footer.css'; 
 import '../styles/background.css';
-
-
 
 const TaskPage = () => {
   const [task, setTask] = useState({ title: '', description: '', status: 'pending' });
@@ -15,35 +12,19 @@ const TaskPage = () => {
   const [messageType, setMessageType] = useState(''); // Ajout d'un état pour le type de message
   const navigate = useNavigate();
 
-  const addTask = async (taskData) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Token non trouvé. Veuillez vous connecter.');
-      }
-
-      const response = await axios.post('http://localhost:5001/api/tasks', taskData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log('Tâche ajoutée :', response.data);
+      await addTask(task); // Appel de la fonction pour ajouter la tâche
       setMessage('Tâche ajoutée avec succès.');
-      setMessageType('success'); // Définir le type de message à 'success'
+      setMessageType('success');
       setTimeout(() => {
-        navigate('/gestion-taches');
+        navigate('/gestion-taches'); // Redirige après ajout
       }, 2000);
     } catch (error) {
-      console.error('Erreur lors de l\'ajout de la tâche', error);
       setMessage('Erreur lors de l\'ajout de la tâche.');
-      setMessageType('error'); // Définir le type de message à 'error'
+      setMessageType('error');
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    addTask(task);
   };
 
   const handleChange = (e) => {

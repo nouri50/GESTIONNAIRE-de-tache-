@@ -15,12 +15,12 @@ const LoginPage = ({ setIsLoggedIn }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-
+  
     try {
       const response = await login({ email, password });
       if (response && response.token) {
-        localStorage.setItem('token', response.token); // Stocke le token
-        setIsLoggedIn(true);
+        localStorage.setItem('token', response.token); // Stocke le token JWT dans le localStorage
+        setIsLoggedIn(true); // Met à jour l'état pour indiquer que l'utilisateur est connecté
         navigate('/home'); // Redirection vers la page d'accueil
       } else {
         setErrorMessage("Impossible de se connecter.");
@@ -29,7 +29,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
       setErrorMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
     }
   };
-
   return (
     <div className="login-container">
       <h1>Connexion</h1>

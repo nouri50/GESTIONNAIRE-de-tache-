@@ -25,10 +25,45 @@ api.interceptors.request.use(
 );
 // ==================== Gestion des Tâches ====================
 
+// Ajouter une nouvelle tâche
+export const addTask = async (taskData) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error("Token non trouvé. Veuillez vous connecter.");
+    }
+
+    const response = await api.post('/tasks', taskData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de l\'ajout de la tâche', error);
+    throw error;
+  }
+};
+
+
+
+
+// Récupérer toutes les tâches
+
 // Récupérer toutes les tâches
 export const getTasks = async () => {
   try {
-    const response = await api.get('/tasks');
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error("Token non trouvé. Veuillez vous connecter.");
+    }
+
+    const response = await api.get('/tasks', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des tâches', error);
@@ -39,7 +74,16 @@ export const getTasks = async () => {
 // Mettre à jour une tâche
 export const updateTask = async (taskId, taskData) => {
   try {
-    const response = await api.put(`/tasks/${taskId}`, taskData);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error("Token non trouvé. Veuillez vous connecter.");
+    }
+
+    const response = await api.put(`/tasks/${taskId}`, taskData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la mise à jour de la tâche', error);
@@ -50,7 +94,16 @@ export const updateTask = async (taskId, taskData) => {
 // Supprimer une tâche
 export const deleteTask = async (taskId) => {
   try {
-    await api.delete(`/tasks/${taskId}`);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error("Token non trouvé. Veuillez vous connecter.");
+    }
+
+    await api.delete(`/tasks/${taskId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (error) {
     console.error('Erreur lors de la suppression de la tâche', error);
     throw error;
