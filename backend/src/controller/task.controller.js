@@ -1,51 +1,22 @@
 import Task from '../model/task.model.js';
 
-export const getTasks = async (req, res) => {
-  try {
-    if (!req.user || !req.user.id) {
-      console.error('Utilisateur non authentifié.');
-      return res.status(400).json({ message: 'Utilisateur non authentifié.' });
-    }
-
-    console.log('ID de l\'utilisateur connecté:', req.user.id);
-
-    const tasks = await Task.findAll({ where: { userId: req.user.id } });
-
-    if (!tasks) {
-      return res.status(404).json({ message: 'Aucune tâche trouvée.' });
-    }
-
-    res.json(tasks);
-  } catch (err) {
-    console.error('Erreur lors de la récupération des tâches:', err);
-    res.status(500).json({ error: 'Erreur lors de la récupération des tâches.' });
-  }
-};
-
-
-
-
-
 export const createTask = async (req, res) => {
-  const { title, description } = req.body;
-
-  // Vérifiez si l'utilisateur est bien authentifié et si le titre de la tâche est fourni
-  if (!title || !req.user || !req.user.id) {
-    return res.status(400).json({ message: 'Titre de la tâche et utilisateur requis.' });
-  }
-
   try {
-    const newTask = await Task.create({
-      title,
-      description,
-      userId: req.user.id,  // Utilise l'ID de l'utilisateur connecté
-    });
-    res.status(201).json(newTask);
+    const { title, description, status, userId } = req.body;
+
+    // Vérifiez que userId est fourni
+    if (!userId) {
+      return res.status(400).json({ message: "L'ID de l'utilisateur est requis pour créer une tâche." });
+    }
+
+    const task = await Task.create({ title, description, status, userId });
+    res.status(201).json(task);
   } catch (error) {
     console.error('Erreur lors de la création de la tâche:', error);
-    res.status(500).json({ message: 'Erreur lors de la création de la tâche.' });
+    res.status(500).json({ message: 'Erreur lors de la création de la tâche' });
   }
 };
+
 
 
 
