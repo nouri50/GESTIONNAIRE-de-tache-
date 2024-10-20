@@ -1,5 +1,5 @@
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode'; // Utiliser une importation nommée
 
 const api = axios.create({
   baseURL: 'http://localhost:5001/api',
@@ -8,6 +8,7 @@ const api = axios.create({
   }
 });
 
+// Intercepteur pour ajouter le token d'authentification
 api.interceptors.request.use(
   (config) => {
     if (!config.url.includes('/auth/register') && !config.url.includes('/auth/login')) {
@@ -23,33 +24,27 @@ api.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 );
+
 // ==================== Gestion des Tâches ====================
 
-// Ajouter une nouvelle tâche
+// Ajouter une tâche
 export const addTask = async (taskData) => {
   try {
     const token = localStorage.getItem('token');
     if (!token) {
-      throw new Error("Token non trouvé. Veuillez vous connecter.");
+      throw new Error('Token non trouvé. Veuillez vous connecter.');
     }
 
-    const response = await api.post('/tasks', taskData, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    const decodedToken = jwtDecode(token); // Correction de l'appel à jwtDecode
+    const userId = decodedToken.userId; // Assurez-vous que le token contient l'ID de l'utilisateur
+
+    const response = await api.post('/tasks', { ...taskData, userId });
     return response.data;
   } catch (error) {
     console.error('Erreur lors de l\'ajout de la tâche', error);
     throw error;
   }
 };
-
-
-
-
-// Récupérer toutes les tâches
 
 // Récupérer toutes les tâches
 export const getTasks = async () => {
@@ -158,7 +153,7 @@ export const signup = async (userData) => {
   }
 };
 
-// Connexion//
+// Connexion
 export const login = async (credentials) => {
   try {
     const response = await api.post('/auth/login', credentials);
@@ -169,6 +164,7 @@ export const login = async (credentials) => {
     throw error;
   }
 };
+
 // ==================== Profil Utilisateur ====================
 
 // Récupérer le profil utilisateur
@@ -196,8 +192,8 @@ export const changePassword = async (passwordData) => {
 // Supprimer un utilisateur avec vérification du mot de passe
 export const deleteUserWithPasswordCheck = async (data) => {
   const token = localStorage.getItem('token');
-  return await axios.post(
-    'http://localhost:5001/api/users/delete-with-password',
+  return await api.post(
+    '/users/delete-with-password',
     data,
     {
       headers: {
@@ -207,4 +203,3 @@ export const deleteUserWithPasswordCheck = async (data) => {
     }
   );
 };
-
