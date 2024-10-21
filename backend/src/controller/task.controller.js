@@ -1,14 +1,16 @@
 import Task from '../model/task.model.js';
+import { jwtDecode } from 'jwt-decode'; // Import correct
 
 export const createTask = async (req, res) => {
   try {
-    const { title, description, status, userId } = req.body;
+    const { title, description, status } = req.body;
 
-    // Vérifiez que userId est fourni
-    if (!userId) {
+    // Vérifiez si l'utilisateur est bien extrait du token par authMiddleware
+    if (!req.user || !req.user.id) {
       return res.status(400).json({ message: "L'ID de l'utilisateur est requis pour créer une tâche." });
     }
 
+    const userId = req.user.id;
     const task = await Task.create({ title, description, status, userId });
     res.status(201).json(task);
   } catch (error) {
@@ -19,6 +21,15 @@ export const createTask = async (req, res) => {
 
 
 
+export const getTasks = async (req, res) => {
+  try {
+    const tasks = await Task.findAll({ where: { userId: req.user.id } });
+    res.status(200).json(tasks);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des tâches:', error);
+    res.status(500).json({ message: 'Erreur lors de la récupération des tâches' });
+  }
+};
 
 export const updateTask = async (req, res) => {
   const { id } = req.params;
@@ -37,6 +48,7 @@ export const updateTask = async (req, res) => {
     await task.save();
     res.json(task);
   } catch (err) {
+    console.error('Erreur lors de la mise à jour de la tâche:', err);
     res.status(500).json({ error: 'Échec de la mise à jour de la tâche' });
   }
 };
@@ -54,6 +66,7 @@ export const deleteTask = async (req, res) => {
     await task.destroy();
     res.json({ message: 'Tâche supprimée' });
   } catch (err) {
+    console.error('Erreur lors de la suppression de la tâche:', err);
     res.status(500).json({ error: 'Échec de la suppression de la tâche' });
   }
 };
