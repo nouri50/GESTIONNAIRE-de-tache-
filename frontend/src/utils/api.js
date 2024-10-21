@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; // Utiliser une importation nommée
+import { jwtDecode } from 'jwt-decode'; // Utilisation de l'importation nommée
 
 const api = axios.create({
   baseURL: 'http://localhost:5001/api',
@@ -8,14 +8,12 @@ const api = axios.create({
   }
 });
 
-// Intercepteur pour ajouter le token d'authentification
 api.interceptors.request.use(
   (config) => {
     if (!config.url.includes('/auth/register') && !config.url.includes('/auth/login')) {
       const token = localStorage.getItem('token');
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
-        console.log('Token envoyé:', token);
       } else {
         console.warn('Token manquant');
       }
@@ -25,9 +23,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// ==================== Gestion des Tâches ====================
-
-// Ajouter une tâche
 export const addTask = async (taskData) => {
   try {
     const token = localStorage.getItem('token');
@@ -35,8 +30,8 @@ export const addTask = async (taskData) => {
       throw new Error('Token non trouvé. Veuillez vous connecter.');
     }
 
-    const decodedToken = jwtDecode(token); // Correction de l'appel à jwtDecode
-    const userId = decodedToken.userId; // Assurez-vous que le token contient l'ID de l'utilisateur
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
 
     const response = await api.post('/tasks', { ...taskData, userId });
     return response.data;
@@ -45,7 +40,6 @@ export const addTask = async (taskData) => {
     throw error;
   }
 };
-
 // Récupérer toutes les tâches
 export const getTasks = async () => {
   try {

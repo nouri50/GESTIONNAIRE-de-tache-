@@ -2,16 +2,20 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/db.config.js';
 
 const Task = sequelize.define('Task', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   title: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   description: {
-    type: DataTypes.STRING,
-    allowNull: true,
+    type: DataTypes.TEXT,
   },
   status: {
-    type: DataTypes.STRING,
+    type: DataTypes.ENUM('pending', 'in_progress', 'completed'),
     defaultValue: 'pending',
   },
   userId: {
@@ -19,7 +23,9 @@ const Task = sequelize.define('Task', {
     allowNull: false,
   },
 }, {
-  timestamps: false,  // Désactive l'utilisation automatique de createdAt et updatedAt
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 });
 
 export default Task;

@@ -1,26 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { login } from '../utils/api'; // Assurez-vous que cette fonction est définie
-import '../styles/LoginPage.css'; // Assurez-vous de créer ce fichier CSS
+import { login as apiLogin } from '../utils/api';
+import { AuthContext } from '../context/AuthContext'; // Assurez-vous que le chemin est correct// Vérifiez que le chemin est correct
+import '../styles/LoginPage.css';
 import '../styles/Header.css';
-import '../styles/Footer.css'; 
+import '../styles/Footer.css';
 import '../styles/background.css';
 
-const LoginPage = ({ setIsLoggedIn }) => {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext); // Utilisation correcte du contexte
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
-  
+
     try {
-      const response = await login({ email, password });
+      const response = await apiLogin({ email, password });
       if (response && response.token) {
-        localStorage.setItem('token', response.token); // Stocke le token JWT dans le localStorage
-        setIsLoggedIn(true); // Met à jour l'état pour indiquer que l'utilisateur est connecté
+        login(response.token); // Utilisez la fonction `login` du contexte
         navigate('/home'); // Redirection vers la page d'accueil
       } else {
         setErrorMessage("Impossible de se connecter.");
@@ -29,6 +30,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
       setErrorMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
     }
   };
+
   return (
     <div className="login-container">
       <h1>Connexion</h1>
@@ -37,7 +39,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
         <label>Email</label>
         <input
           type="email"
-          data-testid="login-email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
@@ -45,14 +46,13 @@ const LoginPage = ({ setIsLoggedIn }) => {
         <label>Mot de passe</label>
         <input
           type="password"
-          data-testid="login-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" data-testid="login-submit">Connexion</button>
+        <button type="submit">Connexion</button>
       </form>
-      <Link to="/signup" className="signup-link" data-testid="signup-link">Créer un compte</Link>
+      <Link to="/signup" className="signup-link">Créer un compte</Link>
     </div>
   );
 };

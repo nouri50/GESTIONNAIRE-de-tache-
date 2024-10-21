@@ -16,8 +16,7 @@ import Contact from './pages/Contact';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import AboutPage from './pages/En savoir plus';
 import ResetPasswordPage from './pages/ResetPasswordPage';
-import { jwtDecode } from 'jwt-decode';
-
+import { jwtDecode } from 'jwt-decode';  // Import correct de jwtDecode
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,7 +25,7 @@ const App = () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decodedToken = jwt_decode(token);
+        const decodedToken = jwtDecode(token);
         if (decodedToken.exp * 1000 > Date.now()) {
           setIsLoggedIn(true);
         } else {

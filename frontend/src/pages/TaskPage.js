@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { addTask } from '../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+ // Assurez-vous que jwtDecode est bien importé
+import axios from 'axios';
 import '../styles/TaskPage.css';
 import '../styles/Header.css';
 import '../styles/Footer.css';
@@ -9,34 +11,61 @@ import '../styles/background.css';
 const TaskPage = () => {
   const [task, setTask] = useState({ title: '', description: '', status: 'pending' });
   const [message, setMessage] = useState('');
-  const [messageType, setMessageType] = useState(''); // Ajouter un état pour le type de message
+  const [messageType, setMessageType] = useState('');
   const navigate = useNavigate();
 
+  // Gestion de la modification des champs du formulaire
+  const handleChange = (e) => {
+    setTask({ ...task, [e.target.name]: e.target.value });
+  };
+
+  // Fonction pour soumettre le formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token');
-
-    if (!token) {
-      setMessage("Token non trouvé. Veuillez vous connecter.");
-      setMessageType("error");
-      return;
-    }
 
     try {
-      await addTask(task);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Token non trouvé. Veuillez vous connecter.');
+      }
+
+      // Décodage du token pour obtenir l'ID utilisateur
+      const decodedToken = jwtDecode(token);
+      console.log("Token décodé : ", decodedToken); // Vérifiez le contenu du token
+      const userId = decodedToken.userId || decodedToken.id || decodedToken.sub; // Assurez-vous que la bonne clé est utilisée
+
+      if (!userId) {
+        throw new Error("L'ID de l'utilisateur est introuvable dans le token.");
+      }
+
+      // Ajoutez un log pour voir les données de la tâche qui vont être envoyées
+      console.log("Données de la tâche avant l'envoi :", { ...task, userId });
+
+      // Ajout de la tâche avec axios
+      const response = await axios.post(
+        'http://localhost:5001/api/tasks',
+        { ...task, userId },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      console.log('Tâche ajoutée :', response.data);
       setMessage('Tâche ajoutée avec succès.');
       setMessageType('success');
+
+      // Redirection après un délai
       setTimeout(() => {
         navigate('/gestion-taches');
       }, 2000);
     } catch (error) {
-      setMessage("Erreur lors de l'ajout de la tâche.");
-      setMessageType("error");
+      console.error('Erreur lors de l\'ajout de la tâche', error);
+      setMessage('Erreur lors de l\'ajout de la tâche : ' + (error.response?.data?.message || error.message));
+      setMessageType('error');
     }
-  };
-
-  const handleChange = (e) => {
-    setTask({ ...task, [e.target.name]: e.target.value });
   };
 
   return (
