@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
- // Assurez-vous que jwtDecode est bien importé
 import axios from 'axios';
 import '../styles/TaskPage.css';
 import '../styles/Header.css';
 import '../styles/Footer.css';
 import '../styles/background.css';
+import { jwtDecode } from 'jwt-decode';
+
 
 const TaskPage = () => {
   const [task, setTask] = useState({ title: '', description: '', status: 'pending' });
@@ -14,37 +14,33 @@ const TaskPage = () => {
   const [messageType, setMessageType] = useState('');
   const navigate = useNavigate();
 
-  // Gestion de la modification des champs du formulaire
   const handleChange = (e) => {
     setTask({ ...task, [e.target.name]: e.target.value });
   };
 
-  // Fonction pour soumettre le formulaire
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const token = localStorage.getItem('token');
       if (!token) {
         throw new Error('Token non trouvé. Veuillez vous connecter.');
       }
 
-      // Décodage du token pour obtenir l'ID utilisateur
       const decodedToken = jwtDecode(token);
-      console.log("Token décodé : ", decodedToken); // Vérifiez le contenu du token
-      const userId = decodedToken.userId || decodedToken.id || decodedToken.sub; // Assurez-vous que la bonne clé est utilisée
+      if (decodedToken.exp * 1000 < Date.now()) {
+        localStorage.removeItem('token');
+        navigate('/login');
+        return;
+      }
 
+      const userId = decodedToken.user_id || decodedToken.id || decodedToken.sub;
       if (!userId) {
         throw new Error("L'ID de l'utilisateur est introuvable dans le token.");
       }
 
-      // Ajoutez un log pour voir les données de la tâche qui vont être envoyées
-      console.log("Données de la tâche avant l'envoi :", { ...task, userId });
-
-      // Ajout de la tâche avec axios
       const response = await axios.post(
         'http://localhost:5001/api/tasks',
-        { ...task, userId },
+        { ...task, user_id: userId },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -57,7 +53,6 @@ const TaskPage = () => {
       setMessage('Tâche ajoutée avec succès.');
       setMessageType('success');
 
-      // Redirection après un délai
       setTimeout(() => {
         navigate('/gestion-taches');
       }, 2000);
