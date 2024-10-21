@@ -18,7 +18,7 @@ const Task = sequelize.define('Task', {
     type: DataTypes.ENUM('pending', 'in_progress', 'completed'),
     defaultValue: 'pending',
   },
-  userId: {
+  user_id: { // Modification ici pour correspondre à la base de données
     type: DataTypes.INTEGER,
     allowNull: false,
   },
@@ -29,3 +29,4 @@ const Task = sequelize.define('Task', {
 });
 
 export default Task;
+

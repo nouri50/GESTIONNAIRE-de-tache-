@@ -1,33 +1,37 @@
+import { jwtDecode } from 'jwt-decode'; // Correction de l'import
 import Task from '../model/task.model.js';
-import { jwtDecode } from 'jwt-decode'; // Import correct
 
 export const createTask = async (req, res) => {
   try {
     const { title, description, status } = req.body;
+    const user_id = req.user.id;  // Utilisez `user_id` ici pour correspondre à la base de données
 
-    // Vérifiez si l'utilisateur est bien extrait du token par authMiddleware
-    if (!req.user || !req.user.id) {
-      return res.status(400).json({ message: "L'ID de l'utilisateur est requis pour créer une tâche." });
-    }
+    const newTask = await Task.create({
+      title,
+      description,
+      status,
+      user_id,
+    });
 
-    const userId = req.user.id;
-    const task = await Task.create({ title, description, status, userId });
-    res.status(201).json(task);
+    res.status(201).json(newTask);
   } catch (error) {
     console.error('Erreur lors de la création de la tâche:', error);
     res.status(500).json({ message: 'Erreur lors de la création de la tâche' });
   }
 };
 
-
-
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.findAll({ where: { userId: req.user.id } });
+    const userId = req.user.id; // Assurez-vous que l'ID utilisateur est bien extrait
+    const tasks = await Task.findAll({
+      where: {
+        user_id: userId, // Utilisez `user_id` ici
+      },
+    });
     res.status(200).json(tasks);
   } catch (error) {
     console.error('Erreur lors de la récupération des tâches:', error);
-    res.status(500).json({ message: 'Erreur lors de la récupération des tâches' });
+    res.status(500).json({ message: 'Erreur lors de la récupération des tâches.' });
   }
 };
 
@@ -39,7 +43,7 @@ export const updateTask = async (req, res) => {
     if (!task) {
       return res.status(404).json({ error: 'Tâche non trouvée' });
     }
-    if (task.userId !== req.user.id) {
+    if (task.user_id !== req.user.id) {
       return res.status(403).json({ error: 'Non autorisé' });
     }
     task.title = title || task.title;
@@ -60,7 +64,7 @@ export const deleteTask = async (req, res) => {
     if (!task) {
       return res.status(404).json({ error: 'Tâche non trouvée' });
     }
-    if (task.userId !== req.user.id) {
+    if (task.user_id !== req.user.id) {
       return res.status(403).json({ error: 'Non autorisé' });
     }
     await task.destroy();

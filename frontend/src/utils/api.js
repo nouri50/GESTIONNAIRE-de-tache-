@@ -8,35 +8,37 @@ const api = axios.create({
   }
 });
 
-api.interceptors.request.use(
-  (config) => {
-    if (!config.url.includes('/auth/register') && !config.url.includes('/auth/login')) {
-      const token = localStorage.getItem('token');
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      } else {
-        console.warn('Token manquant');
-      }
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+export const apiLogin = async (credentials) => {
+  const response = await axios.post('http://localhost:5001/api/login', credentials);
+  return response.data;
+};
+
+// Exemple pour ajouter un token automatiquement
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 
 export const addTask = async (taskData) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Token non trouvé. Veuillez vous connecter.');
+  }
+
   try {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      throw new Error('Token non trouvé. Veuillez vous connecter.');
-    }
+    const response = await axios.post('http://localhost:5001/api/tasks', taskData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
 
-    const decodedToken = jwtDecode(token);
-    const userId = decodedToken.userId;
-
-    const response = await api.post('/tasks', { ...taskData, userId });
-    return response.data;
+    return response;
   } catch (error) {
-    console.error('Erreur lors de l\'ajout de la tâche', error);
     throw error;
   }
 };
@@ -104,7 +106,16 @@ export const deleteTask = async (taskId) => {
 // Récupérer tous les utilisateurs
 export const getUsers = async () => {
   try {
-    const response = await api.get('/users');
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error("Token non trouvé. Veuillez vous connecter.");
+    }
+
+    const response = await api.get('/users', {
+      headers: {
+        Authorization: `Bearer ${token}`, // Assurez-vous que le token est bien présent ici
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération des utilisateurs', error);
@@ -164,13 +175,23 @@ export const login = async (credentials) => {
 // Récupérer le profil utilisateur
 export const getUserProfile = async () => {
   try {
-    const response = await api.get('/users/profile');
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('Token non trouvé. Veuillez vous connecter.');
+    }
+
+    const response = await axios.get('http://localhost:5001/api/users/profile', {
+      headers: {
+        Authorization: `Bearer ${token}`, // Assurez-vous que le token est bien présent ici
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la récupération du profil utilisateur', error);
     throw error;
   }
 };
+
 
 // Changer le mot de passe
 export const changePassword = async (passwordData) => {
