@@ -1,17 +1,15 @@
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode'; // Utilisation de l'importation nommée
+import jwtDecode from 'jwt-decode'; // Utilisation de l'importation correcte
 
+// Création d'une instance axios pour l'API
 const api = axios.create({
   baseURL: 'http://localhost:5001/api',
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
 });
 
-export const apiLogin = async (credentials) => {
-  const response = await axios.post('http://localhost:5001/api/login', credentials);
-  return response.data;
-};
+
 
 // Exemple pour ajouter un token automatiquement
 axios.interceptors.request.use((config) => {
@@ -126,13 +124,24 @@ export const getUsers = async () => {
 // Mettre à jour un utilisateur
 export const updateUser = async (userId, updatedData) => {
   try {
-    const response = await api.put(`/users/${userId}`, updatedData);
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error("Token non trouvé. Veuillez vous connecter.");
+    }
+
+    const response = await axios.put(`http://localhost:5001/api/users/${userId}`, updatedData, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Ajouter le token ici
+        'Content-Type': 'application/json',
+      },
+    });
     return response.data;
   } catch (error) {
     console.error('Erreur lors de la mise à jour de l\'utilisateur', error);
     throw error;
   }
 };
+
 
 // Supprimer un utilisateur
 export const deleteUser = async (userId) => {

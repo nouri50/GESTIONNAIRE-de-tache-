@@ -2,31 +2,38 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/LoginPage.css';
-import '../styles/Header.css';
-import '../styles/Footer.css';
-import '../styles/background.css';
 
-const LoginPage = () => {
+const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
+    setLoading(true);
 
     try {
-      // Remplacez par la bonne URL selon votre backend
+      // Requête d'authentification
       const response = await axios.post('http://localhost:5001/api/auth/login', { email, password });
       if (response && response.data.token) {
-        localStorage.setItem('token', response.data.token);
-        navigate('/home');
+        localStorage.setItem('token', response.data.token); // Enregistrer le token dans localStorage
+        setIsLoggedIn(true); // Mettre à jour l'état de connexion
+        setLoading(false);
+        navigate('/home'); // Redirection vers la page d'accueil
       } else {
         setErrorMessage("Impossible de se connecter.");
+        setLoading(false);
       }
     } catch (error) {
-      setErrorMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
+      setLoading(false);
+      if (error.response && error.response.status === 401) {
+        setErrorMessage("Email ou mot de passe incorrect.");
+      } else {
+        setErrorMessage("Erreur lors de la connexion. Veuillez vérifier vos informations.");
+      }
     }
   };
 
@@ -49,8 +56,11 @@ const LoginPage = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Connexion</button>
+        <button type="submit" disabled={loading}>
+          {loading ? 'Connexion en cours...' : 'Connexion'}
+        </button>
       </form>
+      <Link to="/forgot-password" className="forgot-password-link">Mot de passe perdu ?</Link>
       <Link to="/signup" className="signup-link">Créer un compte</Link>
     </div>
   );
