@@ -7,9 +7,9 @@ const Footer = () => {
   return (
     <footer className="footer">
       <p>
-        <Link to="/legal">Politique de confidentialité</Link> | 
-        <Link to="/legal"> Conditions de service</Link> | 
-        <Link to="/contact">Contact</Link>
+        <Link to="/conditionlegal">Politique de confidentialité</Link> | 
+        <Link to="/conditionlegal"> Conditions de service</Link> | 
+        <Link to="/contactez_moi">Contact</Link>
       </p>
     </footer>
   );

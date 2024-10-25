@@ -12,6 +12,8 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import LegalPage from './pages/LegalPage';
+import ContactezMoi from './pages/Contact'; // Renommé ici
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,6 +41,8 @@ const App = () => {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
+        <Route path="/conditionlegal" element={<LegalPage />} />
+        <Route path="/contactez_moi" element={<ContactezMoi />} /> {/* Utilisé avec majuscule */}
       </Routes>
       <Footer />
     </Router>
@@ -46,4 +50,3 @@ const App = () => {
 };
 
 export default App;
-
