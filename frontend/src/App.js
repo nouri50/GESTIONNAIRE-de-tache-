@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
@@ -12,8 +13,10 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import ResetPasswordPage from './pages/ResetPasswordPage';
+import conditionlegal from './pages/LegalPage';
+import contactez_moi from './pages/Contact';
 import LegalPage from './pages/LegalPage';
-import ContactezMoi from './pages/Contact'; // Renommé ici
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -42,7 +45,8 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/conditionlegal" element={<LegalPage />} />
-        <Route path="/contactez_moi" element={<ContactezMoi />} /> {/* Utilisé avec majuscule */}
+        <Route path="/contactez_moi" element={<contactez_moi />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
       </Routes>
       <Footer />
     </Router>
