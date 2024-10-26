@@ -32,17 +32,18 @@ const ForgotPasswordPage = () => {
     <div className="page-container">
       <div className="main-content">
         <h2>Mot de passe oublié</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} data-cy="forgot-password-form">
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Votre adresse email"
             required
+            data-cy="forgot-password-email-input"
           />
-          <button type="submit">Envoyer un lien de réinitialisation</button>
+          <button type="submit" data-cy="forgot-password-submit-button">Envoyer un lien de réinitialisation</button>
         </form>
-        {message && <p>{message}</p>}
+        {message && <p data-cy="forgot-password-message">{message}</p>}
       </div>
     </div>
   );
