@@ -68,6 +68,10 @@ export const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { newPassword } = req.body;
 
+  if (!newPassword || newPassword.length < 6) {
+    return res.status(400).json({ message: 'Le nouveau mot de passe est invalide (minimum 6 caractères).' });
+  }
+
   try {
     const user = await User.findOne({
       where: {
