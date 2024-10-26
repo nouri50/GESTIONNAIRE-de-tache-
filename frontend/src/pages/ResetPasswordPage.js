@@ -44,8 +44,8 @@ const ResetPasswordPage = () => {
     <div className="page-container">
       <div className="main-content">
         <h2>Réinitialisation du mot de passe</h2>
-        {message && <p>{message}</p>}
-        <form onSubmit={handleSubmit}>
+        {message && <p data-cy="reset-password-message">{message}</p>}
+        <form onSubmit={handleSubmit} data-cy="reset-password-form">
           <div>
             <label>Nouveau mot de passe</label>
             <input
@@ -53,6 +53,7 @@ const ResetPasswordPage = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
+              data-cy="reset-password-new-password-input"
             />
           </div>
           <div>
@@ -62,9 +63,10 @@ const ResetPasswordPage = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
+              data-cy="reset-password-confirm-password-input"
             />
           </div>
-          <button type="submit">Réinitialiser le mot de passe</button>
+          <button type="submit" data-cy="reset-password-submit-button">Réinitialiser le mot de passe</button>
         </form>
       </div>
     </div>
