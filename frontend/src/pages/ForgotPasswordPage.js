@@ -7,6 +7,7 @@ import '../styles/ForgotPasswordPage.css';
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,12 +20,15 @@ const ForgotPasswordPage = () => {
 
       if (response.ok) {
         setMessage('Un email de réinitialisation a été envoyé.');
+        setIsSuccess(true);
       } else {
         setMessage('Erreur lors de l\'envoi de l\'email.');
+        setIsSuccess(false);
       }
     } catch (error) {
       console.error('Erreur lors de la requête', error);
       setMessage('Erreur lors de la requête.');
+      setIsSuccess(false);
     }
   };
 
@@ -32,18 +36,19 @@ const ForgotPasswordPage = () => {
     <div className="page-container">
       <div className="main-content">
         <h2>Mot de passe oublié</h2>
-        <form onSubmit={handleSubmit} data-cy="forgot-password-form">
+        <form onSubmit={handleSubmit}>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Votre adresse email"
             required
-            data-cy="forgot-password-email-input"
           />
-          <button type="submit" data-cy="forgot-password-submit-button">Envoyer un lien de réinitialisation</button>
+          <button type="submit">Envoyer un lien de réinitialisation</button>
         </form>
-        {message && <p data-cy="forgot-password-message">{message}</p>}
+        {message && (
+          <p className={isSuccess ? 'success-message' : 'error-message'}>{message}</p>
+        )}
       </div>
     </div>
   );

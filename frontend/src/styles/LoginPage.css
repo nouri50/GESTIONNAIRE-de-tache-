@@ -1,7 +1,7 @@
 /* Centrage du conteneur de connexion */
 .login-container {
   width: 100%;
-  max-width: 500px; /* Augmenté à 500px pour plus de largeur */
+  max-width: 500px;
   margin: 50px auto;
   padding: 20px;
   background-color: white;
@@ -17,10 +17,16 @@
   color: #333;
 }
 
+/* Messages de succès */
+.success-message {
+  color: green;
+  margin-top: 15px;
+}
+
 /* Messages d'erreur */
 .error-message {
   color: red;
-  margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 /* Style des labels */
@@ -55,6 +61,7 @@
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-bottom: 15px; /* Ajout d'espace au bas du bouton pour les messages */
 }
 
 /* Effet au survol du bouton */
@@ -64,15 +71,26 @@
 
 /* Lien pour mot de passe oublié */
 .forgot-password-link {
-  display: block;
   margin-top: 15px;
   font-size: 14px;
   color: #007AFF;
   text-decoration: none;
   transition: color 0.3s ease;
+  display: inline-block;
 }
 
-/* Effet au survol du lien */
-.forgot-password-link:hover {
+/* Lien pour inscription */
+.signup-link {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #007AFF;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  display: inline-block;
+}
+
+/* Effet au survol des liens */
+.forgot-password-link:hover,
+.signup-link:hover {
   color: #005BB5;
 }
