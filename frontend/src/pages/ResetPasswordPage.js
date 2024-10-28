@@ -11,6 +11,7 @@ const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -18,6 +19,7 @@ const ResetPasswordPage = () => {
   
     if (newPassword !== confirmPassword) {
       setMessage('Les mots de passe ne correspondent pas.');
+      setIsSuccess(false);
       return;
     }
   
@@ -28,15 +30,18 @@ const ResetPasswordPage = () => {
   
       if (response.status === 200) {
         setMessage('Votre mot de passe a été réinitialisé avec succès.');
+        setIsSuccess(true);
         setTimeout(() => {
           navigate('/login');
         }, 3000);
       } else {
         setMessage('Erreur lors de la réinitialisation du mot de passe.');
+        setIsSuccess(false);
       }
     } catch (error) {
       console.error('Erreur lors de la réinitialisation :', error);
       setMessage('Erreur lors de la réinitialisation du mot de passe.');
+      setIsSuccess(false);
     }
   };
 
@@ -44,8 +49,7 @@ const ResetPasswordPage = () => {
     <div className="page-container">
       <div className="main-content">
         <h2>Réinitialisation du mot de passe</h2>
-        {message && <p data-cy="reset-password-message">{message}</p>}
-        <form onSubmit={handleSubmit} data-cy="reset-password-form">
+        <form onSubmit={handleSubmit}>
           <div>
             <label>Nouveau mot de passe</label>
             <input
@@ -53,7 +57,6 @@ const ResetPasswordPage = () => {
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
-              data-cy="reset-password-new-password-input"
             />
           </div>
           <div>
@@ -63,11 +66,13 @@ const ResetPasswordPage = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
-              data-cy="reset-password-confirm-password-input"
             />
           </div>
-          <button type="submit" data-cy="reset-password-submit-button">Réinitialiser le mot de passe</button>
+          <button type="submit">Réinitialiser le mot de passe</button>
         </form>
+        {message && (
+          <p className={isSuccess ? 'success-message' : 'error-message'}>{message}</p>
+        )}
       </div>
     </div>
   );

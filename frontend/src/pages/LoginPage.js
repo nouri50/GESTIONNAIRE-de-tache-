@@ -2,17 +2,23 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/LoginPage.css';
+import '../styles/Header.css';
+import '../styles/Footer.css'; 
+import '../styles/background.css';
+
 
 const LoginPage = ({ setIsLoggedIn }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
+    setSuccessMessage('');
     setLoading(true);
 
     try {
@@ -22,6 +28,7 @@ const LoginPage = ({ setIsLoggedIn }) => {
         localStorage.setItem('token', response.data.token); // Enregistrer le token dans localStorage
         setIsLoggedIn(true); // Mettre à jour l'état de connexion
         setLoading(false);
+        setSuccessMessage("Connexion réussie ! Redirection...");
         navigate('/home'); // Redirection vers la page d'accueil
       } else {
         setErrorMessage("Impossible de se connecter.");
@@ -40,7 +47,6 @@ const LoginPage = ({ setIsLoggedIn }) => {
   return (
     <div className="login-container">
       <h1>Connexion</h1>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <form onSubmit={handleSubmit}>
         <label>Email</label>
         <input
@@ -60,6 +66,9 @@ const LoginPage = ({ setIsLoggedIn }) => {
           {loading ? 'Connexion en cours...' : 'Connexion'}
         </button>
       </form>
+      {/* Messages de succès et d'erreur sous le bouton */}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
       <Link to="/forgot-password" className="forgot-password-link">Mot de passe perdu ?</Link>
       <Link to="/signup" className="signup-link">Créer un compte</Link>
     </div>

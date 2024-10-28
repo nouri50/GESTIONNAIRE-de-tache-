@@ -15,7 +15,7 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import conditionlegal from './pages/LegalPage';
-import contactez_moi from './pages/Contact';
+import Contactez_moi from './pages/Contact';
 import LegalPage from './pages/LegalPage';
 
 const App = () => {
@@ -45,7 +45,7 @@ const App = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/change-password" element={<ChangePasswordPage />} />
         <Route path="/conditionlegal" element={<LegalPage />} />
-        <Route path="/contactez_moi" element={<contactez_moi />} />
+        <Route path="/contactez_moi" element={<Contactez_moi />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
       </Routes>
       <Footer />
