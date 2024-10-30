@@ -15,7 +15,7 @@ const HomePage = () => {
         <p>Gérez vos tâches facilement et efficacement.</p>
 
         <div className="dashboard">
-          {/* Première colonne contenant 2 boutons */}
+          
           <div className="dashboard-column">
             <button className="dashboard-btn" onClick={() => navigate('/profil')}>
               Profil
@@ -25,7 +25,7 @@ const HomePage = () => {
             </button>
           </div>
 
-          {/* Deuxième colonne contenant 2 boutons */}
+          
           <div className="dashboard-column">
             <button className="dashboard-btn" onClick={() => navigate('/gestion-utilisateur')}>
               Gestion des utilisateurs

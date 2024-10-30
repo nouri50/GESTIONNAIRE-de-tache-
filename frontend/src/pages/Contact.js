@@ -1,6 +1,5 @@
 import React from 'react';
-import '../styles/Contact.css'; // Assurez-vous de créer ce fichier CSS
-
+import '../styles/Contact.css'; 
 const Contact = () => {
   return (
     <div className="contact-page">

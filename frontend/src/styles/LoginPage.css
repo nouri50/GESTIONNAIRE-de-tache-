@@ -1,4 +1,4 @@
-/* Centrage du conteneur de connexion */
+
 .login-container {
   width: 100%;
   max-width: 500px;
@@ -10,14 +10,14 @@
   text-align: center;
 }
 
-/* Titre de la page de connexion */
+
 .login-container h1 {
   margin-bottom: 20px;
   font-size: 24px;
   color: #333;
 }
 
-/* Messages de succès */
+
 .success-message {
   color: green;
   margin-top: 15px;
@@ -29,7 +29,7 @@
   margin-top: 15px;
 }
 
-/* Style des labels */
+
 .login-container label {
   display: block;
   font-size: 16px;
@@ -38,7 +38,7 @@
   text-align: left;
 }
 
-/* Style des champs d'entrée */
+
 .login-container input[type="email"],
 .login-container input[type="password"] {
   width: 100%;
@@ -50,7 +50,7 @@
   box-sizing: border-box;
 }
 
-/* Bouton de soumission */
+
 .login-container button {
   width: 100%;
   padding: 10px;
@@ -61,15 +61,15 @@
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-bottom: 15px; /* Ajout d'espace au bas du bouton pour les messages */
+  margin-bottom: 15px; 
 }
 
-/* Effet au survol du bouton */
+
 .login-container button:hover {
   background-color: #005BB5;
 }
 
-/* Lien pour mot de passe oublié */
+
 .forgot-password-link {
   margin-top: 15px;
   font-size: 14px;
@@ -79,7 +79,7 @@
   display: inline-block;
 }
 
-/* Lien pour inscription */
+
 .signup-link {
   margin-top: 10px;
   font-size: 14px;
@@ -89,7 +89,7 @@
   display: inline-block;
 }
 
-/* Effet au survol des liens */
+
 .forgot-password-link:hover,
 .signup-link:hover {
   color: #005BB5;

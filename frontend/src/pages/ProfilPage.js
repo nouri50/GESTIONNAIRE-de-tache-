@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { getUserProfile, deleteUser } from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 import '../styles/ProfilPage.css';
 
 const ProfilePage = () => {
   const [user, setUser] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -28,6 +30,10 @@ const ProfilePage = () => {
     }
   };
 
+  const handleChangePassword = () => {
+    navigate('/change-password');
+  };
+
   return (
     <div className="profile-container">
       <h1>Profil Utilisateur</h1>
@@ -38,11 +44,22 @@ const ProfilePage = () => {
         <p><span className="info-label">Statut:</span> {user.status}</p>
         <p><span className="info-label">Rôle:</span> {user.role}</p>
       </div>
-      <button className="profile-button change-password-button">Modifier le mot de passe</button>
-      <button className="profile-button delete-account-button" onClick={handleDeleteAccount}>Supprimer le compte</button>
+      <button
+        className="profile-button change-password-button"
+        onClick={handleChangePassword}
+      >
+        Modifier le mot de passe
+      </button>
+      <button
+        className="profile-button delete-account-button"
+        onClick={handleDeleteAccount}
+      >
+        Supprimer le compte
+      </button>
     </div>
   );
 };
 
 export default ProfilePage;
+
 

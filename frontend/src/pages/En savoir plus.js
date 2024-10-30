@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/Header.css';
 import '../styles/Footer.css';
-import '../styles/AboutPage.css'; // Crée un fichier de style spécifique pour cette page
+import '../styles/AboutPage.css';
 
 const AboutPage = () => {
   return (

@@ -16,7 +16,7 @@ const LandingPage = () => {
         </p>
       </div>
       <div className="buttons-container">
-        {/* Bouton redirigeant vers la page d'inscription */}
+       
         <Link to="/signup">
           <button className="start-button">Commencer</button>
         </Link>

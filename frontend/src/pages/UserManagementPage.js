@@ -96,12 +96,12 @@ const UserManagementPage = () => {
     }
   };
 
-  // Fonction de recherche
+  
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // Filtrer les utilisateurs en fonction du terme de recherche
+  
   const filteredUsers = users.filter(user =>
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -112,7 +112,7 @@ const UserManagementPage = () => {
       {errorMessage && <p className="error-message" data-testid="error-message">{errorMessage}</p>}
       {successMessage && <p className="success-message" data-testid="success-message">{successMessage}</p>}
       
-      {/* Barre de recherche */}
+ 
       <input
         type="text"
         placeholder="Rechercher un utilisateur..."

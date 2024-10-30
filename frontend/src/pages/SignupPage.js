@@ -14,9 +14,9 @@ const SignupPage = () => {
       const userData = { email, password };
       console.log('Données envoyées:', JSON.stringify(userData));
       await signup(userData);
-      window.location.href = '/login'; // Redirection vers la page de connexion après succès
+      window.location.href = '/login'; 
     } catch (err) {
-      // Vérifier le type d'erreur renvoyée pour afficher un message approprié
+    
       if (err.response && err.response.status === 400 && err.response.data.message === 'Utilisateur existe déjà') {
         setError("Ce compte est déjà utilisé. Veuillez en essayer un autre.");
       } else {

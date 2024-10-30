@@ -232,7 +232,7 @@ export const getUserProfile = async () => {
   }
 };
 
-// Changer le mot de passe
+
 export const changePassword = async (passwordData) => {
   try {
     const response = await api.put('/auth/change-password', passwordData);
@@ -243,7 +243,6 @@ export const changePassword = async (passwordData) => {
   }
 };
 
-// Supprimer un utilisateur avec vérification du mot de passe
 export const deleteUserWithPasswordCheck = async (data) => {
   const token = localStorage.getItem('token');
   if (!token) {
