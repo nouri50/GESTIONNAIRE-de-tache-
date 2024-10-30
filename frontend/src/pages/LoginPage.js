@@ -25,11 +25,11 @@ const LoginPage = ({ setIsLoggedIn }) => {
       // Requête d'authentification
       const response = await axios.post('http://localhost:5001/api/auth/login', { email, password });
       if (response && response.data.token) {
-        localStorage.setItem('token', response.data.token); // Enregistrer le token dans localStorage
-        setIsLoggedIn(true); // Mettre à jour l'état de connexion
+        localStorage.setItem('token', response.data.token); 
+        setIsLoggedIn(true); 
         setLoading(false);
         setSuccessMessage("Connexion réussie ! Redirection...");
-        navigate('/home'); // Redirection vers la page d'accueil
+        navigate('/home'); 
       } else {
         setErrorMessage("Impossible de se connecter.");
         setLoading(false);

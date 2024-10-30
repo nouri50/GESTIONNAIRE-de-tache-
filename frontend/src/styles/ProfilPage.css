@@ -64,12 +64,12 @@ h1 {
 }
 
 .error-message {
-  color: red; /* Message d'erreur en rouge */
+  color: red; 
   font-size: 1rem;
   margin-bottom: 20px;
 }
 
-/* Pour mobile */
+
 @media (max-width: 600px) {
   .profile-info {
     width: 90%;

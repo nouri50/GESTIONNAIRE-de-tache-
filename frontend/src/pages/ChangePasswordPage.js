@@ -33,7 +33,7 @@ const ChangePasswordPage = () => {
     }
 
     try {
-      // Appel API pour changer le mot de passe
+
       await changePassword({ currentPassword, newPassword });
       setErrorMessage("Mot de passe modifié avec succès.");
       navigate('/profil');

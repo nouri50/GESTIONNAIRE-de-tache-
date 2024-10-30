@@ -1,4 +1,4 @@
-/* Styles pour la page de gestion des utilisateurs */
+
 .container {
   width: 90%;
   max-width: 1200px;
@@ -16,7 +16,7 @@ h1 {
   color: #333;
 }
 
-/* Barre de recherche */
+
 .search-bar {
   display: block;
   width: 100%;
@@ -27,7 +27,7 @@ h1 {
   border-radius: 5px;
 }
 
-/* Messages d'erreur et de succès */
+
 .error-message, .success-message {
   text-align: center;
   margin-bottom: 20px;
@@ -46,7 +46,7 @@ h1 {
   background-color: #2ecc71;
 }
 
-/* Tableau des utilisateurs */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -70,9 +70,9 @@ table .no-results {
   font-style: italic;
 }
 
-/* Icônes */
+
 .icon {
-  width: 24px; /* Ajuster la taille des icônes */
+  width: 24px; 
   height: 24px;
   cursor: pointer;
   margin: 0 5px;
@@ -80,10 +80,10 @@ table .no-results {
 }
 
 .icon:hover {
-  transform: scale(1.1); /* Animation pour améliorer l'interaction utilisateur */
+  transform: scale(1.1); 
 }
 
-/* Modale */
+
 .modal {
   position: fixed;
   top: 0;
@@ -114,7 +114,7 @@ table .no-results {
   border-radius: 5px;
 }
 
-/* Boutons de la modale */
+
 .confirm-button,
 .cancel-button {
   padding: 10px 20px;
@@ -144,7 +144,7 @@ table .no-results {
   background-color: #999;
 }
 
-/* Résolution mobile */
+
 @media (max-width: 600px) {
   .container {
     padding: 15px;

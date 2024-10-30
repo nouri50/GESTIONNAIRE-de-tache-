@@ -4,23 +4,23 @@ body, html {
   height: 100%;
   font-family: Arial, sans-serif;
   background-color: rgba(0, 122, 255, 0.15);
-  padding-top: 20px; /* Ajoute de l'espace en haut pour donner de la "respiration" */
+  padding-top: 20px; 
 }
 
 .page-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 120px; /* Ajoute plus d'espace pour le footer */
+  padding-bottom: 120px; 
   justify-content: center;
   align-items: center;
-  padding: 20px; /* Ajoute un espace autour de la page pour plus de confort visuel */
+  padding: 20px;
 }
 
 .main-content {
   background-color: white;
   width: 100%;
-  max-width: 500px; /* Réduit la largeur maximale pour éviter les dépassements */
+  max-width: 500px;
   padding: 30px;
   border-radius: 20px;
   box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
@@ -31,7 +31,7 @@ input[type="text"],
 textarea,
 select {
   width: 100%;
-  box-sizing: border-box; /* Assurez-vous que la largeur inclut le padding et les bordures */
+  box-sizing: border-box; 
   padding: 10px;
   margin: 10px 0; /* Espacement entre les champs */
   border: 1px solid #ccc;
@@ -40,8 +40,8 @@ select {
 }
 
 textarea {
-  resize: vertical; /* Permet de redimensionner seulement en vertical */
-  height: 80px; /* Ajuste la hauteur initiale pour être plus cohérente */
+  resize: vertical; 
+  height: 80px; 
 }
 
 button {
@@ -122,7 +122,7 @@ footer {
   }
 }
 
-/* Grands écrans */
+
 @media (min-width: 1025px) {
   .main-content {
     max-width: 600px;

@@ -1,4 +1,4 @@
-/* Styles globaux pour la page */
+
 .gestion-taches-page {
     margin: 0 auto;
     padding: 20px;
@@ -13,7 +13,7 @@
     color: #333;
   }
   
-  /* Styles pour le tableau */
+ 
   table {
     width: 100%;
     border-collapse: collapse;

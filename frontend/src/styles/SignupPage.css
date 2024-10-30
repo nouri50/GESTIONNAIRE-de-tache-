@@ -1,4 +1,4 @@
-/* Centrage du conteneur de connexion */
+
 .signup-form-container {
   width: 100%;
   max-width: 400px;
@@ -14,14 +14,13 @@
   transform: translate(-50%, -50%);
 }
 
-/* Titre de la page d'inscription */
 .signup-form-container h2 {
   margin-bottom: 20px;
   font-size: 24px;
   color: #333;
 }
 
-/* Style des champs d'entrée */
+
 .signup-form-container input[type="email"],
 .signup-form-container input[type="password"] {
   width: 100%;
@@ -44,26 +43,26 @@
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  margin-bottom: 10px; /* Ajouté pour espacer le bouton des messages */
+  margin-bottom: 10px; 
 }
 
-/* Effet au survol du bouton */
+
 .signup-form-container button:hover {
   background-color: #005BB5;
 }
 
-/* Messages d'erreur et de succès */
+
 .error-message, .success-message {
   font-size: 14px;
   margin-top: 10px;
-  color: #d9534f; /* Rouge par défaut pour les erreurs */
+  color: #d9534f; 
 }
 
 .success-message {
-  color: #28a745; /* Vert pour les messages de succès */
+  color: #28a745; 
 }
 
-/* Lien pour mot de passe oublié */
+
 .already-member-link {
   display: block;
   margin-top: 15px;
@@ -73,7 +72,7 @@
   transition: color 0.3s ease;
 }
 
-/* Effet au survol du lien */
+
 .already-member-link:hover {
   color: #005BB5;
 }
