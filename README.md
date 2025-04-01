@@ -1,24 +1,22 @@
-# Gestionnaire de tâches
+# 🗂️ Gestionnaire de tâches (Projet Archivé)
 
-Ce projet est une application de gestion des tâches construite avec **React**. Il permet à l'utilisateur de créer, modifier, et supprimer des tâches.
+> Ce projet a été initialement créé dans le cadre du repassage  le **titre professionnel DWWM (Développeur Web et Web Mobile)**. Le développement a été arrêté, mais le projet reste disponible à titre de démonstration dans mon portfolio.
 
-## Fonctionnalités :
-- Ajout de nouvelles tâches
-- Modification des tâches existantes
-- Suppression des tâches
-- Gestion de l'état avec `useState` et `useEffect`
+## 🔥 Fonctionnalités
 
-## Technologies :
-- **React** pour l'interface utilisateur
-- **CSS** pour la mise en page
-- **JavaScript (ES6)** pour la logique métier
+- Création de nouvelles tâches
+- Modification et suppression de tâches
+- Gestion de l’état avec `useState` et `useEffect`
 
-## Installation :
-1. Clonez le dépôt : `git clone https://github.com/nouri50/GESTIONNAIRE-de-tache.git`
-2. Installez les dépendances : `npm install`
-3. Lancez l'application : `npm start`
+## ⚙️ Technologies utilisées
 
-## Instructions pour le test :
-- Assurez-vous que Node.js est installé
-- Lancer `npm test` pour exécuter les tests (si présents)
+- **Frontend** : React (JSX), CSS
+- **Langage** : JavaScript (ES6)
 
+## 🚀 Installation
+
+```bash
+git clone https://github.com/nouri50/GESTIONNAIRE-de-tache.git
+cd GESTIONNAIRE-de-tache
+npm install
+npm start
