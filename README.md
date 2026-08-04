@@ -16,8 +16,6 @@
 - Base de données : MySQL
 - Authentification : JWT
 
-## Installation
-
 ### Frontend
 git clone https://github.com/nouri50/GESTIONNAIRE-de-tache.git
 cd GESTIONNAIRE-de-tache
@@ -28,5 +26,5 @@ npm start
 cd backend
 npm install
 cp .env.example .env
-# remplir .env avec vos propres valeurs
+ remplir .env avec vos propres valeurs
 npm start
