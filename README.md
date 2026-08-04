@@ -8,11 +8,6 @@
 - Modification et suppression de tâches
 - Gestion de l’état avec `useState` et `useEffect`
 
-## ⚙️ Technologies utilisées
-
-- **Frontend** : React (JSX), CSS
-- **Langage** : JavaScript (ES6)
-
 ## 🚀 Installation
 
 ## Technologies utilisées
