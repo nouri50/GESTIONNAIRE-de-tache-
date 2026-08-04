@@ -15,8 +15,23 @@
 
 ## 🚀 Installation
 
-```bash
+## Technologies utilisées
+- Frontend : React (JSX), CSS
+- Backend : Node.js, Express
+- Base de données : MySQL
+- Authentification : JWT
+
+## Installation
+
+### Frontend
 git clone https://github.com/nouri50/GESTIONNAIRE-de-tache.git
 cd GESTIONNAIRE-de-tache
 npm install
+npm start
+
+### Backend
+cd backend
+npm install
+cp .env.example .env
+# remplir .env avec vos propres valeurs
 npm start
