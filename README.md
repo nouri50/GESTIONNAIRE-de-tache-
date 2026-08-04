@@ -26,5 +26,5 @@ npm start
 cd backend
 npm install
 cp .env.example .env
- remplir .env avec vos propres valeurs
+#remplir .env avec vos propres valeurs
 npm start
