@@ -25,12 +25,15 @@
     "jwt-decode": "^4.0.0",
     "jwt-simple": "^0.5.6",
     "morgan": "^1.10.0",
-    "mysql2": "^2.3.3",
-    "nodemailer": "^6.9.15",
-    "react-router-dom": "^6.26.2",
+    "mysql2": "^3.23.3",
+    "nodemailer": "^9.0.5",
+    "react-router-dom": "^7.18.2",
     "sequelize": "^6.37.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
   }
 }
